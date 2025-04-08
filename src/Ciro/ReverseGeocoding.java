@@ -7,12 +7,13 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class ReverseGeocoding {
     /**
      * Metodo per ottenere la latitudine e longitudine da un indirizzo
      * @param indirizzo Indirizzo da analizzare il formato obbligatorio è "via, città, nazione"
-     * @return Array di double con latitudine e longitudine nel formato [latitudine, longitudine]
+     * @return Array di double con latitudine e longitudine nel formato [latitudine, longitudine], restituisce un array di -1 nel caso in cui non viene trovato l'indirizzo
      * @throws Exception Viene lanciata un'eccezione generare nel caso di errore
      */
     public static double[] getLatitudineLongitudine(String indirizzo) throws Exception {
@@ -21,11 +22,11 @@ public class ReverseGeocoding {
             String encodedAddress = URLEncoder.encode(indirizzo, "UTF-8");
             String urlStr = "https://nominatim.openstreetmap.org/search?q=" + encodedAddress + "&format=json&limit=1";
             URL url = new URL(urlStr);
-            HttpURLConnection httpconnection = (HttpURLConnection) url.openConnection();
-            httpconnection.setRequestMethod("GET");
-            httpconnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Java test)");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Java test)");
             //Lettura del buffer di risposta
-            BufferedReader in = new BufferedReader(new InputStreamReader(httpconnection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder responseBuilder = new StringBuilder();
             String line;
             while ((line = in.readLine()) != null)
@@ -33,17 +34,48 @@ public class ReverseGeocoding {
             in.close();
             String response = responseBuilder.toString();
             Gson gson = new Gson();
-            //Trasforma la risposta json in un oggetto Result
-            Result[] results = gson.fromJson(response, Result[].class);
-            if (results.length > 0) {
-                double lat = Double.parseDouble(results[0].lat);
-                double lon = Double.parseDouble(results[0].lon);
-                return new double[]{lat, lon};
-            } else {
-                return null;
-            }
+            //Trasformo una stringa array di json  in un array di json
+            JsonObject[] jsonObject = gson.fromJson(response, JsonObject[].class);
+            if (jsonObject.length > 0)
+                return new double[]{jsonObject[0].get("lat").getAsDouble(),jsonObject[0].get("lon").getAsDouble()};
+            else
+                return new double[]{-1,-1};
         } catch (Exception e) {
             throw new Exception("Errore durante il geocoding");
+        }
+    }
+
+    /**
+     * Metodo per ottenere l'indirizzo da latitudine e longitudine
+     * @param latitudine latitudine dell'indirizzo, il formato obbligatorio è "xx.xxxxx"
+     * @param longitudine longitudine dell'indirizzo, il formato obbligatorio è "xx.xxxxx"
+     * @return  String con l'indirizzo trovato, restituisce una stringa di errore nel caso in cui non viene trovato l'indirizzo
+     * @throws Exception Viene lanciata un'eccezione generare nel caso di errore
+     */
+    public static String getIndirizzoDaCoordinate(double latitudine, double longitudine) throws Exception {
+        try{
+            //Richiesta http al servizio di reverse da latitudine e longitudine a indirizzo
+            String urlStr = "https://nominatim.openstreetmap.org/reverse?lat=" + latitudine + "&lon=" + longitudine + "&format=json&addressdetails=1";
+            URL url = new URL(urlStr);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Java test)");
+            // Lettura del buffer di risposta
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder responseBuilder = new StringBuilder();
+            String line;
+            while ((line = in.readLine()) != null)
+                responseBuilder.append(line);
+            in.close();
+            String response = responseBuilder.toString();
+            //trasformo una stringa json in un json
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(response, JsonObject.class);
+            if(!(jsonObject.get("display_name").getAsString().isEmpty() || jsonObject.get("display_name").getAsString() == null))
+                return jsonObject.get("display_name").getAsString();
+            return "Nessun indirizzo trovato dalle coordinate inserite: latitudine: " + latitudine + " longitudine: " + longitudine;
+        }catch(Exception e){
+            throw new Exception("Errore durante il reverse geocoding da coordinate a indirizzo " + e.getMessage());
         }
     }
 }
