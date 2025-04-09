@@ -1,12 +1,14 @@
 package src.Nico;
 
+import java.util.Scanner;
+
 public class Ristorante {
     private String nome;
     private String nazione;
     private String citta;
     private String indirizzo;
-    private String lat;
-    private String log;
+    private int lat;
+    private int log;
     private int fasciaPrezzo;
     private boolean delivery;
     private boolean prenotazione;
@@ -14,7 +16,7 @@ public class Ristorante {
 
     /**
      * Metodo per ottenere il nome del ristorante
-     * @return stringa nome
+     * @return string nome
      */
     public String getNome() {
         return nome;
@@ -25,7 +27,7 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere la nazione del ristorante
-     * @return stringa nazione
+     * @return string nazione
      */
     public String getNazione() {
         return nazione;
@@ -36,7 +38,7 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere la città del ristorante
-     * @return stringa città
+     * @return string città
      */
     public String getCitta() {
         return citta;
@@ -47,7 +49,7 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere il nome del ristorante
-     * @return stringa indirizzo
+     * @return string indirizzo
      */
     public String getIndirizzo() {
         return indirizzo;
@@ -58,28 +60,28 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere la latitudine del ristorante
-     * @return stringa lat
+     * @return int lat
      */
-    public String getLat() {
+    public int getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(int lat) {
         this.lat = lat;
     }
     /**
      * Metodo per ottenere la longitudine del ristorante
-     * @return stringa log
+     * @return int log
      */
-    public String getLog() {
+    public int getLog() {
         return log;
     }
 
-    public void setLog(String log) {
+    public void setLog(int log) {
         this.log = log;
     }
     /**
-     * Metodo per ottenere la fascia di prezo del ristorante
+     * Metodo per ottenere la fascia di prezzo del ristorante
      * @return int fasciaPrezzo
      */
     public int getFasciaPrezzo() {
@@ -91,7 +93,7 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere il nome del ristorante
-     * @return stringa nome
+     * @return string nome
      */
     public boolean isDelivery() {
         return delivery;
@@ -102,7 +104,7 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere il nome del ristorante
-     * @return stringa nome
+     * @return string nome
      */
     public boolean isPrenotazione() {
         return prenotazione;
@@ -113,7 +115,7 @@ public class Ristorante {
     }
     /**
      * Metodo per ottenere il tipo di cucina del ristorante
-     * @return stringa tipoCucina
+     * @return string tipoCucina
      */
     public String getTipoCucina() {
         return tipoCucina;
@@ -122,6 +124,28 @@ public class Ristorante {
     public void setTipoCucina(String tipoCucina) {
         this.tipoCucina = tipoCucina;
     }
-
-
+    /*fine fase preparatoria
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     inizio fase sviluppo funzioni*/
+    public static String cercaRistorante(String tipoCucina, int fasciaPrezzo, boolean delivery, boolean prenotazione/*, int stelle*/, int lat, int log, String nazione, String citta, String indirizzo) {
+        Scanner var1 = new Scanner(System.in);
+        System.out.println("Scegli in base a cosa vuoi cercare il ristorante:");
+        System.out.println("1 Posizione\n2 Tipo di cucina\n3 Fascia di prezzo\n4 Disponibilità di servizi di delivery\n5 Necessita' di prenotazione");
+        int scelta = var1.nextInt();
+        if (scelta < 6) {
+        switch (scelta) {
+            case 1 :
+                System.out.println("piselli");
+            case 2 :
+                ;
+            case 3 :
+                ;
+            case 4 :
+                ;
+            case 5 :
+                ;
+        }
+    }
+        return tipoCucina;
+    }
 }
