@@ -19,6 +19,7 @@ public class Recensione {
         this.descrizione = descrizione;
         this.stelle = stelle;
         this.id = idCounter++;
+        GestoreRecensioni.
     }
 
     /**
