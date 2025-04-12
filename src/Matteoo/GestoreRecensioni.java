@@ -23,5 +23,9 @@ public class GestoreRecensioni {
         }
         return (double) somma / recensioni.size();
     }
+
+    public int numeroRecensioni() {
+        return recensioni.size();
+    }
 }
 
