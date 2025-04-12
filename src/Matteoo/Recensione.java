@@ -19,7 +19,6 @@ public class Recensione {
         this.descrizione = descrizione;
         this.stelle = stelle;
         this.id = idCounter++;
-        idCounter++;
     }
 
     /**
@@ -40,14 +39,11 @@ public class Recensione {
      * @param nStelle il numero di stelle associate alla recensione tramite il metodo
      * @throws StelleOutOfBoundException eccezione lanciata se il numero di stelle è minore di 0 o maggiore di 5
      */
-    public void SetNumeroStelle(int nStelle) throws StelleOutOfBoundException {
+    public void setNumeroStelle(int nStelle) throws StelleOutOfBoundException {
         if (nStelle > 0 && nStelle <= 5)
             this.stelle = nStelle;
         else throw new StelleOutOfBoundException("Il massimo numero di stelle è 5 e il minimo è 1");
     }
-
-    int count;
-    int count2;
 
     /**
      *
@@ -55,10 +51,7 @@ public class Recensione {
      * @throws RecensioneOutOfBoundException eccezione lanciata se il numero di caratteri supera 250
      */
     public void setDescrizione(String txt) throws RecensioneOutOfBoundException {
-        for (char tmp : txt.toCharArray()) {
-            count++;
-        }
-        if(count >= 250)
+        if( txt.length() > 250)
             throw new RecensioneOutOfBoundException("Il massimo di caratteri per la recensione o la risposta è di 250 caratteri");
         else this.descrizione = txt;
     }
@@ -69,10 +62,8 @@ public class Recensione {
      * @throws RispostaOutOfBoundException eccezione lanciata se il numero di caratteri della risposta supera 250
      */
     public void setRisposta(String risposta) throws RispostaOutOfBoundException {
-        for (char tmp : risposta.toCharArray()) {
-            count2++;
-        }
-        if(count2 >= 250)
+
+        if(risposta.length() > 250)
             throw new RispostaOutOfBoundException("Il massimo di caratteri per la risposta è di 250 caratteri");
         else this.risposta = risposta;
     }
@@ -91,7 +82,7 @@ public class Recensione {
      * @return restituisce l'id associato alla recensione
      */
 
-    public int GetId() {
+    public int getId() {
         return id;
     }
 
@@ -133,8 +124,6 @@ public class Recensione {
                 ", stelle=" + stelle +
                 ", risposta='" + risposta + '\'' +
                 ", id=" + id +
-                ", count=" + count +
-                ", count2=" + count2 +
                 '}';
     }
 }
