@@ -8,7 +8,7 @@ import java.util.List;
 public class Cliente extends Utente{
 
     //attributi
-    private List<Ristorante2> preferiti;
+    private List<Ristorante> preferiti;
 
     //costruttori
     public Cliente(int id, String password, String nome,String cognome, String username, String domicilio, String ruolo){
@@ -22,7 +22,12 @@ public class Cliente extends Utente{
     }
 
     //metodo per aggiungere ai preferiti il ristorante
-    public void aggiungiPreferito(Ristorante2 ristorante){
+
+    /**
+     * Metodo per aggiungere il ristorante nei preferito
+     * @param ristorante
+     */
+    public void aggiungiPreferito(Ristorante ristorante){
         if(!preferiti.contains(ristorante)){
             preferiti.add(ristorante);
         }else{
@@ -32,7 +37,12 @@ public class Cliente extends Utente{
     }
 
     //metodo per rimuovere dai preferiti il ristorante
-    public void rimuoviPreferito(Ristorante2 ristorante){
+
+    /**
+     * metodo per rimuovere il ristorante dai preferiti
+     * @param ristorante
+     */
+    public void rimuoviPreferito(Ristorante ristorante){
         if(preferiti.contains(ristorante)) {
             preferiti.remove(ristorante);
         }else{
@@ -41,9 +51,13 @@ public class Cliente extends Utente{
     }
 
     //metodo per visualizzare la lista dei ristoranti preferiti
+
+    /**
+     * metodo per visualizzare la lista dei preferiti
+     */
     public void visualizzaPreferiti(){
         if(preferiti.size() > 0) {
-            for (Ristorante2 ristorante : preferiti) {
+            for (Ristorante ristorante : preferiti) {
                 System.out.println(preferiti);
             }
         }else{
@@ -51,19 +65,25 @@ public class Cliente extends Utente{
         }
     }
 
-    public void aggiugniRecensione(Ristorante2 ristorante, int stelle, String descrizione){
+    /**
+     * metodo per far aggiungere al cliente una recensione
+     * @param ristorante
+     * @param stelle
+     * @param descrizione
+     */
+    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione){
         Recensione recensione = new Recensione(descrizione, stelle);
+        recensione.setDescrizione(descrizione);
+        recensione.setNumeroStelle(stelle);
         ristorante.recensisciRistorante(recensione);
     }
 
     public void modificaRecensione(Recensione recensione, String descrizione, int stelle){
-        recensione.setDescrizione(descrizione);
-        recensione.setNumeroStelle(stelle);
+        recensione.modificaRispStelle(descrizione,stelle);
     }
 
     public void rimuoviRecensione(Recensione recensione){
-        recensione.setDescrizione(null);
-        recensione.setNumeroStelle(0);
+        //quando avrò il metodo farò questa bella cosa
     }
 
 }

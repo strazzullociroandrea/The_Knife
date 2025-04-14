@@ -23,16 +23,15 @@ public class Ristoratore extends Utente {
 
     //metodi
     //metodo per creare ristorante
-    public void creaRistorante(String nome, String nazione, String citta, String indirizzo, String tipoCucina,
+    /*public void creaRistorante(String nome, String nazione, String citta, String indirizzo, String tipoCucina,
                                boolean delivery, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) {
         this.ristorante = new Ristorante (nome, nazione, citta, indirizzo,tipoCucina,delivery, prenotazioneOnline, minPrezzo,maxPrezzo);
         ristorantiGestiti.add(ristorante);
-    }
+    }*/
 
     //metodo per aggiungere ristorante
-    public Ristorante aggiungiRistorante(Ristorante ristorante) {
+    public void aggiungiRistorante(Ristorante ristorante) {
         ristorantiGestiti.add(ristorante);
-        return ristorante;
     }
 
     //metodo per prendere lista ristoranti gestiti
@@ -41,7 +40,7 @@ public class Ristoratore extends Utente {
     }
 
     //metodo per prendere lista visualizzare le recensioni
-    public void visualizzaRecensioni(GestoreRecensioni ristorante) {
+    public void visualizzaRecensioni(Ristorante ristorante) {
         if (ristorantiGestiti.contains(ristorante)) {
             for (Recensione r : ristorante.getRecensioni()) {
                 System.out.println(r+ "numero stelle: "+r.getStelle());
@@ -52,12 +51,13 @@ public class Ristoratore extends Utente {
     }
 
     //metodo per rispondere alle recensioni
-    public static void rispondiRecensione(Recensione recensione, String risposta) {
+    public void rispondiRecensione(Recensione recensione, String risposta) {
         if (recensione.getRisposta() == null) {
             recensione.setRisposta(risposta);
         } else {
             System.out.println("Risposta già presente: "+recensione.getRisposta());
         }
+
     }
 
     //metodo per visualizzare media stelle e numero delle recensioni
@@ -65,10 +65,6 @@ public class Ristoratore extends Utente {
         System.out.println("media delle stelle: "+ristorante.mediaStelle());
         System.out.println("numero recensioni "+ristorante.numeroRecensioni());
     }
-
-
-
-
 
 }
 
