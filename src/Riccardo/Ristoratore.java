@@ -23,8 +23,10 @@ public class Ristoratore extends Utente {
 
     //metodi
     //metodo per creare ristorante
-    public void creaRistorante(String nome,String nazione,String citta, String indirizzo,int lat,int log,int fasciaPrezzo,boolean delivery, boolean prenotazione, String tipoCucina) {
-        this.ristorante = new Ristorante(nome, nazione, citta, indirizzo, lat, log, fasciaPrezzo, delivery, prenotazione, tipoCucina);
+    public void creaRistorante(String nome, String nazione, String citta, String indirizzo, String tipoCucina,
+                               boolean delivery, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) {
+        this.ristorante = new Ristorante (nome, nazione, citta, indirizzo,tipoCucina,delivery, prenotazioneOnline, minPrezzo,maxPrezzo);
+        ristorantiGestiti.add(ristorante);
     }
 
     //metodo per aggiungere ristorante
@@ -50,7 +52,7 @@ public class Ristoratore extends Utente {
     }
 
     //metodo per rispondere alle recensioni
-    public void rispondiRecensione(Recensione recensione, String risposta) {
+    public static void rispondiRecensione(Recensione recensione, String risposta) {
         if (recensione.getRisposta() == null) {
             recensione.setRisposta(risposta);
         } else {
