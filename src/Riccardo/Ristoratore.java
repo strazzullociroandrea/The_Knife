@@ -23,11 +23,12 @@ public class Ristoratore extends Utente {
 
     //metodi
     //metodo per creare ristorante
-    /*public void creaRistorante(String nome, String nazione, String citta, String indirizzo, String tipoCucina,
+
+    public void creaRistorante(String nome, String nazione, String citta, String indirizzo, String tipoCucina,
                                boolean delivery, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) {
         this.ristorante = new Ristorante (nome, nazione, citta, indirizzo,tipoCucina,delivery, prenotazioneOnline, minPrezzo,maxPrezzo);
         ristorantiGestiti.add(ristorante);
-    }*/
+    }
 
     //metodo per aggiungere ristorante
     public void aggiungiRistorante(Ristorante ristorante) {
@@ -43,7 +44,7 @@ public class Ristoratore extends Utente {
     public void visualizzaRecensioni(Ristorante ristorante) {
         if (ristorantiGestiti.contains(ristorante)) {
             for (Recensione r : ristorante.getRecensioni()) {
-                System.out.println(r+ "numero stelle: "+r.getStelle());
+                System.out.println(r+ " numero stelle: "+r.getStelle());
             }
         }else{
             System.out.println("il ristorante non è gestito da te ");
