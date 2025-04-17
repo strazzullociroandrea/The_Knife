@@ -16,9 +16,18 @@ public class Cliente extends Utente{
         super(id,password,nome,cognome,username,domicilio,ruolo);
         this.preferiti = new ArrayList<>();
     }
+
     //metodi
-    public void cercaRistorante(){
-        //chiedere a ciro
+    public void cercaRistorante(ArrayList<Ristorante> elencoRistoranti, String chiaveRicerca) {
+        ArrayList<Ristorante> risultati = Ristorante.cercaRistorante(elencoRistoranti, chiaveRicerca);
+        if (risultati.isEmpty()) {
+            System.out.println("Nessun ristorante trovato.");
+        } else {
+            System.out.println("Risultati per " + chiaveRicerca + ": ");
+            for (Ristorante ris : risultati) {
+                System.out.println(ris.toString());
+            }
+        }
     }
 
     //metodo per aggiungere ai preferiti il ristorante
