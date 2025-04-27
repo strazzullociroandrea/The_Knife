@@ -3,34 +3,75 @@ import src.Matteoo.Recensione;
 import src.Nico.Ristorante;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Cliente extends Utente{
 
     //attributi
-    private List<Ristorante> preferiti;
+    private ArrayList<Ristorante> preferiti = new ArrayList<>();
+    private ArrayList<Recensione> recensioniMesse = new ArrayList<>();
 
     //costruttori
-    public Cliente(int id, String password, String nome,String cognome, String username, String domicilio, String ruolo){
 
-        super(id,password,nome,cognome,username,domicilio,ruolo);
-        this.preferiti = new ArrayList<>();
+    //costruttore base
+    public Cliente(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio){
+
+        super(id,password,nome,cognome,username,dataNascita,domicilio);
+
+    }
+
+    //costruttore senza data nascita
+    public Cliente(int id, String password, String nome,String cognome, String username, String domicilio)
+    {
+
+        super(id,password,nome,cognome,username,domicilio);
+
+    }
+
+    //costruttore senza id
+    public Cliente(String password, String nome,String cognome, String username, String dataNascita, String domicilio)
+    {
+
+        super(password,nome,cognome,username,dataNascita,domicilio);
+
+    }
+
+    //costruttore senza id e data nascita
+    public Cliente(String password, String nome,String cognome, String username, String domicilio)
+    {
+
+        super(password,nome,cognome,username, domicilio);
+
     }
 
     //metodi
-    public void cercaRistorante(ArrayList<Ristorante> elencoRistoranti, String chiaveRicerca) {
-        ArrayList<Ristorante> risultati = Ristorante.cercaRistorante(elencoRistoranti, chiaveRicerca);
+
+    /**
+     *
+     * @param lista
+     * @param tipoCucina
+     * @param min
+     * @param max
+     * @param delivery
+     * @param prenotazione
+     * @param lat
+     * @param log
+     * @return
+     */
+
+    public static ArrayList<Ristorante> cercaRistorante(ArrayList<Ristorante> lista, String tipoCucina,
+                                double min, double max, boolean delivery,
+                                boolean prenotazione, double lat, double log) {
+        ArrayList<Ristorante> risultati = Ristorante.cercaRistorante(lista, tipoCucina,min,max,delivery,prenotazione,lat,log);
         if (risultati.isEmpty()) {
             System.out.println("Nessun ristorante trovato.");
         } else {
-            System.out.println("Risultati per " + chiaveRicerca + ": ");
-            for (Ristorante ris : risultati) {
+            System.out.println("Risultati: ");
+            for(Ristorante ris : risultati) {
                 System.out.println(ris.toString());
             }
         }
+        return risultati;
     }
-
-    //metodo per aggiungere ai preferiti il ristorante
 
     /**
      * Metodo per aggiungere il ristorante nei preferito
@@ -40,17 +81,16 @@ public class Cliente extends Utente{
         if(!preferiti.contains(ristorante)){
             preferiti.add(ristorante);
         }else{
-            System.out.println("Ristorante già inserito nei preferiti!");
+            System.out.println("Ristorante già inserito nei preferiti");
         }
 
     }
-
-    //metodo per rimuovere dai preferiti il ristorante
 
     /**
      * metodo per rimuovere il ristorante dai preferiti
      * @param ristorante
      */
+
     public void rimuoviPreferito(Ristorante ristorante){
         if(preferiti.contains(ristorante)) {
             preferiti.remove(ristorante);
@@ -58,8 +98,6 @@ public class Cliente extends Utente{
             System.out.println("Ristorante non inserito nei preferiti!");
         }
     }
-
-    //metodo per visualizzare la lista dei ristoranti preferiti
 
     /**
      * metodo per visualizzare la lista dei preferiti
@@ -80,19 +118,57 @@ public class Cliente extends Utente{
      * @param stelle
      * @param descrizione
      */
-    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione){
+
+    public void aggiungiRecensione(Ristorante2 ristorante, int stelle, String descrizione){
         Recensione recensione = new Recensione(descrizione, stelle);
-        recensione.setDescrizione(descrizione);
-        recensione.setNumeroStelle(stelle);
-        ristorante.recensisciRistorante(recensione);
+        recensioniMesse.add(recensione);
+        ristorante.addRecensione(recensione);
     }
 
+    /**
+     * metodo per modificare una recensione
+     * @param recensione
+     * @param descrizione
+     * @param stelle
+     */
     public void modificaRecensione(Recensione recensione, String descrizione, int stelle){
         recensione.modificaRispStelle(descrizione,stelle);
+        
     }
 
-    public void rimuoviRecensione(Recensione recensione){
-        //quando avrò il metodo farò questa bella cosa
+    /**
+     * metodo per rimuovere una recensione
+     * @param ristorante
+     * @param recensione
+     */
+    public void rimuoviRecensione(Ristorante ristorante, Recensione recensione) {
+        if (recensioniMesse.contains(recensione)) {
+                recensioniMesse.remove(recensione);
+                ristorante.removeRecensione(recensione);
+                System.out.println("Recensione rimossa");
+        } else {
+                System.out.println("Recensione non trovata");
+            }
+        }
+
+    /**
+     * get lista di recensioni messe
+      * @return
+     */
+    public ArrayList<Recensione> getRecensioniMesse() {
+        return recensioniMesse;
     }
 
-}
+    /**
+     * metodo per ottenere il ruolo
+     * @return
+     */
+
+    @Override
+    public String getRuolo() {
+        return "Cliente";
+    }
+
+    }
+
+

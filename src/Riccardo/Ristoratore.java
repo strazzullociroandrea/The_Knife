@@ -11,13 +11,38 @@ public class Ristoratore extends Utente {
 
     //attributi
     private List<Ristorante> ristorantiGestiti = new ArrayList<>();
-    private Ristorante ristorante;
+
 
     //costruttori
-    public Ristoratore(int id, String password, String nome,String cognome, String username, String domicilio, String ruolo)
+    //costruttore base
+    public Ristoratore(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio)
     {
 
-        super(id,password,nome,cognome,username,domicilio,ruolo);
+        super(id,password,nome,cognome,username,dataNascita,domicilio);
+
+    }
+
+    //costruttore senza data nascita
+    public Ristoratore(int id, String password, String nome,String cognome, String username, String domicilio)
+    {
+
+        super(id,password,nome,cognome,username,domicilio);
+
+    }
+
+    //costruttore senza id
+    public Ristoratore(String password, String nome,String cognome, String username, String dataNascita, String domicilio)
+    {
+
+        super(password,nome,cognome,username,dataNascita,domicilio);
+
+    }
+
+    //costruttore senza id e data nascita
+    public Ristoratore(String password, String nome,String cognome, String username, String domicilio)
+    {
+
+        super(password,nome,cognome,username, domicilio);
 
     }
 
@@ -31,15 +56,14 @@ public class Ristoratore extends Utente {
      * @param indirizzo
      * @param lat
      * @param log
-     * @param min
-     * @param max
      * @param delivery
      * @param prenotazione
      * @param tipoCucina
      */
-    public void creaRistorante(String nome, String nazione, String citta, String indirizzo, double lat, double log, double min, double max, boolean delivery,  boolean prenotazione, String tipoCucina) {
-        this.ristorante = new Ristorante (nome, nazione, citta, indirizzo,lat, log,min, max, delivery,prenotazione,tipoCucina);
-        ristorantiGestiti.add(ristorante);
+    public void creaRistorante(String id, String nome, String nazione, String citta, String indirizzo,
+                               double lat, double log, boolean delivery, boolean prenotazione, String tipoCucina) {
+        Ristorante nuovoRistorante = new Ristorante (id, nome, nazione, citta, indirizzo,lat, log, delivery,prenotazione,tipoCucina);
+        ristorantiGestiti.add(nuovoRistorante);
     }
 
     /**
@@ -51,6 +75,19 @@ public class Ristoratore extends Utente {
     }
 
     /**
+     * metodo per eliminare il ristorante
+     * @param ristorante
+     */
+    public void eliminaRistorante(Ristorante ristorante) {
+        if (ristorantiGestiti.contains(ristorante)) {
+            ristorantiGestiti.remove(ristorante);
+            System.out.println("Ristorante rimosso");
+        } else {
+            System.out.println("Il ristorante non è gestito da te");
+        }
+    }
+
+    /**
      * metodo per prendere lista ristoranti gestiti
      * @return
      */
@@ -59,17 +96,29 @@ public class Ristoratore extends Utente {
     }
 
     /**
-     *
+     *metodo per visualizzare recensione di un singolo ristorante
      * @param ristorante
      */
 
-    public void visualizzaRecensioni(Ristorante ristorante) {
+    public void visualizzaRecensioneRistorante(Ristorante ristorante) {
         if (ristorantiGestiti.contains(ristorante)) {
             for (Recensione r : ristorante.getRecensioni()) {
                 System.out.println(r+ " numero stelle: "+r.getStelle());
             }
         }else{
             System.out.println("il ristorante non è gestito da te ");
+        }
+    }
+
+    /**
+     * metodo per visualizzare le recensioni di tutti i ristoranti
+     */
+    public void visualizzaTutteRecensioni() {
+        for (Ristorante ristorante : ristorantiGestiti) {
+            System.out.println("Recensioni per il ristorante: " + ristorante.getNome());
+            for (Recensione recensione : ristorante.getRecensioni()) {
+                System.out.println(recensione + " - numero stelle: " + recensione.getStelle());
+            }
         }
     }
 
@@ -94,6 +143,15 @@ public class Ristoratore extends Utente {
     public static void visualizzaRiepilogo(GestoreRecensioni ristorante) {
         System.out.println("media delle stelle: "+ristorante.mediaStelle());
         System.out.println("numero recensioni "+ristorante.numeroRecensioni());
+    }
+
+    /**
+     * metodo per il ruolo
+     * @return
+     */
+    @Override
+    public String getRuolo() {
+        return "Ristoratore";
     }
 
 }

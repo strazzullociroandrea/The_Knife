@@ -1,5 +1,7 @@
 package src.Riccardo;
 public abstract class Utente {
+
+
     private int id;
     private String password;
     private String passwordCifrata;
@@ -8,9 +10,9 @@ public abstract class Utente {
     private String username;
     private String domicilio;
     private String dataNascita;
-    private String ruolo;
+    private static int idCounter=1; //ID univoco per ogni utente
 
-    public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio, String ruolo){
+    public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio){
 
         this.id=id;
         this.passwordCifrata = PasswordUtil.hashPassword(password);
@@ -19,10 +21,11 @@ public abstract class Utente {
         this.username=username;
         this.domicilio= domicilio;
         this.dataNascita=dataNascita;
-        this.ruolo=ruolo;
+        idCounter++;
+
 
     }
-    public Utente(int id, String password, String nome,String cognome, String username, String domicilio, String ruolo){
+    public Utente(int id, String password, String nome,String cognome, String username, String domicilio){
 
         this.id=id;
         this.passwordCifrata = PasswordUtil.hashPassword(password);
@@ -30,11 +33,11 @@ public abstract class Utente {
         this.cognome=cognome;
         this.username=username;
         this.domicilio= domicilio;
-        this.ruolo=ruolo;
+        idCounter++;
 
     }
 
-    public Utente(String password, String nome,String cognome, String username,String dataNascita, String domicilio, String ruolo){
+    public Utente(String password, String nome,String cognome, String username,String dataNascita, String domicilio){
 
         this.passwordCifrata = PasswordUtil.hashPassword(password);
         this.nome=nome;
@@ -42,19 +45,18 @@ public abstract class Utente {
         this.username=username;
         this.domicilio= domicilio;
         this.dataNascita=dataNascita;
-        this.ruolo=ruolo;
+        idCounter++;
 
     }
 
-    public Utente(String password, String nome,String cognome, String username, String domicilio, String ruolo){
+    public Utente(String password, String nome,String cognome, String username, String domicilio){
 
         this.passwordCifrata = PasswordUtil.hashPassword(password);
         this.nome=nome;
         this.cognome=cognome;
         this.username=username;
         this.domicilio= domicilio;
-        this.ruolo=ruolo;
-
+        idCounter++;
     }
 //getter e setter
 
@@ -71,14 +73,6 @@ public abstract class Utente {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRuolo() {
-        return ruolo;
-    }
-
-    public void setRuolo(String ruolo) {
-        this.ruolo = ruolo;
     }
 
     public String getDataNascita() {
@@ -129,5 +123,18 @@ public abstract class Utente {
         this.passwordCifrata = passwordCifrata;
     }
 
+    /**
+     * metodo per richiamare il ruolo
+     * @return
+     */
+    public String getRuolo(){
+        if (this instanceof Cliente){
+            return "Cliente";
+        }else if(this instanceof Ristoratore){
+            return "Ristoratore";
+        }else{
+            return "Utente generico";
+        }
+    }
 
 }
