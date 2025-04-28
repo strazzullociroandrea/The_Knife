@@ -13,7 +13,6 @@ public abstract class Utente {
     private static int idCounter=1; //ID univoco per ogni utente
 
     public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio){
-
         this.id=id;
         this.passwordCifrata = PasswordUtil.hashPassword(password);
         this.nome=nome;
@@ -22,11 +21,8 @@ public abstract class Utente {
         this.domicilio= domicilio;
         this.dataNascita=dataNascita;
         idCounter++;
-
-
     }
     public Utente(int id, String password, String nome,String cognome, String username, String domicilio){
-
         this.id=id;
         this.passwordCifrata = PasswordUtil.hashPassword(password);
         this.nome=nome;
@@ -34,11 +30,9 @@ public abstract class Utente {
         this.username=username;
         this.domicilio= domicilio;
         idCounter++;
-
     }
 
     public Utente(String password, String nome,String cognome, String username,String dataNascita, String domicilio){
-
         this.passwordCifrata = PasswordUtil.hashPassword(password);
         this.nome=nome;
         this.cognome=cognome;
@@ -46,11 +40,9 @@ public abstract class Utente {
         this.domicilio= domicilio;
         this.dataNascita=dataNascita;
         idCounter++;
-
     }
 
     public Utente(String password, String nome,String cognome, String username, String domicilio){
-
         this.passwordCifrata = PasswordUtil.hashPassword(password);
         this.nome=nome;
         this.cognome=cognome;
@@ -66,13 +58,6 @@ public abstract class Utente {
 
     public void setId(int id) {
         this.id = id;
-    }
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getDataNascita() {
@@ -127,14 +112,5 @@ public abstract class Utente {
      * metodo per richiamare il ruolo
      * @return
      */
-    public String getRuolo(){
-        if (this instanceof Cliente){
-            return "Cliente";
-        }else if(this instanceof Ristoratore){
-            return "Ristoratore";
-        }else{
-            return "Utente generico";
-        }
-    }
-
+    abstract public String getRuolo();
 }
