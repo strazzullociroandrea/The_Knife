@@ -3,14 +3,13 @@ public abstract class Utente {
 
 
     private int id;
-    private String password;
     private String passwordCifrata;
     private String nome;
     private String cognome;
     private String username;
     private String domicilio;
     private String dataNascita;
-    private static int idCounter=1; //ID univoco per ogni utente
+    private static int idCounter=0; //ID univoco per ogni utente
 
     public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio){
         this.id=id;
@@ -104,8 +103,8 @@ public abstract class Utente {
         return passwordCifrata;
     }
 
-    public void setPasswordCifrata(String passwordCifrata) {
-        this.passwordCifrata = passwordCifrata;
+    public void setPasswordCifrata(String password)throws RuntimeException {
+        this.passwordCifrata = password;
     }
 
     /**
