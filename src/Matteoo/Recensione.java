@@ -52,13 +52,27 @@ public class Recensione {
 
     /**
      *
+     * @param descrizione il contenuto della recensione, max 250 caratteri
+     * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
+     * @param risposta la risposta associata alla recensione     */
+
+    public Recensione(String descrizione, int stelle, String risposta) {
+        this.descrizione = descrizione;
+        this.stelle = stelle;
+        this.risposta = risposta;
+        this.id = idCounter++;
+    }
+
+    /**
+     *
      * @param nStelle il numero di stelle associate alla recensione tramite il metodo
      * @throws StelleOutOfBoundException eccezione lanciata se il numero di stelle è minore di 0 o maggiore di 5
      */
+    //metodi
     public void setNumeroStelle(int nStelle) throws StelleOutOfBoundException {
         if (nStelle > 0 && nStelle <= 5)
             this.stelle = nStelle;
-        else throw new StelleOutOfBoundException("Il massimo numero di stelle è 5 e il minimo è 1");
+        else throw new StelleOutOfBoundException();
     }
 
     /**
@@ -68,7 +82,7 @@ public class Recensione {
      */
     public void setDescrizione(String txt) throws RecensioneOutOfBoundException {
         if( txt.length() > 250 || txt.isEmpty())
-            throw new RecensioneOutOfBoundException("Il massimo di caratteri per la recensione o la risposta è di 250 caratteri");
+            throw new RecensioneOutOfBoundException();
         else this.descrizione = txt;
     }
 
@@ -80,7 +94,7 @@ public class Recensione {
     public void setRisposta(String risposta) throws RispostaOutOfBoundException {
 
         if(risposta.length() > 250 || risposta.isEmpty())
-            throw new RispostaOutOfBoundException("Il massimo di caratteri per la risposta è di 250 caratteri");
+            throw new RispostaOutOfBoundException();
         else this.risposta = risposta;
     }
 
@@ -126,36 +140,6 @@ public class Recensione {
     public String getRisposta() {
         return risposta;
     }
-
-    public void modificaDescrizione(String cartoxTesto) {
-
-        if( cartoxTesto.length() > 250 || cartoxTesto.isEmpty())
-            throw new RecensioneOutOfBoundException("Il massimo di caratteri per la recensione o la risposta è di 250 caratteri");
-        else this.descrizione = cartoxTesto;
-    }
-
-    public void modificaStelle(int cartoxStelle) {
-        if (cartoxStelle > 0 && cartoxStelle <= 5)
-            this.stelle = cartoxStelle;
-        else throw new StelleOutOfBoundException("Il massimo numero di stelle è 5 e il minimo è 1");
-    }
-
-    public void modificaRispStelle(String cartoxTesto, int cartoxStelle) {
-        if( cartoxTesto.length() > 250 || cartoxTesto.isEmpty())
-            throw new RecensioneOutOfBoundException("Il massimo di caratteri per la recensione o la risposta è di 250 caratteri");
-        else this.descrizione = cartoxTesto;
-
-        if (cartoxStelle > 0 && cartoxStelle <= 5)
-            this.stelle = cartoxStelle;
-        else throw new StelleOutOfBoundException("Il massimo numero di stelle è 5 e il minimo è 1");
-    }
-
-    public void modificaRisposta(String cartoxRisposta) {
-        if( cartoxRisposta.length() > 250 || cartoxRisposta.isEmpty())
-            throw new RecensioneOutOfBoundException("Il massimo di caratteri per la recensione o la risposta è di 250 caratteri");
-        else this.risposta = cartoxRisposta;
-    }
-
 
     /**
      *

@@ -1,5 +1,4 @@
 package src.Riccardo;
-import src.Matteoo.GestoreRecensioni;
 import src.Matteoo.Recensione;
 import src.Nico.Ristorante;
 
