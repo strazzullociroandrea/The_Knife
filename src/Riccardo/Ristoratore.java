@@ -5,6 +5,7 @@ import src.Nico.Ristorante;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class Ristoratore extends Utente {
@@ -50,16 +51,19 @@ public class Ristoratore extends Utente {
      * @param nazione
      * @param citta
      * @param indirizzo
-     * @param lat
-     * @param log
      * @param delivery
      * @param prenotazione
      * @param tipoCucina
      */
-    public void creaRistorante(String id, String nome, String nazione, String citta, String indirizzo,
-                               double lat, double log, boolean delivery, boolean prenotazione, String tipoCucina) {
-        Ristorante nuovoRistorante = new Ristorante (id, nome, nazione, citta, indirizzo,lat, log, delivery,prenotazione,tipoCucina);
-        ristorantiGestiti.add(nuovoRistorante);
+    public void creaRistorante(String nome, String nazione, String citta, String indirizzo,
+                                boolean delivery, boolean prenotazione, String tipoCucina) throws CreaRistoranteException {
+        try{
+            Ristorante nuovoRistorante = new Ristorante (nome, nazione, citta, indirizzo, delivery,prenotazione,tipoCucina);
+            ristorantiGestiti.add(nuovoRistorante);
+        }catch(Exception e){
+            throw new CreaRistoranteException();
+        }
+
     }
 
     /**
@@ -127,10 +131,22 @@ public class Ristoratore extends Utente {
         if (recensione.getRisposta() == null) {
             recensione.setRisposta(risposta);
         } else {
-            System.out.println("Risposta già presente: "+recensione.getRisposta());
+            System.out.println("Risposta già presente: " + recensione.getRisposta());
+            System.out.println("Vuoi inserire una nuova risposta?");
+
+            try (Scanner s = new Scanner(System.in)) {
+                String r = s.nextLine();
+                if (r.equalsIgnoreCase("si") || r.equalsIgnoreCase("sì")) {
+                    recensione.setRisposta(risposta);
+                    System.out.println("Risposta aggiornata ");
+                } else if (r.equalsIgnoreCase("no")) {
+                    System.out.println("Risposta non modificata: " + recensione.getRisposta());
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
         }
     }
-
     /**
      * metodo per visualizzare media stelle e numero delle recensioni
      * @param ristorante

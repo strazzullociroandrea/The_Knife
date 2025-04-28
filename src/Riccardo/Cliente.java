@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Cliente extends Utente{
 
     //attributi
-    private ArrayList<Ristorante> preferiti = new ArrayList<>();
-    private ArrayList<Recensione> recensioniMesse = new ArrayList<>();
+    private ArrayList<Ristorante> preferiti;
+    private ArrayList<Recensione> recensioniMesse;
 
     //costruttori
 
@@ -16,7 +16,8 @@ public class Cliente extends Utente{
     public Cliente(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio){
 
         super(id,password,nome,cognome,username,dataNascita,domicilio);
-
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
     }
 
     //costruttore senza data nascita
@@ -24,23 +25,24 @@ public class Cliente extends Utente{
     {
 
         super(id,password,nome,cognome,username,domicilio);
-
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
     }
 
     //costruttore senza id
     public Cliente(String password, String nome,String cognome, String username, String dataNascita, String domicilio)
     {
-
         super(password,nome,cognome,username,dataNascita,domicilio);
-
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
     }
 
     //costruttore senza id e data nascita
     public Cliente(String password, String nome,String cognome, String username, String domicilio)
     {
-
         super(password,nome,cognome,username, domicilio);
-
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
     }
 
     //metodi
@@ -119,7 +121,7 @@ public class Cliente extends Utente{
      * @param descrizione
      */
 
-    public void aggiungiRecensione(Ristorante2 ristorante, int stelle, String descrizione){
+    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione){
         Recensione recensione = new Recensione(descrizione, stelle);
         recensioniMesse.add(recensione);
         ristorante.addRecensione(recensione);
