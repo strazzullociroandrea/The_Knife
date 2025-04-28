@@ -14,7 +14,7 @@ public class Recensione {
      * @param descrizione il contenuto della recensione, max 250 caratteri
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      */
-    //costruttori
+    //costruttori OK
     public Recensione(String descrizione, int stelle) {
         this.descrizione = descrizione;
         this.stelle = stelle;
@@ -27,6 +27,7 @@ public class Recensione {
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      * @param id l'id associato alla recensione
      */
+    //OK
     public Recensione(String descrizione, int stelle, int id) {
         this.descrizione = descrizione;
         this.stelle = stelle;
