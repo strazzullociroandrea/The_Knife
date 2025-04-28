@@ -10,40 +10,36 @@ import java.util.List;
 public class Ristoratore extends Utente {
 
     //attributi
-    private List<Ristorante> ristorantiGestiti = new ArrayList<>();
+    private List<Ristorante> ristorantiGestiti;
 
 
     //costruttori
     //costruttore base
-    public Ristoratore(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio)
-    {
+    public Ristoratore(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio) {
 
         super(id,password,nome,cognome,username,dataNascita,domicilio);
-
+        this.ristorantiGestiti = new ArrayList<>();
     }
 
     //costruttore senza data nascita
-    public Ristoratore(int id, String password, String nome,String cognome, String username, String domicilio)
-    {
+    public Ristoratore(int id, String password, String nome,String cognome, String username, String domicilio) {
 
         super(id,password,nome,cognome,username,domicilio);
-
+        this.ristorantiGestiti = new ArrayList<>();
     }
 
     //costruttore senza id
-    public Ristoratore(String password, String nome,String cognome, String username, String dataNascita, String domicilio)
-    {
+    public Ristoratore(String password, String nome,String cognome, String username, String dataNascita, String domicilio) {
 
         super(password,nome,cognome,username,dataNascita,domicilio);
-
+        this.ristorantiGestiti = new ArrayList<>();
     }
 
     //costruttore senza id e data nascita
-    public Ristoratore(String password, String nome,String cognome, String username, String domicilio)
-    {
+    public Ristoratore(String password, String nome,String cognome, String username, String domicilio) {
 
         super(password,nome,cognome,username, domicilio);
-
+        this.ristorantiGestiti = new ArrayList<>();
     }
 
     //metodi
@@ -103,7 +99,7 @@ public class Ristoratore extends Utente {
     public void visualizzaRecensioneRistorante(Ristorante ristorante) {
         if (ristorantiGestiti.contains(ristorante)) {
             for (Recensione r : ristorante.getRecensioni()) {
-                System.out.println(r+ " numero stelle: "+r.getStelle());
+                System.out.println(r+ " numero stelle: " + r.getStelle());
             }
         }else{
             System.out.println("il ristorante non è gestito da te ");
@@ -133,7 +129,6 @@ public class Ristoratore extends Utente {
         } else {
             System.out.println("Risposta già presente: "+recensione.getRisposta());
         }
-
     }
 
     /**
@@ -145,14 +140,9 @@ public class Ristoratore extends Utente {
         System.out.println("numero recensioni "+ristorante.numeroRecensioni());
     }
 
-    /**
-     * metodo per il ruolo
-     * @return
-     */
     @Override
-    public String getRuolo() {
+    public String getRuolo(){
         return "Ristoratore";
     }
-
 }
 
