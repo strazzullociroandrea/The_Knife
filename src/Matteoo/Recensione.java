@@ -10,7 +10,7 @@ public class Recensione {
     private static int idCounter = 0;
 
     /**
-     *
+     *costruttore per creare una recensione impostando attributi descrizione e stelle
      * @param descrizione il contenuto della recensione, max 250 caratteri
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      */
@@ -22,7 +22,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *costruttore per creare una recensione impostando attributi descrizione, stelle e id
      * @param descrizione il contenuto della recensione, max 250 caratteri
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      * @param id l'id associato alla recensione
@@ -36,7 +36,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *costruttore per creare una recensione impostando gli attributi descrizione, stelle, risposta e id
      * @param descrizione il contenuto della recensione, max 250 caratteri
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      * @param risposta la risposta associata alla recensione
@@ -52,7 +52,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *costruttore per creare una recensione impostando gli attributi descrizione, stelle e risposta
      * @param descrizione il contenuto della recensione, max 250 caratteri
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      * @param risposta la risposta associata alla recensione     */
@@ -65,7 +65,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per modificare l'attributo stelle di una recensione
      * @param nStelle il numero di stelle associate alla recensione tramite il metodo
      * @throws StelleOutOfBoundException eccezione lanciata se il numero di stelle è minore di 0 o maggiore di 5
      */
@@ -77,7 +77,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per modificare l'attributo descrizione di una recensione
      * @param txt la descrizione associata alla recensione assegnata tramite metodo
      * @throws RecensioneOutOfBoundException eccezione lanciata se il numero di caratteri supera 250
      */
@@ -88,7 +88,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per modificare l'attributo risposta di una recensione
      * @param risposta stringa associata alla risposta alla recensione tramite metodo dal Ristoratore
      * @throws RispostaOutOfBoundException eccezione lanciata se il numero di caratteri della risposta supera 250
      */
@@ -100,7 +100,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per modificare l'attributo id di una recensione
      * @param id l'id associato alla recensione tramite il metodo
      */
 
@@ -109,7 +109,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per ottenere l'attributo id di una recensione
      * @return restituisce l'id associato alla recensione
      */
 
@@ -118,7 +118,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per ottenere l'attributo descrizione di una recensione
      * @return restituisce il contenuto testuale della recensione
      */
 
@@ -127,7 +127,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per ottenere l'attributo stelle di una recensione
      * @return restituisce il numero di stelle associato alla recensione
      */
     public int getStelle() {
@@ -135,7 +135,7 @@ public class Recensione {
     }
 
     /**
-     *
+     *metodo per ottenere l'attributo risposta di una recensione
      * @return restituisce la risposta testuale associata alla recensione
      */
     public String getRisposta() {
@@ -143,11 +143,10 @@ public class Recensione {
     }
 
     /**
-     *
-     * @return
+     *metodo per ottenere la Stringa associata a una recensione
+     * @return restituisce la recensione in forma di stringa
      */
-    //public boolean delete();
-
+   
     @Override
     public String toString() {
         return "Recensione{" +
