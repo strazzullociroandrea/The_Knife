@@ -14,7 +14,6 @@ public class Recensione {
      * @param descrizione il contenuto della recensione, max 250 caratteri
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      */
-    //costruttori OK
     public Recensione(String descrizione, int stelle) {
         this.descrizione = descrizione;
         this.stelle = stelle;
@@ -27,7 +26,6 @@ public class Recensione {
      * @param stelle il numero di stelle attribuite al ristorante nella recensione, da 1 a 5
      * @param id l'id associato alla recensione
      */
-    //OK
     public Recensione(String descrizione, int stelle, int id) {
         this.descrizione = descrizione;
         this.stelle = stelle;
@@ -69,7 +67,6 @@ public class Recensione {
      * @param nStelle il numero di stelle associate alla recensione tramite il metodo
      * @throws StelleOutOfBoundException eccezione lanciata se il numero di stelle è minore di 0 o maggiore di 5
      */
-    //metodi
     public void setNumeroStelle(int nStelle) throws StelleOutOfBoundException {
         if (nStelle > 0 && nStelle <= 5)
             this.stelle = nStelle;
