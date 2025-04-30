@@ -10,6 +10,12 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe per la gestione del salvataggio e caricamento di ristoranti e utenti in formato JSON
+ *
+ * @version 1.0
+ * @Author Strazzullo Ciro Andrea, Riccardo Giovanni Rubini, Matteo Mongelli, Nicolò Valter Girardello
+ */
 public class GestoreFile {
 
     /**

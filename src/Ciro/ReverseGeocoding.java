@@ -9,6 +9,12 @@ import java.net.URLEncoder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+/**
+ * Classe per la gestione del reverse geocoding, da longitudine e latitudine a indirizzo e viceversa
+ *
+ * @version 1.0
+ * @Author Strazzullo Ciro Andrea, Riccardo Giovanni Rubini, Matteo Mongelli, Nicolò Valter Girardello
+ */
 public class ReverseGeocoding {
     /**
      * Metodo per ottenere la latitudine e longitudine da un indirizzo
