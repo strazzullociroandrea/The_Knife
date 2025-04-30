@@ -13,7 +13,10 @@ import com.google.gson.JsonObject;
  * Classe per la gestione del reverse geocoding, da longitudine e latitudine a indirizzo e viceversa
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea, Riccardo Giovanni Rubini, Matteo Mongelli, Nicolò Valter Girardello
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
+ * @Author Nicolò Valter Girardello
  */
 public class ReverseGeocoding {
     /**
