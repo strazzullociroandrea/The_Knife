@@ -4,11 +4,10 @@ package src.Nico;
 import src.Ciro.ReverseGeocoding;
 import src.Matteoo.Recensione;
 
-import javax.sound.midi.MidiChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static src.Matteoo.GestoreRecensioni.mediaStelle;
+import static src.Nico.Ristorante.GestoreRecensioni.mediaStelle;
 
 public class Ristorante {
     private String nome;
@@ -25,6 +24,12 @@ public class Ristorante {
     private static double mrec;
     private static int idcont = 0;
     private static int id = 0;
+    private static int id1 = 0;
+    private static int id2 = 0;
+    private static int id3 = 0;
+    private static int id4 = 0;
+    private static int id5 = 0;
+    private static int id6 = 0;
 
     /**
      * Metodo per ottenere il nome del ristorante
@@ -107,7 +112,7 @@ public class Ristorante {
     /**
      * Metodo per ottenere il minimo che si vuole spendere nel ristorante
      *
-     * @return int fasciaPrezzo
+     * @return int min
      */
     public double getMin() {
         return min;
@@ -120,7 +125,7 @@ public class Ristorante {
     /**
      * Metodo per ottenere il massimo che si vuole spendere nel ristorante
      *
-     * @return int fasciaPrezzo
+     * @return int max
      */
     public double getMax() {
         return max;
@@ -133,7 +138,7 @@ public class Ristorante {
     /**
      * Metodo per ottenere se il ristorante ha anche la funzione di delivery
      *
-     * @return string nome
+     * @return boolean delivery
      */
     public boolean isDelivery() {
         return delivery;
@@ -146,7 +151,7 @@ public class Ristorante {
     /**
      * Metodo per ottenere se il ristorante accetta prenotazioni
      *
-     * @return string nome
+     * @return boolean prenotazione
      */
     public boolean isPrenotazione() {
         return prenotazione;
@@ -172,7 +177,7 @@ public class Ristorante {
     /**
      * Metodo per ottenere il la media delle recensioni
      *
-     * @return string tipoCucina
+     * @return double mrec
      */
     public double getMrec() {
         return mrec;
@@ -185,7 +190,7 @@ public class Ristorante {
     /**
      * Metodo per ottenere un id univoco per ogni ristorante
      *
-     * @return string tipoCucina
+     * @return int idcont
      */
     public int getId() {
         return idcont;
@@ -198,40 +203,6 @@ public class Ristorante {
     /*fine fase preparatoria
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      inizio fase sviluppo funzioni*/
-
-    /*
-    // Costruttore con ID
-    public Ristorante(int id, String nome, String nazione, String citta, String indirizzo,
-                      boolean delivery, boolean prenotazione, String tipoCucina) throws Exception {
-        this.id = id;
-        this.nome = nome;
-        this.nazione = nazione;
-        this.citta = citta;
-        this.indirizzo = indirizzo;
-        this.lat = ReverseGeocoding.getLatitudineLongitudine(indirizzo + citta + nazione)[0];
-        this.log = ReverseGeocoding.getLatitudineLongitudine(indirizzo + citta + nazione)[1];
-        this.delivery = delivery;
-        this.prenotazione = prenotazione;
-        this.tipoCucina = tipoCucina;
-        idcont++;
-    }
-
-    // Costruttore senza ID
-    public Ristorante(String nome, String nazione, String citta, String indirizzo,
-                      boolean delivery, boolean prenotazione, String tipoCucina) throws Exception {
-        this.id = idcont;
-        this.nome = nome;
-        this.nazione = nazione;
-        this.citta = citta;
-        this.indirizzo = indirizzo;
-        this.lat = ReverseGeocoding.getLatitudineLongitudine(indirizzo + citta + nazione)[0];
-        this.log = ReverseGeocoding.getLatitudineLongitudine(indirizzo + citta + nazione)[1];
-        this.delivery = delivery;
-        this.prenotazione = prenotazione;
-        this.tipoCucina = tipoCucina;
-        idcont++;
-    }
-    */
     private double calcolaDistanza(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371000;
         double latDistance = Math.toRadians(lat2 - lat1);
@@ -281,6 +252,97 @@ public class Ristorante {
 
     }
 
+    public class CercaRistorantePosizione {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistorantePosizione(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistorantePosizione() {
+            this.instanceId = ++idcont;
+        }
+    }
+
+    public class CercaRistoranteTipoCucina {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistoranteTipoCucina(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistoranteTipoCucina() {
+            this.instanceId = ++idcont;
+        }
+    }
+
+    public class CercaRistorantePrezzo {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistorantePrezzo(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistorantePrezzo() {
+            this.instanceId = ++idcont;
+        }
+    }
+
+    public class CercaRistoranteDelivery {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistoranteDelivery(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistoranteDelivery() {
+            this.instanceId = ++idcont;
+        }
+    }
+
+    public class CercaRistorantePrenotazione {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistorantePrenotazione(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistorantePrenotazione() {
+            this.instanceId = ++idcont;
+        }
+    }
+
+    public class CercaRistoranteRecensioni {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistoranteRecensioni(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistoranteRecensioni() {
+            this.instanceId = ++idcont;
+        }
+    }
+
+    public class CercaRistorante {
+        private static int idcont = 0;
+        private int instanceId;
+
+        public CercaRistorante(int instanceId) {
+            this.instanceId = instanceId;
+        }
+
+        public CercaRistorante() {
+            this.instanceId = ++idcont;
+        }
+    }
+
     public ArrayList<Ristorante> cercaRistorantePosizione(ArrayList<Ristorante> lista, boolean isVicino, String indirizzo, String citta, String nazione) throws Exception {
         ArrayList<Ristorante> risultatixPosizione = new ArrayList<>();
 
@@ -293,7 +355,6 @@ public class Ristorante {
 
         return risultatixPosizione;
     }
-
     public static ArrayList<Ristorante> cercaRistoranteTipoCucina(ArrayList<Ristorante> lista, String tipoCucina) {
         ArrayList<Ristorante> risultatixTipoCucina = new ArrayList<>();
 
@@ -306,7 +367,6 @@ public class Ristorante {
 
         return risultatixTipoCucina;
     }
-
     public static ArrayList<Ristorante> cercaRistorantePrezzo(ArrayList<Ristorante> lista, double min, double max) {
         ArrayList<Ristorante> risultatixPrezzo = new ArrayList<>();
 
@@ -320,7 +380,6 @@ public class Ristorante {
 
         return risultatixPrezzo;
     }
-
     public static ArrayList<Ristorante> cercaRistoranteDelivery(ArrayList<Ristorante> lista,boolean delivery) {
         ArrayList<Ristorante> risultatixDelivery = new ArrayList<>();
 
@@ -336,7 +395,6 @@ public class Ristorante {
 
         return risultatixDelivery;
     }
-
     public static ArrayList<Ristorante> cercaRistorantePrenotazione(ArrayList<Ristorante> lista, boolean prenotazione) {
         ArrayList<Ristorante> risultatixPrenotazione = new ArrayList<>();
 
@@ -349,10 +407,7 @@ public class Ristorante {
 
         return risultatixPrenotazione;
     }
-
-    public static ArrayList<Ristorante> cercaRistoranteRecensioni(ArrayList<Ristorante> lista, String tipoCucina,
-                                                                  double min, double max, boolean delivery,
-                                                                  boolean prenotazione, double lat, double log) {
+    public static ArrayList<Ristorante> cercaRistoranteRecensioni(ArrayList<Ristorante> lista, double mediaStelle) {
         ArrayList<Ristorante> risultatixRecensioni = new ArrayList<>();
 
         for (Ristorante r : lista) {
@@ -364,7 +419,6 @@ public class Ristorante {
 
         return risultatixRecensioni;
     }
-
     public static ArrayList<Ristorante> cercaRistorante( ArrayList<Ristorante> risultatixRecensioni, ArrayList<Ristorante>risultatixPrenotazione,
                                                          ArrayList<Ristorante>risultatixDelivery, ArrayList<Ristorante>risultatixPrezzo,
                                                          ArrayList<Ristorante>risultatixTipoCucina, ArrayList<Ristorante> risultaixPosizione) {
@@ -379,7 +433,3 @@ public class Ristorante {
 
     }
 }
-
-
-
-
