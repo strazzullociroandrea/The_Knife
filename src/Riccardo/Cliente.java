@@ -135,7 +135,6 @@ public class Cliente extends Utente{
      */
     public void modificaRecensione(Recensione recensione, String descrizione, int stelle){
         recensione.modificaRispStelle(descrizione,stelle);
-        
     }
 
     /**
