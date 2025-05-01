@@ -165,7 +165,6 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 * Girardello Nicolò Valter
 * Rubini Riccardo Giovanni
 
-
 ## 10. Passi
 
 

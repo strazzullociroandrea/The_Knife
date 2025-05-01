@@ -1,4 +1,8 @@
-package src.Matteoo;
+package src.model;
+
+import src.model.exception.RecensioneOutOfBoundException;
+import src.model.exception.RispostaOutOfBoundException;
+import src.model.exception.StelleOutOfBoundException;
 
 public class Recensione {
    //attributi
