@@ -1,4 +1,4 @@
-package src.Ciro;
+package src.model.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

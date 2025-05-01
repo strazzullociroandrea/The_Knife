@@ -1,4 +1,4 @@
-package src.Matteoo;
+package src.model.exception;
 
 public class RecensioneOutOfBoundException extends RuntimeException {
     /**

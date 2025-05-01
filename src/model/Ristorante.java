@@ -1,13 +1,12 @@
-package src.Nico;
+package src.model;
 
 
-import src.Ciro.ReverseGeocoding;
-import src.Matteoo.Recensione;
+import src.model.util.ReverseGeocoding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static src.Nico.Ristorante.GestoreRecensioni.mediaStelle;
+import static src.model.Ristorante.GestoreRecensioni.mediaStelle;
 
 public class Ristorante {
     private String nome;
