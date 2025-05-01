@@ -26,7 +26,7 @@ Il progetto TheKnife prevede diverse funzionalità divise per categoria di utent
 All'interno di questo progetto è possibile trovare:
 
 * File autori.txt contenente il nome, cognome, matricola e sede di ogni membro del team e il link al repository GitHub
-* Directory /src contenente il codice sorgente del progetto
+* Directory /src contenente il codice sorgente del progetto composta con il pattern MVC e DAO
 * Directory /bin contenente il file eseguibile *.jar* dell'applicazione
 * Directory /data conentente i file utilizzati dal progetto per funzionare
 * Directory /doc contenente la documentazione del progetto in formato pdf (manuale utente e tecnico) e la JavaDoc
@@ -95,13 +95,13 @@ public class Main {
 Il **JSON** (acronimo di *JavaScript Object Notation*) è un formato leggero per lo scambio di dati, facilmente leggibile sia da esseri umani che da macchine. È ampiamente utilizzato nelle comunicazioni tra client e server, specialmente nelle applicazioni web, grazie alla sua struttura semplice e alla compatibilità con la maggior parte dei linguaggi di programmazione. La struttura di un file JSON si basa su coppie **chiave-valore** e supporta tipi di dati come stringhe, numeri, booleani, array e oggetti annidaticoffeescript
 
 {
-   "nome": "Mario",
-   "anni": 30,
-   "cogonome": "Rossi",
-   "animali_preferiti":[
-        "cane",
-        "gatto"
-    ]
+"nome": "Mario",
+"anni": 30,
+"cogonome": "Rossi",
+"animali_preferiti":[
+"cane",
+"gatto"
+]
 }
 
 L'accesso ad un oggetto json avviene tramite la notazione puntata o con indice (come se fosse un array):
@@ -135,3 +135,44 @@ const json = {
 console.log("Nome: " + json.nome);
 console.log("Cognome: " + json["cognome"]);
 ```
+
+## 7. Pattern MVC e pattern DAO
+
+Un ****pattern** (o** **design pattern**) è un modo per organizzare il codice all’interno di un programma. Aiuta a risparmiare tempo nella scrittura, lettura e manutenzione del codice, perché suddivide il programma in parti ben distinte, ognuna con un compito preciso.
+
+Durante gli anni sono stati sviluppati diversi pattern tra cui:
+
+* M.V.C (**Model View Controller**) che prevede una struttura ben definita
+  * Directory model: in questa cartella sono presenti le classi che rappresentano gli oggetti
+  * Directory view: gestisce l'interfaccia utente. In questo progetto per esempio ci saranno la view generale, per cliente registrato e gestore di ristoranti
+  * Directory controller: gestisce l’input dell’utente e aggiorna Model e View di conseguenza.
+* DAO (**Data Access Object**) che prevede una struttura semplice:
+  * Directory DAO : contiene le classi che permettono al programma di salvare dati su database, file, ... in questo modo la logica del programma è separata dalla logica di salvataggio dei dati
+
+## 8. Sistema di versionamento
+
+Per questo progetto, essendo a gruppi, è stato utilizzato il programma** ****Git** insieme alla piattaforma** ****GitHub** per gestire il versionamento del codice. Questo ha permesso al team di:
+
+* Collaborare, sviluppando in contemporanea parti di codice distinti
+* Tenere traccia delle modifiche fatte nel tempo
+
+Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria parte di codice e, una volta completate le modifiche, ha salvato il lavoro nel repository condiviso. Ogni aggiornamento è stato accompagnato da un messaggio di commit chiaro e ben definito, utile per identificare facilmente le modifiche apportate.
+
+## 9. Componenti gruppo
+
+* Strazzullo Ciro Andrea
+* Mongelli Matteo
+* Girardello Nicolò Valter
+* Rubini Riccardo Giovanni
+
+
+## 10. Passi
+
+
+1. Sviluppo delle classi model (Recensione, Ristorante, Utente (abstract), Cliente, Ristoratore)
+2. Sviluppo delle classi DAO (GestoreFile)
+3. Sviluppo delle classi view (VistaRistoratore, VistaBase, VistaCliente)
+4. Sviluppo della classe controller (Main)
+5. Testing generale
+6. Redazione della documentazione tecnica e utente
+7. Testing finale e consegna
