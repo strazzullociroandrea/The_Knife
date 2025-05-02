@@ -15,6 +15,17 @@ public class Ristoratore extends Utente {
 
     //costruttori
     //costruttore base
+
+    /**
+     *
+     * @param id id associato al ristoratore
+     * @param password password associata al ristoratore
+     * @param nome nome associato al ristoratore
+     * @param cognome cognome associato al ristoratore
+     * @param username username associato al ristoratore
+     * @param dataNascita data di nascita del ristoratore
+     * @param domicilio domicilio del ristoratore
+     */
     public Ristoratore(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio) {
 
         super(id,password,nome,cognome,username,dataNascita,domicilio);
@@ -22,6 +33,16 @@ public class Ristoratore extends Utente {
     }
 
     //costruttore senza data nascita
+
+    /**
+     *
+     * @param id id associato al ristoratore
+     * @param password password associata al ristoratore
+     * @param nome nome associato al ristoratore
+     * @param cognome cognome associato al ristoratore
+     * @param username username associato al ristoratore
+     * @param domicilio domicilio del ristoratore
+     */
     public Ristoratore(int id, String password, String nome,String cognome, String username, String domicilio) {
 
         super(id,password,nome,cognome,username,domicilio);
@@ -29,6 +50,16 @@ public class Ristoratore extends Utente {
     }
 
     //costruttore senza id
+
+    /**
+     *
+     * @param password password associata al ristoratore
+     * @param nome nome associato al ristoratore
+     * @param cognome cognome associato al ristoratore
+     * @param username username associato al ristoratore
+     * @param dataNascita data di nascita del ristoratore
+     * @param domicilio domicilio del ristoratore
+     */
     public Ristoratore(String password, String nome,String cognome, String username, String dataNascita, String domicilio) {
 
         super(password,nome,cognome,username,dataNascita,domicilio);
@@ -36,6 +67,15 @@ public class Ristoratore extends Utente {
     }
 
     //costruttore senza id e data nascita
+
+    /**
+     *
+     * @param password password associata al ristoratore
+     * @param nome nome associato al ristoratore
+     * @param cognome cognome associato al ristoratore
+     * @param username username associato al ristoratore
+     * @param domicilio domicilio del ristoratore
+     */
     public Ristoratore(String password, String nome,String cognome, String username, String domicilio) {
 
         super(password,nome,cognome,username, domicilio);
@@ -150,9 +190,9 @@ public class Ristoratore extends Utente {
      * metodo per visualizzare media stelle e numero delle recensioni
      * @param ristorante
      */
-    public static void visualizzaRiepilogo(GestoreRecensioni ristorante) {
-        System.out.println("media delle stelle: "+ristorante.mediaStelle());
-        System.out.println("numero recensioni "+ristorante.numeroRecensioni());
+    public static void visualizzaRiepilogo(Ristorante ristorante) {
+        System.out.println("media delle stelle: "+ristorante.getValutazioneMedia());
+        System.out.println("numero recensioni "+ristorante.getNumeroRecensioni());
     }
 
     @Override
