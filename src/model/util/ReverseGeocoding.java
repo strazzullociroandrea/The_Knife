@@ -1,4 +1,4 @@
-package src.Ciro;
+package src.model.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,6 +9,15 @@ import java.net.URLEncoder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+/**
+ * Classe per la gestione del reverse geocoding, da longitudine e latitudine a indirizzo e viceversa
+ *
+ * @version 1.0
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
+ * @Author Nicolò Valter Girardello
+ */
 public class ReverseGeocoding {
     /**
      * Metodo per ottenere la latitudine e longitudine da un indirizzo

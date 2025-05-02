@@ -1,4 +1,7 @@
-package src.Riccardo;
+package src.model;
+
+import src.model.util.PasswordUtil;
+
 public abstract class Utente {
 
 
