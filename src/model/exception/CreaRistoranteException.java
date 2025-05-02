@@ -1,4 +1,4 @@
-package src.Riccardo;
+package src.model.exception;
 
 public class CreaRistoranteException extends RuntimeException {
     public CreaRistoranteException() {

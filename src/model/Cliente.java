@@ -1,10 +1,8 @@
-package src.Riccardo;
-import src.Matteoo.Recensione;
-import src.Nico.Ristorante;
+package src.model;
 
 import java.util.ArrayList;
 
-public class Cliente extends Utente{
+public class Cliente extends Utente {
 
     //attributi
     private ArrayList<Ristorante> preferiti;
@@ -135,7 +133,6 @@ public class Cliente extends Utente{
      */
     public void modificaRecensione(Recensione recensione, String descrizione, int stelle){
         recensione.modificaRispStelle(descrizione,stelle);
-        
     }
 
     /**
