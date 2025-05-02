@@ -11,6 +11,18 @@ public class Cliente extends Utente {
     //costruttori
 
     //costruttore base
+
+    /**
+     *
+     * @param id id associato al cliente
+     * @param password password associata al cliente
+     * @param nome nome associato al cliente
+     * @param cognome cognome associato al cliente
+     * @param username username associato al cliente
+     * @param dataNascita data di nascita associata al cliente
+     * @param domicilio domicilio associato al cliente
+     *
+     */
     public Cliente(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio){
 
         super(id,password,nome,cognome,username,dataNascita,domicilio);
@@ -19,6 +31,16 @@ public class Cliente extends Utente {
     }
 
     //costruttore senza data nascita
+
+    /**
+     *
+     * @param id id associato al cliente
+     * @param password password associata al cliente
+     * @param nome nome associato al cliente
+     * @param cognome cognome associato al cliente
+     * @param username username associato al cliente
+     * @param domicilio domicilio associato al cliente
+     */
     public Cliente(int id, String password, String nome,String cognome, String username, String domicilio)
     {
 
@@ -28,6 +50,16 @@ public class Cliente extends Utente {
     }
 
     //costruttore senza id
+
+    /**
+     *
+     * @param password password associata al cliente
+     * @param nome nome associato al cliente
+     * @param cognome cognome associato al cliente
+     * @param username username associato al cliente
+     * @param dataNascita data di nascita associata al cliente
+     * @param domicilio domicilio associata al cliente
+     */
     public Cliente(String password, String nome,String cognome, String username, String dataNascita, String domicilio)
     {
         super(password,nome,cognome,username,dataNascita,domicilio);
@@ -36,6 +68,15 @@ public class Cliente extends Utente {
     }
 
     //costruttore senza id e data nascita
+
+    /**
+     *
+     * @param password password associata al cliente
+     * @param nome nome associato al cliente
+     * @param cognome cognome associato al cliente
+     * @param username username associato al cliente
+     * @param domicilio domicilio associato al cliente
+     */
     public Cliente(String password, String nome,String cognome, String username, String domicilio)
     {
         super(password,nome,cognome,username, domicilio);
@@ -128,11 +169,13 @@ public class Cliente extends Utente {
     /**
      * metodo per modificare una recensione
      * @param recensione
-     * @param descrizione
+     * @param txt
      * @param stelle
      */
-    public void modificaRecensione(Recensione recensione, String descrizione, int stelle){
-        recensione.modificaRispStelle(descrizione,stelle);
+    public Recensione modificaRecensione(Recensione recensione,String txt, int stelle){
+        recensione.setDescrizione(txt);
+        recensione.setNumeroStelle(stelle);
+        return recensione;
     }
 
     /**
@@ -143,7 +186,7 @@ public class Cliente extends Utente {
     public void rimuoviRecensione(Ristorante ristorante, Recensione recensione) {
         if (recensioniMesse.contains(recensione)) {
                 recensioniMesse.remove(recensione);
-                ristorante.removeRecensione(recensione);
+                ristorante.rimuoviRecensione(recensione);
                 System.out.println("Recensione rimossa");
         } else {
                 System.out.println("Recensione non trovata");
