@@ -141,16 +141,11 @@ public class Cliente extends Utente {
     }
 
     /**
-     * metodo per visualizzare la lista dei preferiti
+     *
+     * @return metodo che restituisce llista preferiti
      */
-    public void visualizzaPreferiti(){
-        if(preferiti.size() > 0) {
-            for (Ristorante ristorante : preferiti) {
-                System.out.println(preferiti);
-            }
-        }else{
-            System.out.println("Nessun ristorante contenuto nei preferiti");
-        }
+    public ArrayList<Ristorante> visualizzaPreferiti(){
+        return preferiti;
     }
 
     /**
