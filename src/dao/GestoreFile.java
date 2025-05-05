@@ -2,7 +2,6 @@ package src.dao;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import src.Matteoo.*;
 import src.model.Ristorante;
 import src.model.Cliente;
 import src.model.Ristoratore;

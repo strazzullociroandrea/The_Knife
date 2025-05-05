@@ -4,13 +4,40 @@ import src.model.exception.RecensioneOutOfBoundException;
 import src.model.exception.RispostaOutOfBoundException;
 import src.model.exception.StelleOutOfBoundException;
 
+/**
+ * Classe per la gestione delle recensioni che gli utenti possono dare ai ristoranti
+ * @version 1.0
+ *  * @Author Strazzullo Ciro Andrea
+ *  * @Author Riccardo Giovanni Rubini
+ *  * @Author Matteo Mongelli
+ *  * @Author Nicolò Valter Girardello
+ */
 public class Recensione {
    //attributi
 
+    /**
+     * il contenuto testuale della recensione, di tipo String
+     */
     private String descrizione;
+
+    /**
+     * il numero di stelle associate alla recensione (da 1 a 5), di tipo int
+     */
     private int stelle;
+
+    /**
+     * la risposta testuale associata alla recensione che può dare il ristoratore, di tipo String
+     */
     private String risposta;
+
+    /**
+     * il codice identificativo univoco della recensione, di tipo int
+     */
     private int id;
+
+    /**
+     * il contatore statico degli id delle recensioni, di tipo int
+     */
     private static int idCounter = 0;
 
     /**
