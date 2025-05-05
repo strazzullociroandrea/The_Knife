@@ -2,10 +2,19 @@ package src.model;
 
 import java.util.ArrayList;
 
+/**
+ * Classe cliente
+ */
 public class Cliente extends Utente {
 
     //attributi
+    /**
+     * Lista dei ristoranti prefetiti dal cliente
+     */
     private ArrayList<Ristorante> preferiti;
+    /**
+     * Lista delle recensioni del cliente
+     */
     private ArrayList<Recensione> recensioniMesse;
 
     //costruttori
@@ -13,7 +22,7 @@ public class Cliente extends Utente {
     //costruttore base
 
     /**
-     *
+     *Costruttore base della classse cliente
      * @param id id associato al cliente
      * @param password password associata al cliente
      * @param nome nome associato al cliente
@@ -33,7 +42,7 @@ public class Cliente extends Utente {
     //costruttore senza data nascita
 
     /**
-     *
+     *Costruttore senza data di nascita della classe cliente
      * @param id id associato al cliente
      * @param password password associata al cliente
      * @param nome nome associato al cliente
@@ -52,7 +61,7 @@ public class Cliente extends Utente {
     //costruttore senza id
 
     /**
-     *
+     *Costruttore senza id della classe cliente
      * @param password password associata al cliente
      * @param nome nome associato al cliente
      * @param cognome cognome associato al cliente
@@ -70,7 +79,7 @@ public class Cliente extends Utente {
     //costruttore senza id e data nascita
 
     /**
-     *
+     *Costruttore senza id e data di nascita della classe cliente
      * @param password password associata al cliente
      * @param nome nome associato al cliente
      * @param cognome cognome associato al cliente
@@ -87,7 +96,7 @@ public class Cliente extends Utente {
     //metodi
 
     /**
-     *
+     *Metodo in grado di cercare un ristorante da parte del cliente
      * @param lista
      * @param tipoCucina
      * @param min
@@ -115,7 +124,7 @@ public class Cliente extends Utente {
     }
 
     /**
-     * Metodo per aggiungere il ristorante nei preferito
+     * Metodo per aggiungere il ristorante nei preferiti
      * @param ristorante
      */
     public void aggiungiPreferito(Ristorante ristorante){
@@ -141,8 +150,8 @@ public class Cliente extends Utente {
     }
 
     /**
-     *
-     * @return metodo che restituisce llista preferiti
+     * Metodo per visualizzare i preferiti del cliente
+     * @return restituisce lista preferiti
      */
     public ArrayList<Ristorante> visualizzaPreferiti(){
         return preferiti;
@@ -190,7 +199,7 @@ public class Cliente extends Utente {
 
     /**
      * get lista di recensioni messe
-      * @return
+      * @return restituisce la lista delle recensioni lasciate dal cliente
      */
     public ArrayList<Recensione> getRecensioniMesse() {
         return recensioniMesse;
@@ -198,7 +207,7 @@ public class Cliente extends Utente {
 
     /**
      * metodo per ottenere il ruolo
-     * @return
+     * @return restituisce il ruolo cliente
      */
 
     @Override

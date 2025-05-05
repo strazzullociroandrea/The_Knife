@@ -6,10 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ * Classe Ristoratore
+ */
 public class Ristoratore extends Utente {
 
     //attributi
+    /**
+     * Lista ristoranti gestiti dal ristoratore
+     */
     private List<Ristorante> ristorantiGestiti;
 
 
@@ -17,7 +22,7 @@ public class Ristoratore extends Utente {
     //costruttore base
 
     /**
-     *
+     *Costruttore della classe Ristoratore
      * @param id id associato al ristoratore
      * @param password password associata al ristoratore
      * @param nome nome associato al ristoratore
@@ -35,7 +40,7 @@ public class Ristoratore extends Utente {
     //costruttore senza data nascita
 
     /**
-     *
+     *Costruttore della classe Ristoratore senza data di nascita
      * @param id id associato al ristoratore
      * @param password password associata al ristoratore
      * @param nome nome associato al ristoratore
@@ -52,7 +57,7 @@ public class Ristoratore extends Utente {
     //costruttore senza id
 
     /**
-     *
+     *Costruttore della classe Ristoratore senza id
      * @param password password associata al ristoratore
      * @param nome nome associato al ristoratore
      * @param cognome cognome associato al ristoratore
@@ -69,7 +74,7 @@ public class Ristoratore extends Utente {
     //costruttore senza id e data nascita
 
     /**
-     *
+     *Costruttore della classe Ristoratore senza id e data di nascita
      * @param password password associata al ristoratore
      * @param nome nome associato al ristoratore
      * @param cognome cognome associato al ristoratore

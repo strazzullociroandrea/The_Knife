@@ -2,20 +2,46 @@ package src.model;
 
 import src.model.util.PasswordUtil;
 
+/**
+ * classe utente
+ */
 public abstract class Utente {
 
-
+    /**
+     * id associato all'utente
+     */
     private int id;
+    /**
+     * password cifrata dell'utente
+     */
     private String passwordCifrata;
+    /**
+     * nome associato all'utente
+     */
     private String nome;
+    /**
+     * cognome associato all'utente
+     */
     private String cognome;
+    /**
+     * username associato all'utente
+     */
     private String username;
+    /**
+     * domicilio associato all'utente
+     */
     private String domicilio;
+    /**
+     * data di nascita dell'utente
+     */
     private String dataNascita;
+    /**
+     * counter per ottenere un id unico
+     */
     private static int idCounter=0; //ID univoco per ogni utente
 
     /**
-     *
+     *costruttore base della classe Utente
      * @param id id associato all'utente
      * @param password password associata all'utente
      * @param nome nome associato all'utente
@@ -36,7 +62,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Costruttore senza data di nascita della classe Utente
      * @param id id associato all'utente
      * @param password password associata all'utente
      * @param nome nome associato all'utente
@@ -55,7 +81,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Costruttore senza id della classe Utente
      * @param password password associata all'utente
      * @param nome nome associato all'utente
      * @param cognome cognome associato all'utente
@@ -75,7 +101,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Costruttore senza id e data di nascita della classe utente
      * @param password password associata all'utente
      * @param nome nome associato all'utente
      * @param cognome cognome associato all'utente
@@ -94,15 +120,15 @@ public abstract class Utente {
 //getter e setter
 
     /**
-     *
-     * @return restituisce l'id associato all'utente
+     *Metodo che restituisce l'id associato all'utente
+     * @return restituisce l'id utente
      */
     public int getId() {
         return id;
     }
 
     /**
-     *
+     *Metodo che associa l'id dell'utente
      * @param id associa l'id tramite il metodo
      */
     public void setId(int id) {
@@ -110,7 +136,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che restituisce la data di nascita dell'utente
      * @return restituisce la data di nascita associata all'utente
      */
     public String getDataNascita() {
@@ -118,7 +144,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che associa la data di nascita all'utente
      * @param dataNascita associa la data di nascita tramite il metodo
      */
     public void setDataNascita(String dataNascita) {
@@ -126,7 +152,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che restituisce il domicilio associato all'utente
      * @return restituisce il domicilio associato all'utente
      */
     public String getDomicilio() {
@@ -134,7 +160,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che associa il domicilio dell'utente
      * @param domicilio associa il domicilio tramite il metodo
      */
     public void setDomicilio(String domicilio) {
@@ -142,7 +168,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che restituisce l'username dell'utente
      * @return restituisce l'username associato all'utente
      */
     public String getUsername() {
@@ -150,7 +176,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che associa l'username dell'utente
      * @param username associa l'username tramite il metodo
      */
     public void setUsername(String username) {
@@ -158,7 +184,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che restituisce il cognome dell'utente
      * @return restituisce il cognome associato all'utente
      */
     public String getCognome() {
@@ -166,7 +192,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che associa il cognome dell'utente
      * @param cognome associa il cognome tramite il metodo
      */
     public void setCognome(String cognome) {
@@ -174,7 +200,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che restituisce il nome dell'utente
      * @return restituisce il nome associato all'utente
      */
     public String getNome() {
@@ -182,15 +208,15 @@ public abstract class Utente {
     }
 
     /**
-     * associa il nome tramite il metodo
-     * @param nome
+     * Metodo che associa il nome dell'utente
+     * @param nome asssocia il nome all'utente
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     /**
-     *
+     *Metodo che restituisce la password cifrata dell'utente
      * @return restituisce la password cifrata associata all'utente
      */
     public String getPasswordCifrata() {
@@ -198,7 +224,7 @@ public abstract class Utente {
     }
 
     /**
-     *
+     *Metodo che associa la password all'utente
      * @param password associa la password tramite il metodo
      * @throws RuntimeException eccezione lanciata
      */
