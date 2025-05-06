@@ -1,24 +1,22 @@
 package src.model;
 
-
 import src.Ciro.ReverseGeocoding;
 import src.Matteoo.Recensione;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ristorante<idcont> {
-    private String nome;
-    private String nazione;
-    private String citta;
-    private String indirizzo;
-    private double lat;
-    private double lng;
-    private double min;
-    private double max;
-    private boolean delivery;
-    private boolean prenotazione;
-    private String tipoCucina;
+    private static String nome;
+    private static  String nazione;
+    private static String citta;
+    private static String indirizzo;
+    private static double lat;
+    private static double lng;
+    private static double min;
+    private static double max;
+    private static boolean delivery;
+    private static boolean prenotazione;
+    private static String tipoCucina;
     private ArrayList<Ristorante> rispos;
     private ArrayList<Ristorante> ristp;
     private ArrayList<Ristorante> risprez;
@@ -27,11 +25,60 @@ public class Ristorante<idcont> {
     private ArrayList<Ristorante> risrec;
     private static double mrec;
     private int idcont = 0;
+    private  List<Recensione> recensioni = new ArrayList<>();
 
+    /**
+     * Costruttore senza id univoco che costruisce tutti gli oggetti vuoti in modo che non ci siano problemi eseguendo più ricerche di seguito
+     */
+    public Ristorante( String nome, String nazione, String citta, String indirizzo, double lat, double lng,
+                       double min, double max, boolean delivery, boolean prenotazione, String tipoCucina,
+                       ArrayList<Ristorante> risultatixRecensioni, ArrayList<Ristorante>risultatixPrenotazione,
+                       ArrayList<Ristorante>risultatixDelivery, ArrayList<Ristorante>risultatixPrezzo,
+                       ArrayList<Ristorante>risultatixTipoCucina, ArrayList<Ristorante> risultaixPosizione) {
+        this.nome        = nome;
+        this.nazione     = nazione;
+        this.citta       = citta;
+        this.indirizzo   = indirizzo;
+        this.min         = min;
+        this.max         = max;
+        this.delivery    = delivery;
+        this.prenotazione= prenotazione;
+        this.tipoCucina  = tipoCucina;
+        this.rispos = risultaixPosizione;
+        this.ristp = risultatixTipoCucina;
+        this.risprez = risultatixPrezzo;
+        this.risdel = risultatixDelivery;
+        this.risrpren = risultatixPrenotazione;
+        this.risrec = risultatixRecensioni;
+    }
+    /**
+     * Costruttore senza id univoco che costruisce tutti gli oggetti vuoti in modo che non ci siano problemi eseguendo più ricerche di seguito
+     */
+    public Ristorante( int id, String nome, String nazione, String citta, String indirizzo, double lat, double lng,
+                       double min, double max, boolean delivery, boolean prenotazione, String tipoCucina,
+                       ArrayList<Ristorante> risultatixRecensioni, ArrayList<Ristorante>risultatixPrenotazione,
+                       ArrayList<Ristorante>risultatixDelivery, ArrayList<Ristorante>risultatixPrezzo,
+                       ArrayList<Ristorante>risultatixTipoCucina, ArrayList<Ristorante> risultaixPosizione) {
+        this.idcont      = id;
+        this.nome        = nome;
+        this.nazione     = nazione;
+        this.citta       = citta;
+        this.indirizzo   = indirizzo;
+        this.min         = min;
+        this.max         = max;
+        this.delivery    = delivery;
+        this.prenotazione= prenotazione;
+        this.tipoCucina  = tipoCucina;
+        this.rispos = risultaixPosizione;
+        this.ristp = risultatixTipoCucina;
+        this.risprez = risultatixPrezzo;
+        this.risdel = risultatixDelivery;
+        this.risrpren = risultatixPrenotazione;
+        this.risrec = risultatixRecensioni;
+    }
 
     /**
      * Metodo per ottenere il nome del ristorante
-     *
      * @return string nome
      */
     public String getNome() {
@@ -43,7 +90,6 @@ public class Ristorante<idcont> {
 
     /**
      * Metodo per ottenere la nazione del ristorante
-     *
      * @return string nazione
      */
     public String getNazione() {
@@ -238,7 +284,6 @@ public class Ristorante<idcont> {
 
     /**
      * Metodo per ottenere un array con tutti i ristoranti corrispondenti ai criteri di ricerca sulla disponibilità alla prenotazione
-     *
      * @return ArrayList<Ristorante> risrpren
      */
     public ArrayList<Ristorante> getRispostePrenotazione() {
@@ -250,10 +295,9 @@ public class Ristorante<idcont> {
 
     /**
      * Metodo per ottenere un array con tutti i ristoranti corrispondenti ai criteri di ricerca sulle recensioni
-     *
      * @return ArrayList<Ristorante> risrec
      */
-    public ArrayList<Ristorante> getRisposteRecensioni() {
+    public ArrayList<Ristorante> getRisposteRecensioni(List<Recensione> recensioni) {
         return risrec;
     }
     public void setRisposteRecensioni(ArrayList<Ristorante> RisposteRecensioni) {
@@ -262,15 +306,14 @@ public class Ristorante<idcont> {
 
     /**
      * Metodo per ottenere la fascia di prezzo
-     *
+     * @param min
+     * @param max
      * @return String min + "-" + max
      */
-    public String getFasciaPrezzo() {
+    public String getFasciaPrezzo(int min, int max) {
         return min + "-" + max;
     }
-    /*fine fase preparatoria
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     inizio fase sviluppo funzioni*/
+
     private double calcolaDistanza(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371000;
         double latDistance = Math.toRadians(lat2 - lat1);
@@ -281,7 +324,12 @@ public class Ristorante<idcont> {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
-
+    /**
+     * Metodo per ottenere se il ristorante è vicino o no a una determinata posizione
+     *
+     * @param indirizzo
+     * @return Boolean distanza <= 10Km
+     */
     public boolean isVicino(String indirizzo) throws Exception {
         try {
             double[] data = ReverseGeocoding.getLatitudineLongitudine(indirizzo);
@@ -293,42 +341,72 @@ public class Ristorante<idcont> {
             throw new Exception("Errore durante il geocoding: " + e.getMessage());
         }
     }
-    //attributi
-    private  List<Recensione> recensioni = new ArrayList<>();
-    //metodi
-    public  void aggiungiRecensione(Recensione r) {
+    /**
+     * Metodo per aggiungere una recensione a uno specifico ristorante
+     * @param recensioni
+     * @param r
+     */
+    public  void aggiungiRecensione(Recensione r, List<Recensione> recensioni) {
         recensioni.add(r);
     }
-
-    public  List<Recensione> getRecensioni() {
+    /**
+     * Metodo per vedere tutte le recensioni di un ristorante
+     * @param recensioni
+     * @return List<Recensione> recensioni
+     */
+    public  List<Recensione> getRecensioni(List<Recensione> recensioni) {
         return recensioni;
     }
-
-    public  void rimuoviRecensione(Recensione r) {
+    /**
+     * Metodo per rimuovere una recensione fatta a un ristorante
+     * @param recensioni
+     * @param r
+     */
+    public  void rimuoviRecensione(Recensione r, List<Recensione> recensioni) {
         recensioni.remove(r);
     }
-
+    /**
+     * Metodo per ottenere la media delle valutazioni date a un rstorante da tutti gli utenti
+     *
+     * @return Double somma / recensioni.size()
+     */
     public  double valutazioneMedia() {
         if (recensioni.isEmpty()) return 0;
         int somma = 0;
         for (Recensione r : recensioni) {
             somma += r.getStelle();
         }
-        return (double) somma / recensioni.size();
+        double media = (double) somma / recensioni.size();
+        return media;
     }
-
-    public int numeroRecensioni() {
+    /**
+     * Metodo per ottenere il numero di recensioni di un ristorante specifico
+     * @param recensioni
+     * @return int recensioni.size()
+     */
+    public int numeroRecensioni(List<Recensione> recensioni) {
         return recensioni.size();
     }
-
-    public ArrayList<String> visualizzaRistorante (ArrayList<Ristorante> lista, boolean isVicino, String indirizzo, String citta, String nazione) throws Exception {
-        ArrayList<String> risultati = new ArrayList<>();
-
-
-        risultati.add("Nome: "+nome);
-        risultati.add("Indirizzo: "+nazione + " "+ citta + " "+ indirizzo);
-        risultati.add("Fascia di prezzo: "+min+" "+max);
-        risultati.add("tipologie di cucina: "+tipoCucina);
+    /**
+     * Metodo per ottenere visualizzare un ristorante determinato
+     *
+     * @param lista
+     * @param isVicino
+     * @param nome
+     * @param nazione
+     * @param citta
+     * @param indirizzo
+     * @param tipoCucina
+     * @param max
+     * @param min
+     * @param prenotazione
+     * @param delivery
+     * @return ArrayList<String> risultati
+     */
+    public ArrayList<String> visualizzaRistorante (ArrayList<Ristorante> lista, boolean isVicino, String indirizzo,
+                                                       String citta, String nazione, String nome, String tipoCucina,
+                                                       int min, int max, boolean delivery, boolean prenotazione, ArrayList<String> risultati) throws Exception {
+        ArrayList<String> visualizzato = new ArrayList<>();
         if (delivery == true) {
             risultati.add("Disponibile alla delivery");
         }
@@ -342,151 +420,135 @@ public class Ristorante<idcont> {
             risultati.add("Non disponibile alla prenotazione");
         }
 
-        return risultati;
+        return visualizzato;
     }
-
-    public ArrayList<Ristorante> cercaRistorantePosizione(ArrayList<Ristorante> lista, boolean isVicino, String indirizzo, String citta, String nazione) throws Exception {
-        ArrayList<Ristorante> risultatixPosizione = new ArrayList<>();
-
+    /**
+     * Metodo per eseguire una ricerca dei ristoranti vicini a una posizione geografica data dall'utente
+     *
+     * @param lista
+     * @param nazione
+     * @param citta
+     * @param indirizzo
+     * @param isVicino
+     * @return ArrayList<String> risultatixPosizione
+     */
+    public static ArrayList<String> cercaRistorantePosizione(ArrayList<Ristorante> lista, boolean isVicino, String indirizzo, String citta, String nazione) {
+        ArrayList<String> risultatixPosizione = new ArrayList<String>();
         for (Ristorante r : lista) {
-            boolean posizioneOk = r.isVicino(indirizzo +" "+ citta +" "+ nazione);
+            boolean posizioneOk = false;
+            try {
+                posizioneOk = r.isVicino(indirizzo +" "+ citta +" "+ nazione);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             if (posizioneOk) {
-                risultatixPosizione.add(r);
+                risultatixPosizione.add(String.valueOf(r));
             }
         }
 
         return risultatixPosizione;
     }
-
-    public static ArrayList<Ristorante> cercaRistoranteTipoCucina(ArrayList<Ristorante> lista, String tipoCucina) {
-        ArrayList<Ristorante> risultatixTipoCucina = new ArrayList<>();
-
+    /**
+     * Metodo per cercare un ristorante in base alle tipologie di cucine che servono
+     * @param lista
+     * @param tipoCucina
+     * @return ArrayList<String> risultatixTipoCucina
+     */
+    public static ArrayList<String> cercaRistoranteTipoCucina(ArrayList<Ristorante> lista, String tipoCucina) {
+        ArrayList<String> risultatixTipoCucina = new ArrayList<>();
         for (Ristorante r : lista) {
             boolean cucinaOk = r.getTipoCucina().equalsIgnoreCase(tipoCucina);
             if (cucinaOk) {
-                risultatixTipoCucina.add(r);
+                risultatixTipoCucina.add(String.valueOf(r));
             }
         }
 
         return risultatixTipoCucina;
     }
-
-    public static ArrayList<Ristorante> cercaRistorantePrezzo(ArrayList<Ristorante> lista, double min, double max) {
-        ArrayList<Ristorante> risultatixPrezzo = new ArrayList<>();
-
+    /**
+     * Metodo per cercare un ristorante in base alla fascia di prezzo
+     * @param lista
+     * @param max
+     * @param min
+     * @return ArrayList<String> risultatixPrezzo
+     */
+    public static ArrayList<String> cercaRistorantePrezzo(ArrayList<Ristorante> lista, double min, double max) {
+        ArrayList<String> risultatixPrezzo = new ArrayList<>();
         for (Ristorante r : lista) {
             boolean prezzominOk = r.getMin() >= min;
             boolean prezzomaxOk = r.getMax() <= max;
             if (prezzominOk && prezzomaxOk) {
-                risultatixPrezzo.add(r);
+                risultatixPrezzo.add(String.valueOf(r));
             }
         }
 
         return risultatixPrezzo;
     }
-
-    public static ArrayList<Ristorante> cercaRistoranteDelivery(ArrayList<Ristorante> lista,boolean delivery) {
-        ArrayList<Ristorante> risultatixDelivery = new ArrayList<>();
-
+    /**
+     * Metodo per cercare un ristorante in base alla disponibilità a fare delivery
+     * @param lista
+     * @param delivery
+     * @return ArrayList<String> risultatixDelivery
+     */
+    public static ArrayList<String> cercaRistoranteDelivery(ArrayList<Ristorante> lista,boolean delivery) {
+        ArrayList<String> risultatixDelivery = new ArrayList<>();
         for (Ristorante r : lista) {
 
 
             boolean deliveryOk = !delivery || r.isDelivery();
 
             if (deliveryOk) {
-                risultatixDelivery.add(r);
+                risultatixDelivery.add(String.valueOf(r));
             }
         }
 
         return risultatixDelivery;
     }
-
-    public static ArrayList<Ristorante> cercaRistorantePrenotazione(ArrayList<Ristorante> lista, boolean prenotazione) {
-        ArrayList<Ristorante> risultatixPrenotazione = new ArrayList<>();
-
+    /**
+     * Metodo per cercare un ristorante in base alla disponibilità ad accettare le prenotazioni
+     *
+     * @return ArrayList<String> risultatixPrenotazione
+     */
+    public static ArrayList<String> cercaRistorantePrenotazione(ArrayList<Ristorante> lista, boolean prenotazione) {
+        ArrayList<String> risultatixPrenotazione = new ArrayList<>();
         for (Ristorante r : lista) {
             boolean prenotazioneOk = !prenotazione || r.isPrenotazione();
             if (prenotazioneOk) {
-                risultatixPrenotazione.add(r);
+                risultatixPrenotazione.add(String.valueOf(r));
             }
         }
 
         return risultatixPrenotazione;
     }
-
-    public static ArrayList<Ristorante> cercaRistoranteRecensioni(ArrayList<Ristorante> lista, double mediaStelle) {
-        ArrayList<Ristorante> risultatixRecensioni = new ArrayList<>();
-
+    /**
+     * Metodo per cercare un ristorante in base alle recensioni ricevute
+     * @param lista
+     * @param mediaStelle
+     * @return ArrayList<String> risultatixRecensioni
+     */
+    public static ArrayList<String> cercaRistoranteRecensioni(ArrayList<Ristorante> lista, double mediaStelle) {
+        ArrayList<String> risultatixRecensioni = new ArrayList<>();
         for (Ristorante r : lista) {
             boolean MrecOK = r.valutazioneMedia() >= mrec;
             if (MrecOK) {
-                risultatixRecensioni.add(r);
+                risultatixRecensioni.add(String.valueOf(r));
             }
         }
 
         return risultatixRecensioni;
     }
-
-    public Ristorante( String nome, String nazione, String citta, String indirizzo, double lat, double lng,
-                       double min, double max, boolean delivery, boolean prenotazione, String tipoCucina,
-                       ArrayList<Ristorante> risultatixRecensioni, ArrayList<Ristorante>risultatixPrenotazione,
-                       ArrayList<Ristorante>risultatixDelivery, ArrayList<Ristorante>risultatixPrezzo,
-                       ArrayList<Ristorante>risultatixTipoCucina, ArrayList<Ristorante> risultaixPosizione) {
-        this.nome        = nome;
-        this.nazione     = nazione;
-        this.citta       = citta;
-        this.indirizzo   = indirizzo;
-        this.lat         = lat;
-        this.lng         = lng;
-        this.min         = min;
-        this.max         = max;
-        this.delivery    = delivery;
-        this.prenotazione= prenotazione;
-        this.tipoCucina  = tipoCucina;
-        this.rispos = risultaixPosizione;
-        this.ristp = risultatixTipoCucina;
-        this.risprez = risultatixPrezzo;
-        this.risdel = risultatixDelivery;
-        this.risrpren = risultatixPrenotazione;
-        this.risrec = risultatixRecensioni;
-    }
-
-    public Ristorante( int id, String nome, String nazione, String citta, String indirizzo, double lat, double lng,
-                       double min, double max, boolean delivery, boolean prenotazione, String tipoCucina,
-                       ArrayList<Ristorante> risultatixRecensioni, ArrayList<Ristorante>risultatixPrenotazione,
-                       ArrayList<Ristorante>risultatixDelivery, ArrayList<Ristorante>risultatixPrezzo,
-                       ArrayList<Ristorante>risultatixTipoCucina, ArrayList<Ristorante> risultaixPosizione) {
-        this.idcont      = id;
-        this.nome        = nome;
-        this.nazione     = nazione;
-        this.citta       = citta;
-        this.indirizzo   = indirizzo;
-        this.lat         = lat;
-        this.lng         = lng;
-        this.min         = min;
-        this.max         = max;
-        this.delivery    = delivery;
-        this.prenotazione= prenotazione;
-        this.tipoCucina  = tipoCucina;
-        this.rispos = risultaixPosizione;
-        this.ristp = risultatixTipoCucina;
-        this.risprez = risultatixPrezzo;
-        this.risdel = risultatixDelivery;
-        this.risrpren = risultatixPrenotazione;
-        this.risrec = risultatixRecensioni;
-    }
-
-    public static ArrayList<Ristorante> cercaRistorante( ArrayList<Ristorante> risultatixRecensioni, ArrayList<Ristorante>risultatixPrenotazione,
-                                                         ArrayList<Ristorante>risultatixDelivery, ArrayList<Ristorante>risultatixPrezzo,
-                                                         ArrayList<Ristorante>risultatixTipoCucina, ArrayList<Ristorante> risultaixPosizione) {
-        ArrayList<Ristorante> risultati = new ArrayList<>();
-        risultati.addAll(risultatixRecensioni);
-        risultati.addAll(risultatixPrenotazione);
-        risultati.addAll(risultatixDelivery);
-        risultati.addAll(risultatixPrezzo);
-        risultati.addAll(risultatixTipoCucina);
-        risultati.addAll(risultaixPosizione);
+    /**
+     * Metodo per poter effettuare la ricerca dei ristoranti usando più di un criterio di ricerca
+     * @return ArrayList<String> risultati
+     */
+    public static ArrayList<String> cercaRistorante(ArrayList<Ristorante> lista) {
+        ArrayList<String> risultati = new ArrayList<>();
+        risultati.addAll(cercaRistorantePrenotazione(lista, prenotazione));
+        risultati.addAll(cercaRistoranteRecensioni(lista, mrec));
+        risultati.addAll(cercaRistoranteDelivery(lista, delivery));
+        risultati.addAll(cercaRistorantePrezzo(lista, min, max));
+        risultati.addAll(cercaRistoranteTipoCucina(lista, tipoCucina));
+        risultati.addAll(cercaRistorantePosizione(lista, true, indirizzo, citta, nazione));
         return risultati;
-
     }
 }
