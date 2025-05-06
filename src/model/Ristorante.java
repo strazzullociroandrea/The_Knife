@@ -25,7 +25,7 @@ public class Ristorante<idcont> {
     private ArrayList<Ristorante> risrec;
     private static double mrec;
     private int idcont = 0;
-    private  List<Recensione> recensioni = new ArrayList<>();
+    private static List<Recensione> recensioni = new ArrayList<>();
 
     /**
      * Costruttore senza id univoco che costruisce tutti gli oggetti vuoti in modo che non ci siano problemi eseguendo più ricerche di seguito
@@ -152,7 +152,7 @@ public class Ristorante<idcont> {
      *
      * @return int min
      */
-    public double getMin() {
+    public static double getMin() {
         return min;
     }
     public void setMin(double Min) {
@@ -164,7 +164,7 @@ public class Ristorante<idcont> {
      *
      * @return int max
      */
-    public double getMax() {
+    public static double getMax() {
         return max;
     }
     public void setMax(double Max) {
@@ -176,7 +176,7 @@ public class Ristorante<idcont> {
      *
      * @return boolean delivery
      */
-    public boolean isDelivery() {
+    public static boolean isDelivery() {
         return delivery;
     }
     public void setDelivery(boolean delivery) {
@@ -188,7 +188,7 @@ public class Ristorante<idcont> {
      *
      * @return boolean prenotazione
      */
-    public boolean isPrenotazione() {
+    public static boolean isPrenotazione() {
         return prenotazione;
     }
     public void setPrenotazione(boolean prenotazione) {
@@ -200,7 +200,7 @@ public class Ristorante<idcont> {
      *
      * @return string tipoCucina
      */
-    public String getTipoCucina() {
+    public static String getTipoCucina() {
         return tipoCucina;
     }
     public void setTipoCucina(String tipoCucina) {
@@ -314,7 +314,7 @@ public class Ristorante<idcont> {
         return min + "-" + max;
     }
 
-    private double calcolaDistanza(double lat1, double lon1, double lat2, double lon2) {
+    private static double calcolaDistanza(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371000;
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
@@ -370,7 +370,7 @@ public class Ristorante<idcont> {
      *
      * @return Double somma / recensioni.size()
      */
-    public  double valutazioneMedia() {
+    public static double valutazioneMedia() {
         if (recensioni.isEmpty()) return 0;
         int somma = 0;
         for (Recensione r : recensioni) {
@@ -432,19 +432,17 @@ public class Ristorante<idcont> {
      * @param isVicino
      * @return ArrayList<String> risultatixPosizione
      */
-    public static ArrayList<String> cercaRistorantePosizione(ArrayList<Ristorante> lista, boolean isVicino, String indirizzo, String citta, String nazione) {
+    public ArrayList<String> cercaRistorantePosizione(ArrayList<Ristorante> lista, boolean isVicino, String indirizzo, String citta, String nazione) {
         ArrayList<String> risultatixPosizione = new ArrayList<String>();
-        for (Ristorante r : lista) {
             boolean posizioneOk = false;
             try {
-                posizioneOk = r.isVicino(indirizzo +" "+ citta +" "+ nazione);
+                posizioneOk = isVicino(indirizzo +" "+ citta +" "+ nazione);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             if (posizioneOk) {
-                risultatixPosizione.add(String.valueOf(r));
+                risultatixPosizione.add(Ristorante.nome);
             }
-        }
 
         return risultatixPosizione;
     }
@@ -456,12 +454,10 @@ public class Ristorante<idcont> {
      */
     public static ArrayList<String> cercaRistoranteTipoCucina(ArrayList<Ristorante> lista, String tipoCucina) {
         ArrayList<String> risultatixTipoCucina = new ArrayList<>();
-        for (Ristorante r : lista) {
-            boolean cucinaOk = r.getTipoCucina().equalsIgnoreCase(tipoCucina);
+            boolean cucinaOk = getTipoCucina().equalsIgnoreCase(tipoCucina);
             if (cucinaOk) {
-                risultatixTipoCucina.add(String.valueOf(r));
+                risultatixTipoCucina.add(Ristorante.nome);
             }
-        }
 
         return risultatixTipoCucina;
     }
@@ -474,13 +470,12 @@ public class Ristorante<idcont> {
      */
     public static ArrayList<String> cercaRistorantePrezzo(ArrayList<Ristorante> lista, double min, double max) {
         ArrayList<String> risultatixPrezzo = new ArrayList<>();
-        for (Ristorante r : lista) {
-            boolean prezzominOk = r.getMin() >= min;
-            boolean prezzomaxOk = r.getMax() <= max;
+
+            boolean prezzominOk = getMin() >= min;
+            boolean prezzomaxOk = getMax() <= max;
             if (prezzominOk && prezzomaxOk) {
-                risultatixPrezzo.add(String.valueOf(r));
+                risultatixPrezzo.add(Ristorante.nome);
             }
-        }
 
         return risultatixPrezzo;
     }
@@ -492,15 +487,10 @@ public class Ristorante<idcont> {
      */
     public static ArrayList<String> cercaRistoranteDelivery(ArrayList<Ristorante> lista,boolean delivery) {
         ArrayList<String> risultatixDelivery = new ArrayList<>();
-        for (Ristorante r : lista) {
-
-
-            boolean deliveryOk = !delivery || r.isDelivery();
-
+            boolean deliveryOk = !delivery || isDelivery();
             if (deliveryOk) {
-                risultatixDelivery.add(String.valueOf(r));
+                risultatixDelivery.add(Ristorante.nome);
             }
-        }
 
         return risultatixDelivery;
     }
@@ -511,12 +501,10 @@ public class Ristorante<idcont> {
      */
     public static ArrayList<String> cercaRistorantePrenotazione(ArrayList<Ristorante> lista, boolean prenotazione) {
         ArrayList<String> risultatixPrenotazione = new ArrayList<>();
-        for (Ristorante r : lista) {
-            boolean prenotazioneOk = !prenotazione || r.isPrenotazione();
+            boolean prenotazioneOk = !prenotazione || isPrenotazione();
             if (prenotazioneOk) {
-                risultatixPrenotazione.add(String.valueOf(r));
+                risultatixPrenotazione.add(Ristorante.nome);
             }
-        }
 
         return risultatixPrenotazione;
     }
@@ -528,12 +516,10 @@ public class Ristorante<idcont> {
      */
     public static ArrayList<String> cercaRistoranteRecensioni(ArrayList<Ristorante> lista, double mediaStelle) {
         ArrayList<String> risultatixRecensioni = new ArrayList<>();
-        for (Ristorante r : lista) {
-            boolean MrecOK = r.valutazioneMedia() >= mrec;
+            boolean MrecOK = valutazioneMedia() >= mrec;
             if (MrecOK) {
-                risultatixRecensioni.add(String.valueOf(r));
+                risultatixRecensioni.add(Ristorante.nome);
             }
-        }
 
         return risultatixRecensioni;
     }
@@ -541,7 +527,7 @@ public class Ristorante<idcont> {
      * Metodo per poter effettuare la ricerca dei ristoranti usando più di un criterio di ricerca
      * @return ArrayList<String> risultati
      */
-    public static ArrayList<String> cercaRistorante(ArrayList<Ristorante> lista) {
+    public ArrayList<String> cercaRistorante(ArrayList<Ristorante> lista) {
         ArrayList<String> risultati = new ArrayList<>();
         risultati.addAll(cercaRistorantePrenotazione(lista, prenotazione));
         risultati.addAll(cercaRistoranteRecensioni(lista, mrec));
