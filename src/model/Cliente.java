@@ -1,9 +1,14 @@
 package src.model;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Classe cliente
+ * @version 1.0
+ *  * @Author Strazzullo Ciro Andrea
+ *  * @Author Riccardo Giovanni Rubini
+ *  * @Author Matteo Mongelli
  */
 public class Cliente extends Utente {
 
@@ -108,20 +113,6 @@ public class Cliente extends Utente {
      * @return
      */
 
-    public static ArrayList<Ristorante> cercaRistorante(ArrayList<Ristorante> lista, String tipoCucina,
-                                double min, double max, boolean delivery,
-                                boolean prenotazione, double lat, double log) {
-        ArrayList<Ristorante> risultati = Ristorante.cercaRistorante(lista, tipoCucina,min,max,delivery,prenotazione,lat,log);
-        if (risultati.isEmpty()) {
-            System.out.println("Nessun ristorante trovato.");
-        } else {
-            System.out.println("Risultati: ");
-            for(Ristorante ris : risultati) {
-                System.out.println(ris.toString());
-            }
-        }
-        return risultati;
-    }
 
     /**
      * Metodo per aggiungere il ristorante nei preferiti
@@ -167,7 +158,7 @@ public class Cliente extends Utente {
     public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione){
         Recensione recensione = new Recensione(descrizione, stelle);
         recensioniMesse.add(recensione);
-        ristorante.addRecensione(recensione);
+        ristorante.recensisciRistorante(recensione);
     }
 
     /**

@@ -3,7 +3,11 @@ package src.model;
 import src.model.util.PasswordUtil;
 
 /**
- * classe utente
+ * Classe Utente
+ * @version 1.0
+ *  * @Author Strazzullo Ciro Andrea
+ *  * @Author Riccardo Giovanni Rubini
+ *  * @Author Matteo Mongelli
  */
 public abstract class Utente {
 
@@ -38,7 +42,7 @@ public abstract class Utente {
     /**
      * counter per ottenere un id unico
      */
-    private static int idCounter=0; //ID univoco per ogni utente
+    private static int idCounter=0;//ID univoco per ogni utente
 
     /**
      *costruttore base della classe Utente
@@ -229,12 +233,13 @@ public abstract class Utente {
      * @throws RuntimeException eccezione lanciata
      */
     public void setPasswordCifrata(String password)throws RuntimeException {
-        this.passwordCifrata = password;
+        this.passwordCifrata = PasswordUtil.hashPassword(password);
     }
 
     /**
      * metodo per richiamare il ruolo
      * @return
      */
+
     abstract public String getRuolo();
 }

@@ -8,6 +8,10 @@ import java.util.Scanner;
 
 /**
  * Classe Ristoratore
+ * @version 1.0
+ *  * @Author Strazzullo Ciro Andrea
+ *  * @Author Riccardo Giovanni Rubini
+ *  * @Author Matteo Mongelli
  */
 public class Ristoratore extends Utente {
 
@@ -99,15 +103,16 @@ public class Ristoratore extends Utente {
      * @param prenotazione
      * @param tipoCucina
      */
-    public void creaRistorante(String nome, String nazione, String citta, String indirizzo,
-                                boolean delivery, boolean prenotazione, String tipoCucina) throws CreaRistoranteException {
+    public Ristorante creaRistorante(String nome, String nazione, String citta, String indirizzo,
+                                boolean delivery, boolean prenotazione, String tipoCucina, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) throws CreaRistoranteException {
         try{
-            Ristorante nuovoRistorante = new Ristorante (nome, nazione, citta, indirizzo, delivery,prenotazione,tipoCucina);
+            Ristorante nuovoRistorante = new Ristorante (nome, nazione, citta, indirizzo, tipoCucina,
+            delivery, prenotazioneOnline, minPrezzo, maxPrezzo);
             ristorantiGestiti.add(nuovoRistorante);
+            return nuovoRistorante;
         }catch(Exception e){
             throw new CreaRistoranteException();
         }
-
     }
 
     /**
@@ -192,12 +197,16 @@ public class Ristoratore extends Utente {
         }
     }
     /**
-     * metodo per visualizzare media stelle e numero delle recensioni
+     * metodo per visualizzare media stelle di un ristorante e il numero delle recensioni
      * @param ristorante
      */
     public static void visualizzaRiepilogo(Ristorante ristorante) {
+        int c=0;
         System.out.println("media delle stelle: "+ristorante.getValutazioneMedia());
-        System.out.println("numero recensioni "+ristorante.getNumeroRecensioni());
+        for(Recensione r: ristorante.getRecensioni()){
+            c++;
+        }
+        System.out.println("numero recensioni: "+c);
     }
 
     @Override
