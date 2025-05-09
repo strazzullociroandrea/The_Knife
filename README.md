@@ -30,7 +30,7 @@ All'interno di questo progetto è possibile trovare:
 * Directory /bin contenente il file eseguibile *.jar* dell'applicazione
 * Directory /data conentente i file utilizzati dal progetto per funzionare
 * Directory /doc contenente la documentazione del progetto in formato pdf (manuale utente e tecnico) e la JavaDoc
-* Directory /lib contenente le librerie utilizzate dal progetto
+* Directory /library contenente le librerie utilizzate dal progetto
 * File README.txt contenente le precise istruzioni per installare e compilare correttamente il progetto
 
 ## 4. La JavaDoc
