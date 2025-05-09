@@ -22,6 +22,16 @@ import java.util.List;
  */
 public class GestoreFile {
 
+
+    /**
+     * Metodo per adattare i path in base al sistema operativo
+     * @param pathParti array di stringhe che rappresentano i vari componenti del path
+     * @return stringa che rappresenta il path completo
+     */
+    public static String adattaPath(String[] pathParti) {
+        return String.join(File.separator, pathParti);
+    }
+
     /**
      * Metodo statico per il salvataggio dei ristoranti in un file JSON
      * @param ristoranti Lista di ristoranti da salvare
@@ -75,7 +85,7 @@ public class GestoreFile {
                 array.add(obj);
             }
         }
-        Path filePath = Paths.get(path);
+       Path filePath = Paths.get(path);
         try (Writer writer = Files.newBufferedWriter(filePath)) {
             gson.toJson(array, writer);
         } catch (IOException e) {
@@ -97,10 +107,10 @@ public class GestoreFile {
             JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
             for (JsonElement elem : array) {
                 JsonObject obj = elem.getAsJsonObject();
-                String ruolo = obj.get("ruolo").getAsString().toLowerCase();
-                if (ruolo.equals("cliente")) {
+                String ruolo = obj.get("ruolo").getAsString();
+                if (ruolo.equalsIgnoreCase("cliente")) {
                     utenti.add(gson.fromJson(obj, Cliente.class));
-                } else if (ruolo.equals("ristoratore")) {
+                } else if (ruolo.equalsIgnoreCase("ristoratore")) {
                     utenti.add(gson.fromJson(obj, Ristoratore.class));
                 } else {
                     System.err.println("Tipo di utente sconosciuto: " + ruolo);

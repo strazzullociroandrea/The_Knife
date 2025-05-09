@@ -1,6 +1,11 @@
 package src.model;
 
+import src.model.exception.InvalidNomeException;
+import src.model.exception.InvalidPasswordException;
+import src.model.exception.InvalidUsernameException;
 import src.model.util.PasswordUtil;
+
+import javax.naming.InvalidNameException;
 
 /**
  * Classe Utente
@@ -183,8 +188,12 @@ public abstract class Utente {
      *Metodo che associa l'username dell'utente
      * @param username associa l'username tramite il metodo
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String username)throws InvalidUsernameException {
+        if (username.length()==0 || username.length() > 18){
+            throw new InvalidUsernameException();
+        }else{
+            this.username = username;
+        }
     }
 
     /**
@@ -199,8 +208,12 @@ public abstract class Utente {
      *Metodo che associa il cognome dell'utente
      * @param cognome associa il cognome tramite il metodo
      */
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
+    public void setCognome(String cognome)throws InvalidNomeException{
+        if(cognome.length()==0) {
+            throw new InvalidNomeException();
+        }else{
+            this.cognome = cognome;
+        }
     }
 
     /**
@@ -215,8 +228,12 @@ public abstract class Utente {
      * Metodo che associa il nome dell'utente
      * @param nome asssocia il nome all'utente
      */
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String nome)throws InvalidNomeException{
+        if(nome.length()==0) {
+            throw new InvalidNomeException();
+        }else {
+            this.nome = nome;
+        }
     }
 
     /**
@@ -230,16 +247,30 @@ public abstract class Utente {
     /**
      *Metodo che associa la password all'utente
      * @param password associa la password tramite il metodo
-     * @throws RuntimeException eccezione lanciata
+     * @throws InvalidPasswordException eccezione lanciata quando la password ha meno di 6 caratteri
      */
-    public void setPasswordCifrata(String password)throws RuntimeException {
-        this.passwordCifrata = PasswordUtil.hashPassword(password);
+    public void setPasswordCifrata(String password)throws InvalidPasswordException {
+        if (password.length() < 6) {
+            throw new InvalidPasswordException();
+        }else {
+            this.passwordCifrata = PasswordUtil.hashPassword(password);
+        }
     }
 
     /**
      * metodo per richiamare il ruolo
      * @return
      */
+    /**
+     * Metodo per verificare le credenziali di username e password dopo aver fatto l'hashing
+     * @param username
+     * @param password
+     * @return riporta vero se entrambe le credenziali sono verificate, falso se anche solo una delle due non viene verificata
+     */
+    public boolean verificaCredenziali(String username, String password) {
+        String passwordHash = PasswordUtil.hashPassword(password);
+        return this.username.equals(username) && this.passwordCifrata.equals(passwordHash);
+    }
 
     abstract public String getRuolo();
 }

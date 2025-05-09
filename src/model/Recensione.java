@@ -7,9 +7,9 @@ import src.model.exception.StelleOutOfBoundException;
 /**
  * Classe per la gestione delle recensioni che gli utenti possono dare ai ristoranti
  * @version 1.0
- *  * @Author Strazzullo Ciro Andrea
- *  * @Author Riccardo Giovanni Rubini
- *  * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
  */
 public class Recensione {
    //attributi

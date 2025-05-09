@@ -3,9 +3,9 @@ package src.model.exception;
 /**
  * Classe eccezione personalizzata realizzata per gestire i casi in cui vengano effettuate recensioni vuote o più lunghe di 250 caratteri
  * @version 1.0
- *  * @Author Strazzullo Ciro Andrea
- *  * @Author Riccardo Giovanni Rubini
- *  * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
  */
 public class RecensioneOutOfBoundException extends RuntimeException {
     /**

@@ -104,10 +104,10 @@ public class Ristoratore extends Utente {
      * @param tipoCucina
      */
     public Ristorante creaRistorante(String nome, String nazione, String citta, String indirizzo,
-                                boolean delivery, boolean prenotazione, String tipoCucina, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) throws CreaRistoranteException {
+                                     boolean delivery, boolean prenotazione, String tipoCucina, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) throws CreaRistoranteException {
         try{
             Ristorante nuovoRistorante = new Ristorante (nome, nazione, citta, indirizzo, tipoCucina,
-            delivery, prenotazioneOnline, minPrezzo, maxPrezzo);
+                    delivery, prenotazioneOnline, minPrezzo, maxPrezzo);
             ristorantiGestiti.add(nuovoRistorante);
             return nuovoRistorante;
         }catch(Exception e){
@@ -214,4 +214,3 @@ public class Ristoratore extends Utente {
         return "Ristoratore";
     }
 }
-

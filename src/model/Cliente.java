@@ -101,20 +101,6 @@ public class Cliente extends Utente {
     //metodi
 
     /**
-     *Metodo in grado di cercare un ristorante da parte del cliente
-     * @param lista
-     * @param tipoCucina
-     * @param min
-     * @param max
-     * @param delivery
-     * @param prenotazione
-     * @param lat
-     * @param log
-     * @return
-     */
-
-
-    /**
      * Metodo per aggiungere il ristorante nei preferiti
      * @param ristorante
      */
@@ -180,17 +166,17 @@ public class Cliente extends Utente {
      */
     public void rimuoviRecensione(Ristorante ristorante, Recensione recensione) {
         if (recensioniMesse.contains(recensione)) {
-                recensioniMesse.remove(recensione);
-                ristorante.rimuoviRecensione(recensione);
-                System.out.println("Recensione rimossa");
+            recensioniMesse.remove(recensione);
+            ristorante.rimuoviRecensione(recensione);
+            System.out.println("Recensione rimossa");
         } else {
-                System.out.println("Recensione non trovata");
-            }
+            System.out.println("Recensione non trovata");
         }
+    }
 
     /**
      * get lista di recensioni messe
-      * @return restituisce la lista delle recensioni lasciate dal cliente
+     * @return restituisce la lista delle recensioni lasciate dal cliente
      */
     public ArrayList<Recensione> getRecensioniMesse() {
         return recensioniMesse;
@@ -207,5 +193,3 @@ public class Cliente extends Utente {
     }
 
 }
-
-

@@ -61,7 +61,7 @@ public class Ristorante {
                       boolean delivery, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) {
         this.id = id;
         this.inizializzaCampi(nome, nazione, citta, indirizzo, tipoCucina, delivery, prenotazioneOnline, minPrezzo, maxPrezzo);
-        //Gestione unicità dell'id
+       //Gestione unicità dell'id
         if (this.id >= idCounter) {
             idCounter = this.id + 1;
         }
@@ -287,8 +287,8 @@ public class Ristorante {
      * @throws IllegalArgumentException Eccezione lanciata se il prezzo minimo è maggiore al prezzo massimo
      */
     public void setMinPrezzo(double minPrezzo) throws IllegalArgumentException{
-        if(minPrezzo > this.maxPrezzo)
-            throw new IllegalArgumentException("Il prezzo minimo non può essere maggiore al prezzo massimo");
+       if(minPrezzo > this.maxPrezzo)
+           throw new IllegalArgumentException("Il prezzo minimo non può essere maggiore al prezzo massimo");
         this.minPrezzo = minPrezzo;
     }
 
@@ -298,8 +298,8 @@ public class Ristorante {
      * @throws IllegalArgumentException Eccezione lanciata se il prezzo massimo è inferiore al prezzo minimo
      */
     public void setMaxPrezzo(double maxPrezzo) throws IllegalArgumentException{
-        if(maxPrezzo < this.minPrezzo)
-            throw new IllegalArgumentException("Il prezzo massimo non può essere inferiore al prezzo minimo");
+       if(maxPrezzo < this.minPrezzo)
+           throw new IllegalArgumentException("Il prezzo massimo non può essere inferiore al prezzo minimo");
         this.maxPrezzo = maxPrezzo;
     }
 
