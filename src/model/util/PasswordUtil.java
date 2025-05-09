@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
  * @Author Strazzullo Ciro Andrea
  * @Author Riccardo Giovanni Rubini
  * @Author Matteo Mongelli
- * @Author Nicolò Valter Girardello
  */
 public class PasswordUtil {
     /**

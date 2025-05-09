@@ -6,7 +6,6 @@ package src.model.exception;
  *  * @Author Strazzullo Ciro Andrea
  *  * @Author Riccardo Giovanni Rubini
  *  * @Author Matteo Mongelli
- *  * @Author Nicolò Valter Girardello
  */
 
 public class StelleOutOfBoundException extends RuntimeException {

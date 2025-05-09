@@ -162,11 +162,9 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 
 * Strazzullo Ciro Andrea
 * Mongelli Matteo
-* Girardello Nicolò Valter
 * Rubini Riccardo Giovanni
 
 ## 10. Passi
-
 
 1. Sviluppo delle classi model (Recensione, Ristorante, Utente (abstract), Cliente, Ristoratore)
 2. Sviluppo delle classi DAO (GestoreFile)

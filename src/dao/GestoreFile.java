@@ -19,7 +19,6 @@ import java.util.List;
  * @Author Strazzullo Ciro Andrea
  * @Author Riccardo Giovanni Rubini
  * @Author Matteo Mongelli
- * @Author Nicolò Valter Girardello
  */
 public class GestoreFile {
 
