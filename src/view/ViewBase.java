@@ -61,7 +61,7 @@ public class ViewBase {
      * @param scanner scanner da utilizzare per l'input
      * @return intero inserito dall'utente
      */
-    private static int convertiScannerIntero(String msg, Scanner scanner){
+    static int convertiScannerIntero(String msg, Scanner scanner){
         int numero;
         while (true) {
             System.out.println(msg);
