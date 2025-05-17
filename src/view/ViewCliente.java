@@ -17,6 +17,7 @@ import static src.dao.GestoreFile.caricaUtenti;
 
 /**
  * Classe ViewCliente che rappresenta l'interfaccia grafica presentata al cliente
+ *
  * @version 1.0
  * @Author Strazzullo Ciro Andrea
  * @Author Riccardo Giovanni Rubini
@@ -59,7 +60,8 @@ public class ViewCliente {
 
     /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
-     * @param msg messaggio da visualizzare
+     *
+     * @param msg     messaggio da visualizzare
      * @param scanner scanner da utilizzare per l'input
      * @return stringa inserita dall'utente
      */
@@ -116,6 +118,7 @@ public class ViewCliente {
                     int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (0-5):", s);
                     u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
                     System.out.println("Recensione aggiunta con successo!");
+
                     break;
 
                 case 2:
@@ -124,6 +127,7 @@ public class ViewCliente {
                     } else {
                         System.out.println("Hai raggiunto l'ultimo ristorante.");
                     }
+
                     break;
 
                 case 3:
@@ -132,27 +136,34 @@ public class ViewCliente {
                     } else {
                         System.out.println("Sei già al primo ristorante.");
                     }
+
                     break;
 
                 case 4:
                     u.aggiungiPreferito(ristoranteCorrente);
 
+                    break;
+
                 case 5:
                     u.rimuoviPreferito(ristoranteCorrente);
+
+                    break;
 
                 case 6:
                     for (Recensione r : ristoranteCorrente.getRecensioni())
                         for (Recensione r1 : u.getRecensioniMesse())
-                            if (r.equals(r1)) {
+                            if (r.getId() == r1.getId()) {
                                 String txt = gestisciInput("inserire il testo della recensione", s);
                                 int stelleMod = ViewBase.convertiScannerIntero(gestisciInput("inserire il numero di stelle", s), s);
                                 u.modificaRecensione(r, txt, stelleMod);
                             }
+
                     break;
 
 
                 case 7:
                     visualizza = false;
+
                     break;
 
                 default:
@@ -170,132 +181,146 @@ public class ViewCliente {
 
     public static void view(Cliente u) {
         try (Scanner s = new Scanner(System.in)) {
+            boolean continua = true;
+
+            while (continua) {
+                System.out.println("\n--- Menu Cliente ---");
+                System.out.println("1. Visualizza tutti i ristoranti");
+                System.out.println("2. Cerca ristoranti filtrando per parametri");
+                System.out.println("3. Scrivi una recensione");
+                System.out.println("5. modifica dati personali");
+                System.out.println("6. Logout");
 
 
-            System.out.println("\n--- Menu Cliente ---");
-            System.out.println("1. Visualizza tutti i ristoranti");
-            System.out.println("2. Cerca ristoranti filtrando per parametri");
-            System.out.println("3. Scrivi una recensione");
-            System.out.println("5. modifica dati personali");
-            System.out.println("6. Logout");
+                int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione:", s);
 
+                switch (scelta) {
+                    case 1:
+                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        if (listaRistoranti.isEmpty()) {
+                            System.out.println("Nessun ristorante trovato.");
+                        }
+                        navigazioneRistoranti(u, s, listaRistoranti);
 
-            int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione:", s);
-
-            switch (scelta) {
-                case 1:
-                    List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
-                    if (listaRistoranti.isEmpty()) {
-                        System.out.println("Nessun ristorante trovato.");
                         break;
-                    }
-                    navigazioneRistoranti(u, s, listaRistoranti);
-                    break;
 
 
-                case 2:
-                    System.out.println("\n--- Scegliere i criteri del filtro ---");
+                    case 2:
+                        System.out.println("\n--- Scegliere i criteri del filtro ---");
 
-                    System.out.println("inserire una location");
-                    String location = s.nextLine();
-                    System.out.println("inserire il tipo di cucina desiderata tra: /n");
-                    String tipoCucina = s.nextLine();
-                    System.out.println("inserire il prezzo minimo richiesto");
-                    double prezzoMinimo = s.nextDouble();
-                    System.out.println("inserire il prezzo massimo richiesto");
-                    double prezzoMassimo = s.nextDouble();
-                    System.out.println("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio");
-                    boolean delivery = false;
-                    String deliveryText = s.nextLine();
-                    if (deliveryText.equals("1")) {
-                        delivery = true;
-                    }
-                    System.out.println("Digitare 1 per ricercare solo ristoranti con prenotazione disponibile, altrimenti premere invio");
-                    boolean prenotazione = false;
-                    String prenotazioneText = s.nextLine();
-                    if (deliveryText.equals("1")) {
-                        prenotazione = true;
-                    }
-                    System.out.println("inserire il minimo di stelle richiesto");
-                    int stelleMin = ViewBase.convertiScannerIntero(s.nextLine(), s);
-
-
-                    List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, true, delivery, true, prenotazione, stelleMin);
-
-                    navigazioneRistoranti(u, s, filtrati);
-
-                    break;
+                        System.out.println("inserire una location");
+                        String location = s.nextLine();
+                        System.out.println("inserire il tipo di cucina desiderata tra: /n");
+                        String tipoCucina = s.nextLine();
+                        System.out.println("inserire il prezzo minimo richiesto");
+                        double prezzoMinimo = s.nextDouble();
+                        s.nextLine(); // consuma il newline rimasto nel buffer
+                        System.out.println("inserire il prezzo massimo richiesto");
+                        double prezzoMassimo = s.nextDouble();
+                        s.nextLine(); // consuma il newline rimasto nel buffer
+                        System.out.println("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio");
+                        boolean delivery = false;
+                        String deliveryText = s.nextLine();
+                        if (deliveryText.equals("1")) {
+                            delivery = true;
+                        }
+                        System.out.println("Digitare 1 per ricercare solo ristoranti con prenotazione disponibile, altrimenti premere invio");
+                        boolean prenotazione = false;
+                        String prenotazioneText = s.nextLine();
+                        if (prenotazioneText.equals("1")) {
+                            prenotazione = true;
+                        }
+                        System.out.println("inserire il minimo di stelle richiesto");
+                        int stelleMin = ViewBase.convertiScannerIntero(s.nextLine(), s);
 
 
-                case 3:
-                    System.out.println("inserire il nome del ristorante da recensire");
+                        List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, true, delivery, true, prenotazione, stelleMin);
 
-                    String nome = s.nextLine();
-                    for (Ristorante r : GestoreFile.caricaRistoranti(PATHUTENTI)) {
-                        if (nome.equals(r.getNome())) {
-                            System.out.println("scrivere la recensione");
-                            String descrizione = s.nextLine();
-                            System.out.println("inserire il numero di stelle");
-                            int stelle = ViewBase.convertiScannerIntero(s.nextLine(), s);
-                            u.aggiungiRecensione(r, stelle, descrizione);
+                        navigazioneRistoranti(u, s, filtrati);
+
+                        break;
+
+
+                    case 3:
+                        System.out.println("inserire il nome del ristorante da recensire");
+
+                        String nome = s.nextLine();
+                        for (Ristorante r : GestoreFile.caricaRistoranti(PATHRISTORANTI)) {
+                            if (nome.equals(r.getNome())) {
+                                System.out.println("scrivere la recensione");
+                                String descrizione = s.nextLine();
+                                System.out.println("inserire il numero di stelle");
+                                int stelle = ViewBase.convertiScannerIntero(s.nextLine(), s);
+                                u.aggiungiRecensione(r, stelle, descrizione);
+                            }
+
                         }
 
-                    }
-                    break;
+                        break;
 
-                case 4:
-                    System.out.println("\n--- Dati utente ---");
-                    System.out.println("Nome: " + u.getNome());
-                    System.out.println("Cognome: " + u.getCognome());
-                    System.out.println("Username: " + u.getUsername());
-                    System.out.println("Data di nascita: " + u.getDataNascita());
-                    System.out.println("Domicilio: " + u.getDomicilio());
-                    System.out.println("Tipo utente: " + (u instanceof Cliente ? "Cliente" : "Ristoratore"));
+                    case 4:
+                        System.out.println("\n--- Dati utente ---");
+                        System.out.println("Nome: " + u.getNome());
+                        System.out.println("Cognome: " + u.getCognome());
+                        System.out.println("Username: " + u.getUsername());
+                        System.out.println("Data di nascita: " + u.getDataNascita());
+                        System.out.println("Domicilio: " + u.getDomicilio());
+                        System.out.println("Tipo utente: " + (u instanceof Cliente ? "Cliente" : "Ristoratore"));
 
-                    break;
+                        break;
 
-                case 5:
-                    String modNome = gestisciInput("inserisci il tuo nuovo nome", s);
+                    case 5:
+                        String modNome = gestisciInput("inserisci il tuo nuovo nome", s);
 
-                    u.setNome(modNome);
+                        u.setNome(modNome);
 
-                    String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s);
+                        String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s);
 
-                    u.setCognome(modCognome);
+                        u.setCognome(modCognome);
 
-                    String modUserName = gestisciInput("inserisci il tuo nuovo username", s);
+                        String modUserName = gestisciInput("inserisci il tuo nuovo username", s);
 
-                    for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI))
-                        if (modUserName.equals(u1.getUsername()))
-                            gestisciInput("username già esistente, riprova", s);
-                        else
+                        boolean usernameEsistente = false;
+                        for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
+                            if (modUserName.equals(u1.getUsername())) {
+                                System.out.println("Username già esistente: modifica annullata");
+                                usernameEsistente = true;
+                                break;
+                            }
+                        }
+                        if (!usernameEsistente) {
                             u.setUsername(modUserName);
-
-                    boolean passwordValida = false;
-
-                    while (!passwordValida) {
-                        String modPassword = gestisciInput("Inserisci la tua nuova password:", s);
-                        String pwCifrata = PasswordUtil.hashPassword(modPassword);
-
-                        if (pwCifrata.equals(u.getPasswordCifrata())) {
-                            System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
-                        } else {
-                            u.setPasswordCifrata(pwCifrata);
-                            System.out.println("Password modificata con successo.");
-                            passwordValida = true;
+                            System.out.println("Username aggiornato");
                         }
-                    }
 
-                    String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s);
-                    u.setDomicilio(modDomicilio);
-                    break;
 
-                case 6:
-                    System.out.println("Verrai reinderizzato al menù iniziale!");
-                    ViewBase.view();
+                        boolean passwordValida = false;
 
+                        while (!passwordValida) {
+                            String modPassword = gestisciInput("Inserisci la tua nuova password:", s);
+                            String pwCifrata = PasswordUtil.hashPassword(modPassword);
+
+                            if (pwCifrata.equals(u.getPasswordCifrata())) {
+                                System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
+                            } else {
+                                u.setPasswordCifrata(pwCifrata);
+                                System.out.println("Password modificata con successo.");
+                                passwordValida = true;
+                            }
+                        }
+
+                        String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s);
+                        u.setDomicilio(modDomicilio);
+
+                        break;
+
+                    case 6:
+                        System.out.println("Verrai reinderizzato al menù iniziale!");
+                        ViewBase.view();
+
+                        return;
+                }
             }
-
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
