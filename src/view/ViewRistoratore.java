@@ -273,7 +273,7 @@ public class ViewRistoratore {
                                     continuaPrenotazioneOnline=false;
                                     break;
                                 default:
-                                    System.out.println("opzione inserita in modo errato!");;
+                                    System.out.println("opzione inserita in modo errato!");
                                     break;
                             }
 
@@ -285,8 +285,10 @@ public class ViewRistoratore {
                         System.out.println("inserire il prezzo massimo per il tuo ristorante");
                         double maxPrezzo=  s.nextDouble();
 
-                        u.creaRistorante(nome,nazione,citta,indirizzo,delivery,prenotazione,tipoCucina,prenotazioneOnline,minPrezzo,maxPrezzo);
-
+                        Ristorante nuovoRistorante=u.creaRistorante(nome,nazione,citta,indirizzo,delivery,prenotazione,tipoCucina,prenotazioneOnline,minPrezzo,maxPrezzo);
+                        List<Ristorante>listaRistoranti2=GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        listaRistoranti2.add(nuovoRistorante);
+                        GestoreFile.salvaRistoranti(listaRistoranti2,PATHRISTORANTI);
                         break;
 
                     case 3:
