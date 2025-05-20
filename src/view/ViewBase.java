@@ -218,9 +218,9 @@ public class ViewBase {
                     \n\n
                     Menù:
                     1. Visualizza ristoranti (luogo, fascia prezzo, servizi, recensioni) in modalità guest
-                    2. Login come cliente o ristoratore --> fatto
-                    3. Registrati come cliente o ristoratore --> fatto
-                    4. Chiudi l'applicazione --> fatto
+                    2. Login come cliente o ristoratore 
+                    3. Registrati come cliente o ristoratore 
+                    4. Chiudi l'applicazione
                 """, s);
                 switch(scelta){
                     case 1 ->{
