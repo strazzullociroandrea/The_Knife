@@ -22,5 +22,16 @@
     "domicilio": "vklsdlkf",
     "dataNascita": "14/05/2005",
     "ruolo": "cliente"
+  },
+  {
+    "ristorantiGestiti": [],
+    "id": 0,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "ivo",
+    "domicilio": "via provinciale rasa 37",
+    "dataNascita": "13/05/2004",
+    "ruolo": "ristoratore"
   }
 ]

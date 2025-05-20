@@ -322,7 +322,7 @@ public class ViewBase {
                             ViewCliente.view((Cliente)u);
                         }else if(u instanceof Ristoratore){
                             continua = false;
-                            ViewRistoratore.view();
+                            ViewRistoratore.view((Ristoratore)u);
                         }else{
                             System.err.println("Login non avvenuto con successo!");
                         }
@@ -343,7 +343,7 @@ public class ViewBase {
                                 ViewCliente.view((Cliente)u);
                             }else if(u instanceof Ristoratore){
                                 continua = false;
-                                ViewRistoratore.view();
+                                ViewRistoratore.view((Ristoratore)u);
                             }else{
                                 System.err.println("Registrazione non avvenuta con successo!");
                             }
