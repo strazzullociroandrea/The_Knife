@@ -30,7 +30,7 @@ All'interno di questo progetto è possibile trovare:
 * Directory /bin contenente il file eseguibile *.jar* dell'applicazione
 * Directory /data conentente i file utilizzati dal progetto per funzionare
 * Directory /doc contenente la documentazione del progetto in formato pdf (manuale utente e tecnico) e la JavaDoc
-* Directory /library contenente le librerie utilizzate dal progetto
+* Directory /lib contenente le librerie utilizzate dal progetto
 * File README.txt contenente le precise istruzioni per installare e compilare correttamente il progetto
 
 ## 4. La JavaDoc
@@ -173,3 +173,13 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 5. Testing generale
 6. Redazione della documentazione tecnica e utente
 7. Testing finale e consegna
+
+## 11. Note
+* Il progetto è stato sviluppato in Java 17 e successive versioni
+* Il progetto è stato sviluppato e testato su Windows e MacOS
+
+**Un utilizzo diverso della versione di Java o del sistema operativo potrebbe portare a malfunzionamenti dell'applicazione.**
+
+Per avviare l'applicazione si hanno due modi:
+* Eseguire il file jar da terminale (java -jar TheKnife.jar, assicurandosi di trovarsi nella cartella corretta) o cliccando due volte sul file (dipende dal sistema operativo)
+* Eseguire il file jar da IntelliJ IDEA, selezionando il file e importando le librerie contenute nella cartella lib

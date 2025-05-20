@@ -21,11 +21,11 @@ public class ViewBase {
     /**
      * Path del file JSON contenente gli utenti
      */
-    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"..", "data", "Utenti.json"});
+    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"data", "Utenti.json"});
     /**
      * Path del file JSON contenente i ristoranti
      */
-    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{"..", "data", "Ristoranti.json"});
+    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{ "data", "Ristoranti.json"});
 
     /**
      * Metodo per svuotare la console dai log di configurazione
@@ -319,10 +319,10 @@ public class ViewBase {
                         //In base alla tipologia di u visualizzo la relativa interfaccia
                         if(u instanceof  Cliente){
                             continua = false;
-                            ViewCliente.view(u, ristoranti);
+                            ViewCliente.view((Cliente)u);
                         }else if(u instanceof Ristoratore){
                             continua = false;
-                            ViewRistoratore.view(u, ristoranti);
+                            ViewRistoratore.view();
                         }else{
                             System.err.println("Login non avvenuto con successo!");
                         }
@@ -340,10 +340,10 @@ public class ViewBase {
                             //In base alla tipologia di u visualizzo la relativa interfaccia
                             if(u instanceof  Cliente){
                                 continua = false;
-                                ViewCliente.view(u, ristoranti);
+                                ViewCliente.view((Cliente)u);
                             }else if(u instanceof Ristoratore){
                                 continua = false;
-                                ViewRistoratore.view(u, ristoranti);
+                                ViewRistoratore.view();
                             }else{
                                 System.err.println("Registrazione non avvenuta con successo!");
                             }

@@ -8,6 +8,7 @@ import src.model.Utente;
 import src.model.util.PasswordUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,11 +32,11 @@ public class ViewCliente {
     /**
      * Path del file JSON contenente gli utenti
      */
-    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"..", "data", "Utenti.json"});
+    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"data", "Utenti.json"});
     /**
      * Path del file JSON contenente i ristoranti
      */
-    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{"..", "data", "Ristoranti.json"});
+    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{"data", "Ristoranti.json"});
 
     //metodi
 
@@ -188,7 +189,8 @@ public class ViewCliente {
                 System.out.println("1. Visualizza tutti i ristoranti");
                 System.out.println("2. Cerca ristoranti filtrando per parametri");
                 System.out.println("3. Scrivi una recensione");
-                System.out.println("5. modifica dati personali");
+                System.out.println("4. Visualizza i tuoi dati personali");
+                System.out.println("5. Modifica dati personali");
                 System.out.println("6. Logout");
 
 
@@ -271,14 +273,22 @@ public class ViewCliente {
 
                     case 5:
                         String modNome = gestisciInput("inserisci il tuo nuovo nome", s);
-
-                        u.setNome(modNome);
+                        if (modNome.equals("\n")) {
+                            System.out.println("dato non modificato");
+                        } else
+                            u.setNome(modNome);
 
                         String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s);
-
+                        if(modCognome.equals("\n")) {
+                            System.out.println("dato non modificato");
+                        }
                         u.setCognome(modCognome);
 
                         String modUserName = gestisciInput("inserisci il tuo nuovo username", s);
+                        if(modUserName.equals("\n")) {
+                            System.out.println("dato non modificato");
+                        }
+
 
                         boolean usernameEsistente = false;
                         for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
@@ -311,6 +321,12 @@ public class ViewCliente {
 
                         String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s);
                         u.setDomicilio(modDomicilio);
+
+                        List<Utente> listaUtenti = GestoreFile.caricaUtenti(PATHUTENTI);
+
+                        listaUtenti.add(u);
+
+                        GestoreFile.salvaUtenti(listaUtenti, PATHUTENTI);
 
                         break;
 
