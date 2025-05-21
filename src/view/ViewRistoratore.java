@@ -37,6 +37,12 @@ public class ViewRistoratore {
         return input;
     }
 
+    /**
+     * metodo per visualizzare, interagire e scorrere dinamicamente le recensioni
+     * @param u utente (ristoratore) che può interagire con le recensioni
+     * @param r
+     * @param listaRecensioni lista delle recensioni che si vuole scorrere
+     */
     private static void navigazioneRecensioni(Ristoratore u, Ristorante r, List<Recensione> listaRecensioni) {
         Scanner s= new Scanner(System.in);
         if (listaRecensioni == null || listaRecensioni.isEmpty()) {
@@ -90,6 +96,14 @@ public class ViewRistoratore {
         }
 
     }
+
+    /**
+     * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
+     *
+     * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
+     * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
+     * @param listaRistoranti la lista di ristoranti che si vuole scorrere
+     */
 
     private static void navigazioneRistoranti(Ristoratore u, Scanner s, List<Ristorante> listaRistoranti) {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
@@ -163,6 +177,11 @@ public class ViewRistoratore {
         }
     }
 
+    /**
+     * metodo per accedere alla view del risotrante
+     * @param u utente in grado di interagire con la view
+     * @throws Exception
+     */
     public static void view(Ristoratore u) throws Exception {
         /*
          Menù ristoratore:
@@ -281,9 +300,11 @@ public class ViewRistoratore {
 
                         System.out.println("inserire il prezzo minimo per il tuo ristorante");
                         double minPrezzo=  s.nextDouble();
+                        s.nextLine();
 
                         System.out.println("inserire il prezzo massimo per il tuo ristorante");
                         double maxPrezzo=  s.nextDouble();
+                        s.nextLine();
 
                         Ristorante nuovoRistorante=u.creaRistorante(nome,nazione,citta,indirizzo,delivery,prenotazione,tipoCucina,prenotazioneOnline,minPrezzo,maxPrezzo);
                         List<Ristorante>listaRistoranti2=GestoreFile.caricaRistoranti(PATHRISTORANTI);
@@ -346,7 +367,13 @@ public class ViewRistoratore {
 
                         break;
 
+                        case 5:
+                        continua = false;
+                        break;
 
+                    default:
+                        System.out.println("inserire una scelta valida: ");
+                        break;
                 }
             }
         }
