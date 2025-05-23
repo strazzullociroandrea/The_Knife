@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//Da fare: sistemare gli id delle classi e mettere i metodi corretti che qui sono in rosso, test generale
 /**
  * Classe ViewBase che rappresenta l'interfaccia grafica di base dell'applicazione.
  * @version 1.0
@@ -47,7 +46,7 @@ public class ViewBase {
      * @return stringa inserita dall'utente
      */
     private static String gestisciInput(String msg, Scanner scanner){
-        String input = "";
+        String input;
         do{
             System.out.println(msg);
             input = scanner.nextLine();
@@ -64,13 +63,12 @@ public class ViewBase {
     static int convertiScannerIntero(String msg, Scanner scanner){
         int numero;
         while (true) {
-            System.out.println(msg);
-            String input = scanner.nextLine();
+            String input = gestisciInput(msg, scanner);
             try {
                 numero = Integer.parseInt(input);
                 return numero;
             } catch (NumberFormatException e) {
-                System.err.println("Valore non valido. Inserisci un numero intero.");
+                System.err.println("Valore non valido. Inserisci un numero intero valido.");
             }
         }
     }
@@ -85,12 +83,12 @@ public class ViewBase {
         double numero;
         while (true) {
             System.out.println(msg);
-            String input = scanner.nextLine();
+            String input = gestisciInput(msg, scanner);
             try {
                 numero = Double.parseDouble(input);
                 return numero;
             } catch (NumberFormatException e) {
-                System.err.println("Valore non valido. Inserisci un numero intero.");
+                System.err.println("Valore non valido. Inserisci un numero double valido.");
             }
         }
     }
@@ -102,10 +100,12 @@ public class ViewBase {
      * @return true se è già presente, false altrimenti
      */
     private static boolean giaPresente(List<Utente> utenti, Utente u){
-        for(Utente user: utenti){
-            if(user.equals(u)){
-                System.err.println("Attenzione, l'utente è già registrato!");
-                return true;
+        if(!utenti.isEmpty() && u != null){
+            for(Utente user: utenti){
+                if (user.getUsername().equalsIgnoreCase(u.getUsername())) {
+                    System.err.println("Attenzione, username già in uso!");
+                    return true;
+                }
             }
         }
         return false;
@@ -117,9 +117,9 @@ public class ViewBase {
     private static Utente registrati(Scanner s){
         String nome = gestisciInput("Inserisci il tuo nome:", s);
         String cognome = gestisciInput("Inserisci il tuo cognome:", s);
-        String username = gestisciInput("Inserisci il tuo username:", s);//da verificare se è già presente
+        String username = gestisciInput("Inserisci il tuo username:", s);
         String dataNascita = gestisciInput("Inserisci la tua data di nascita (dd/MM/yyyy):", s);
-        String domicilio = gestisciInput("Inserisci il tuo domicilio:", s);
+        String domicilio = gestisciInput("Inserisci il tuo domicilio:", s);//gestione posizione esistente o no
         String password = gestisciInput("Inserisci la tua password:", s);
         String secondaPassword = gestisciInput("Inserisci di nuovo la tua password:", s);
         String tipologia = gestisciInput("Sei un cliente o un ristoratore? (c/r):", s);
@@ -210,7 +210,6 @@ public class ViewBase {
             svuotaConsole();//Svuoto la console dai log di configurazione
             System.out.println("Benvenuto in TheKnife!");
             System.out.println("Ecco il menu principale:");
-
             boolean continua = true;
             Utente u;
             while(continua){
@@ -221,6 +220,7 @@ public class ViewBase {
                     2. Login come cliente o ristoratore 
                     3. Registrati come cliente o ristoratore 
                     4. Chiudi l'applicazione
+                    La tua scelta: 
                 """, s);
                 switch(scelta){
                     case 1 ->{
@@ -234,27 +234,34 @@ public class ViewBase {
                                 2. Visualizza ristoranti secondo un filtro e i relativi dettagli
                                 3. Torna al menù principale
                                 4. Modifica luogo
+                                La tua scelta: 
                         """, s);
                             switch(sceltaIn){
                                 case 1 ->{
-                                    for(Ristorante r: ristorantiVicini(ristoranti, luogo)){
-                                        System.out.println(r.visualizzaRistorante());
-                                        System.out.println("Recensioni:");
-                                        for(Recensione rec: r.getRecensioni()){
-                                            System.out.println(rec);
+                                    List<Ristorante> tmp = ristorantiVicini(ristoranti, luogo);
+                                    if(tmp != null && !tmp.isEmpty()) {
+                                        for(Ristorante r: tmp){
+                                            System.out.println(r.visualizzaRistorante());
+                                            System.out.println("Recensioni:");
+                                            for(Recensione rec: r.getRecensioni()){
+                                                System.out.println(rec);
+                                            }
+                                            String continuaRicerca;
+                                            //Aspetta fino a quando non è stato inserito un valore valido
+                                            do {
+                                                System.out.println("Digita 'c' per continuare la ricerca o 'q' per tornare al menù ");
+                                                continuaRicerca = s.nextLine();
+                                            }while((!continuaRicerca.equalsIgnoreCase("c") && !continuaRicerca.equalsIgnoreCase("q")));
+                                            svuotaConsole();
+                                            if(continuaRicerca.equalsIgnoreCase("q")) {
+                                                System.out.println("Tornando al menù ...");
+                                                break;
+                                            }
                                         }
-                                        String continuaRicerca;
-                                        //Aspetta fino a quando non è stato inserito un valore valido
-                                        do {
-                                            System.out.println("Digita 'c' per continuare la ricerca o 'q' per tornare al menù ");
-                                            continuaRicerca = s.nextLine();
-                                        }while((!continuaRicerca.equalsIgnoreCase("c") && !continuaRicerca.equalsIgnoreCase("q")));
-                                        svuotaConsole();
-                                        if(continuaRicerca.equalsIgnoreCase("q")) {
-                                            System.out.println("Tornando al menù ...");
-                                            break;
-                                        }
+                                    }else{
+                                        System.out.println("nessun ristorante trovato!");
                                     }
+
                                 }
                                 case 2 ->{
                                     System.out.println("Inserisci i parametri di ricerca:");
@@ -353,7 +360,6 @@ public class ViewBase {
                         System.out.println("Grazie per aver utilizzato TheKnife!");
                         System.out.println("Arrivederci!");
                         continua = false;
-                        System.exit(0);
                     }
                     default ->//qualsiasi numero inserito diverso da 1,2,3,4 richiede la scelta
                          System.err.println("Attenzione, scelta non valida, riprova!");
