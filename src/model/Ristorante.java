@@ -619,7 +619,6 @@ public class Ristorante {
         if (tipoCucina != null && !tipoCucina.isEmpty()) {
             tmp = Ristorante.perTipoCucina(tmp, tipoCucina, locazione);
         }
-        //Senza if perchè il controllo è già fatto nel metodo statico
         tmp = Ristorante.perFasciaPrezzo(tmp, minPrezzo, maxPrezzo, locazione);
         if(vuoiDelivery) {
             tmp = Ristorante.perDelivery(tmp, delivery, locazione);

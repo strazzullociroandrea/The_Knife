@@ -218,9 +218,9 @@ public class ViewBase {
                     \n\n
                     Menù:
                     1. Visualizza ristoranti (luogo, fascia prezzo, servizi, recensioni) in modalità guest
-                    2. Login come cliente o ristoratore --> fatto
-                    3. Registrati come cliente o ristoratore --> fatto
-                    4. Chiudi l'applicazione --> fatto
+                    2. Login come cliente o ristoratore 
+                    3. Registrati come cliente o ristoratore 
+                    4. Chiudi l'applicazione
                 """, s);
                 switch(scelta){
                     case 1 ->{
@@ -322,7 +322,7 @@ public class ViewBase {
                             ViewCliente.view((Cliente)u);
                         }else if(u instanceof Ristoratore){
                             continua = false;
-                            ViewRistoratore.view();
+                            ViewRistoratore.view((Ristoratore)u);
                         }else{
                             System.err.println("Login non avvenuto con successo!");
                         }
@@ -343,7 +343,7 @@ public class ViewBase {
                                 ViewCliente.view((Cliente)u);
                             }else if(u instanceof Ristoratore){
                                 continua = false;
-                                ViewRistoratore.view();
+                                ViewRistoratore.view((Ristoratore)u);
                             }else{
                                 System.err.println("Registrazione non avvenuta con successo!");
                             }

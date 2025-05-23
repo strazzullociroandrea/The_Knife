@@ -8,11 +8,13 @@ import src.model.Ristoratore;
 import src.model.Utente;
 
 import java.io.*;
-import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GestoreFile {
+    /**
+     * Oggetto Gson per la serializzazione e deserializzazione degli oggetti
+     */
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
@@ -24,18 +26,40 @@ public class GestoreFile {
         return String.join(File.separator, pathParti);
     }
 
+    /**
+     * Metodo per salvare la lista di ristoranti in un file JSON
+     * @param ristoranti lista di ristoranti da salvare
+     * @param path path del file in cui salvare i ristoranti
+     * @throws IOException in caso di errore durante la scrittura del file
+     */
     public static void salvaRistoranti(List<Ristorante> ristoranti, String path) throws IOException {
         try (Writer writer = new FileWriter(path)) {
             gson.toJson(ristoranti, writer);
+        }catch(Exception e){
+            throw new IOException("Errore durante la scrittura dei ristoranti");
         }
     }
 
+    /**
+     * Metodo per caricare la lista di ristoranti da un file JSON
+     * @param path path del file da cui caricare i ristoranti
+     * @return lista di ristoranti caricati
+     * @throws IOException in caso di errore durante la lettura del file
+     */
     public static List<Ristorante> caricaRistoranti(String path) throws IOException {
         try (Reader reader = new FileReader(path)) {
             return gson.fromJson(reader, new TypeToken<List<Ristorante>>() {}.getType());
+        }catch(Exception e){
+            throw new IOException("Errore durante il caricamento dei ristoranti");
         }
     }
 
+    /**
+     * Metodo per salvare la lista di utenti in un file JSON
+     * @param utenti lista di utenti da salvare
+     * @param path path del file in cui salvare gli utenti
+     * @throws IOException in caso di errore durante la scrittura del file
+     */
     public static void salvaUtenti(List<Utente> utenti, String path) throws IOException {
         JsonArray array = new JsonArray();
 
@@ -55,10 +79,18 @@ public class GestoreFile {
 
         try (Writer writer = new FileWriter(path)) {
             gson.toJson(array, writer);
+        }catch(Exception e){
+            throw new IOException("Errore durante il salvataggio degli utenti");
         }
     }
 
 
+    /**
+     * Metodo per caricare la lista di utenti da un file JSON
+     * @param path path del file da cui caricare gli utenti
+     * @return lista di utenti caricati
+     * @throws IOException in caso di errore durante la lettura del file
+     */
     public static List<Utente> caricaUtenti(String path) throws IOException {
         List<Utente> utenti = new ArrayList<>();
 
@@ -77,6 +109,8 @@ public class GestoreFile {
                     System.err.println("Tipo di utente sconosciuto: " + ruolo);
                 }
             }
+        }catch(Exception e){
+            throw new IOException("Errore durante il caricamento degli utenti");
         }
 
         return utenti;
