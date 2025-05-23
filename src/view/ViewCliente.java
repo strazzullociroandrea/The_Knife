@@ -64,15 +64,16 @@ public class ViewCliente {
      *
      * @param msg     messaggio da visualizzare
      * @param scanner scanner da utilizzare per l'input
+     * @param blank   boolean per decidere se richiedere nuovamente l'inserimento dei dati tramite scanner se l'input è vuoto (true per richiederlo, false per non richiederlo)
      * @return stringa inserita dall'utente
      */
 
-    private static String gestisciInput(String msg, Scanner scanner) {
+    private static String gestisciInput(String msg, Scanner scanner, boolean blank) {
         String input = "";
         do {
             System.out.println(msg);
             input = scanner.nextLine();
-        } while (input.isEmpty());
+        } while (input.isEmpty() && blank);
         return input;
     }
 
@@ -154,8 +155,8 @@ public class ViewCliente {
                     for (Recensione r : ristoranteCorrente.getRecensioni())
                         for (Recensione r1 : u.getRecensioniMesse())
                             if (r.getId() == r1.getId()) {
-                                String txt = gestisciInput("inserire il testo della recensione", s);
-                                int stelleMod = ViewBase.convertiScannerIntero(gestisciInput("inserire il numero di stelle", s), s);
+                                String txt = gestisciInput("inserire il testo della recensione", s, true);
+                                int stelleMod = ViewBase.convertiScannerIntero(gestisciInput("inserire il numero di stelle", s, true), s);
                                 u.modificaRecensione(r, txt, stelleMod);
                             }
 
@@ -272,64 +273,78 @@ public class ViewCliente {
                         break;
 
                     case 5:
-                        String modNome = gestisciInput("inserisci il tuo nuovo nome", s);
-                        if (modNome.equals("\n")) {
+                        String modNome = gestisciInput("inserisci il tuo nuovo nome", s, false);
+                        if (modNome.isBlank()) {
                             System.out.println("dato non modificato");
                         } else
                             u.setNome(modNome);
 
-                        String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s);
-                        if(modCognome.equals("\n")) {
+                        String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s, false);
+                        if (modCognome.isBlank()) {
                             System.out.println("dato non modificato");
-                        }
-                        u.setCognome(modCognome);
+                        } else
+                            u.setCognome(modCognome);
 
-                        String modUserName = gestisciInput("inserisci il tuo nuovo username", s);
-                        if(modUserName.equals("\n")) {
+                        String modUserName = gestisciInput("inserisci il tuo nuovo username", s, false);
+                        if (modUserName.isBlank()) {
                             System.out.println("dato non modificato");
-                        }
+                        } else {
+                            boolean usernameEsistente = false;
+                            for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
+                                if (modUserName.equals(u1.getUsername())) {
+                                    System.out.println("Username già esistente: modifica annullata");
+                                    usernameEsistente = true;
 
-
-                        boolean usernameEsistente = false;
-                        for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
-                            if (modUserName.equals(u1.getUsername())) {
-                                System.out.println("Username già esistente: modifica annullata");
-                                usernameEsistente = true;
-                                break;
+                                    break;
+                                }
                             }
-                        }
-                        if (!usernameEsistente) {
-                            u.setUsername(modUserName);
-                            System.out.println("Username aggiornato");
+                            if (!usernameEsistente) {
+                                u.setUsername(modUserName);
+                                System.out.println("Username aggiornato");
+                            }
                         }
 
 
                         boolean passwordValida = false;
 
-                        while (!passwordValida) {
-                            String modPassword = gestisciInput("Inserisci la tua nuova password:", s);
-                            String pwCifrata = PasswordUtil.hashPassword(modPassword);
+                        String modPassword = gestisciInput("Inserisci la tua nuova password:", s, false);
+                        if (modPassword.isBlank())
+                            System.out.println("dato non modificato");
+                        else {
 
-                            if (pwCifrata.equals(u.getPasswordCifrata())) {
-                                System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
-                            } else {
-                                u.setPasswordCifrata(pwCifrata);
-                                System.out.println("Password modificata con successo.");
-                                passwordValida = true;
+                            while (!passwordValida) {
+                                modPassword = gestisciInput("Inserisci la tua nuova password:", s, false);
+
+                                if (modPassword.isBlank()) {
+                                    System.out.println("dato non modificato");
+                                } else {
+                                    String pwCifrata = PasswordUtil.hashPassword(modPassword);
+
+                                    if (pwCifrata.equals(u.getPasswordCifrata())) {
+                                        System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
+                                    } else {
+                                        u.setPasswordCifrata(pwCifrata);
+                                        System.out.println("Password modificata con successo.");
+                                        passwordValida = true;
+                                    }
+                                }
                             }
                         }
 
-                        String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s);
-                        u.setDomicilio(modDomicilio);
+                        String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s, false);
 
-                        List<Utente> listaUtenti = GestoreFile.caricaUtenti(PATHUTENTI);
+                        if (modDomicilio.isBlank()) {
+                            System.out.println("dato non modificato");
+                        } else {
+                            u.setDomicilio(modDomicilio);
 
-                        listaUtenti.add(u);
+                            List<Utente> listaUtenti = GestoreFile.caricaUtenti(PATHUTENTI);
 
-                        GestoreFile.salvaUtenti(listaUtenti, PATHUTENTI);
+                            listaUtenti.add(u);
 
+                            GestoreFile.salvaUtenti(listaUtenti, PATHUTENTI);
+                        }
                         break;
-
                     case 6:
                         System.out.println("Verrai reinderizzato al menù iniziale!");
                         ViewBase.view();
