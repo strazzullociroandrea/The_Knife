@@ -47,6 +47,7 @@ public class ViewRistoratore {
         Scanner s= new Scanner(System.in);
         if (listaRecensioni == null || listaRecensioni.isEmpty()) {
             System.out.println("Nessuna recensione trovata.");
+            return;
         }
         int indiceR = 0;
         boolean visualizzaR = true;
@@ -189,12 +190,10 @@ public class ViewRistoratore {
          2. Gestisci recensioni ristoranti gestiti (visualizza recensioni, rispondi a recensioni)
                 """,
          */
-        boolean continuaDelivery = true;
+
         boolean continua = true;
         boolean delivery = false;
-        boolean continuaPrenotazione = true;
         boolean prenotazione = false;
-        boolean continuaPrenotazioneOnline = true;
         boolean prenotazioneOnline = false;
 
         while (continua) {
@@ -222,17 +221,14 @@ public class ViewRistoratore {
                     case 2:
 
                         System.out.println("Creazione del ristorante...");
-                        System.out.println("inserire nome ristorante");
-                        String nome= s.nextLine();
-                        System.out.println("inserire nazione ristorante");
-                        String nazione= s.nextLine();
-                        System.out.println("inserire città ristorante");
-                        String citta= s.nextLine();
-                        System.out.println("inserire indirizzo ristorante");
-                        String indirizzo= s.nextLine();
+                        String nome= gestisciInput("inserire il nome del ristorante: ",s);
+                        String nazione= gestisciInput("inserire la nazione del ristorante: ",s);
+                        String citta= gestisciInput("inserire la città del ristorante: ",s);
+                        String indirizzo= gestisciInput("inserire l'indirizzo del ristorante: ",s);
                         System.out.println("inserire se presente delivery del ristorante");
-                        while (continuaDelivery) {
-                            int sceltaDelivery = ViewBase.convertiScannerIntero("""
+                        int sceltaDelivery;
+                        do{
+                             sceltaDelivery = ViewBase.convertiScannerIntero("""
                                             \n\n
                                             Scegli un'opzione delivery:
                                             1.si
@@ -240,19 +236,20 @@ public class ViewRistoratore {
                             switch (sceltaDelivery) {
                                 case 1:
                                     delivery= true;
-                                    continuaDelivery=false;
+
                                     break;
                                 case 2:
                                     delivery=false;
-                                    continuaDelivery=false;
+
                                     break;
                                 default:
                                     System.out.println("Inserire un'opzione delivery");;
                                     break;
                             }
-                        }
-                        while (continuaPrenotazione) {
-                            int sceltaPrenotazione = ViewBase.convertiScannerIntero("""
+                        }while(sceltaDelivery!=1 && sceltaDelivery!=2);
+                        int sceltaPrenotazione;
+                        do {
+                            sceltaPrenotazione = ViewBase.convertiScannerIntero("""
                                             \n\n
                                             Scegli un'opzione prenotazione:
                                             1.si
@@ -260,24 +257,24 @@ public class ViewRistoratore {
                             switch (sceltaPrenotazione) {
                                 case 1:
                                     prenotazione= true;
-                                    continuaPrenotazione=false;
+
                                     break;
                                 case 2:
                                     prenotazione=false;
-                                    continuaPrenotazione=false;
+
                                     break;
                                 default:
                                     System.out.println("opzione inserita in modo errato!");;
                                     break;
                             }
 
-                        }
+                        }while(sceltaPrenotazione !=1 && sceltaPrenotazione !=2 );
 
-                        System.out.println("inserire il tipo cucina del ristorante");
-                        String tipoCucina= s.nextLine();
+                        String tipoCucina= gestisciInput("inserire il tipo di cucina: ",s);
 
-                        while (continuaPrenotazioneOnline) {
-                            int sceltaPrenotazioneOnline = ViewBase.convertiScannerIntero("""
+                        int sceltaPrenotazioneOnline;
+                        do {
+                            sceltaPrenotazioneOnline = ViewBase.convertiScannerIntero("""
                                             \n\n
                                             Scegli un'opzione prenotazione:
                                             1.si
@@ -285,18 +282,18 @@ public class ViewRistoratore {
                             switch (sceltaPrenotazioneOnline) {
                                 case 1:
                                     prenotazioneOnline= true;
-                                    continuaPrenotazioneOnline=false;
+
                                     break;
                                 case 2:
                                     prenotazioneOnline=false;
-                                    continuaPrenotazioneOnline=false;
+
                                     break;
                                 default:
                                     System.out.println("opzione inserita in modo errato!");
                                     break;
                             }
 
-                        }
+                        }while(sceltaPrenotazioneOnline!=1 && sceltaPrenotazioneOnline !=2 );
 
                         System.out.println("inserire il prezzo minimo per il tuo ristorante");
                         double minPrezzo=  s.nextDouble();

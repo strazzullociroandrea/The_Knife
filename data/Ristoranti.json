@@ -1,3 +1,15 @@
 [
-
+  {
+    "id": 0,
+    "nome": "pino",
+    "nazione": "italia",
+    "citta": "varese",
+    "indirizzo": "via dei carli",
+    "tipoCucina": "italiana",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 3.14,
+    "maxPrezzo": 3.16,
+    "recensioni": []
+  }
 ]
