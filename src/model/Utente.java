@@ -59,9 +59,9 @@ public abstract class Utente {
      * @param dataNascita da di nascita associata all'utente
      * @param domicilio domicilio associato all'utente
      */
-    public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio){
+    public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio)throws InvalidPasswordException{
         this.id=id;
-        this.passwordCifrata = PasswordUtil.hashPassword(password);
+        setPasswordCifrata(password);
         this.nome=nome;
         this.cognome=cognome;
         this.username=username;
@@ -81,7 +81,7 @@ public abstract class Utente {
      */
     public Utente(int id, String password, String nome,String cognome, String username, String domicilio){
         this.id=id;
-        this.passwordCifrata = PasswordUtil.hashPassword(password);
+        setPasswordCifrata(password);
         this.nome=nome;
         this.cognome=cognome;
         this.username=username;
@@ -100,7 +100,7 @@ public abstract class Utente {
      */
 
     public Utente(String password, String nome,String cognome, String username,String dataNascita, String domicilio){
-        this.passwordCifrata = PasswordUtil.hashPassword(password);
+        setPasswordCifrata(password);
         this.nome=nome;
         this.cognome=cognome;
         this.username=username;
@@ -119,7 +119,7 @@ public abstract class Utente {
      */
 
     public Utente(String password, String nome,String cognome, String username, String domicilio){
-        this.passwordCifrata = PasswordUtil.hashPassword(password);
+        setPasswordCifrata(password);
         this.nome=nome;
         this.cognome=cognome;
         this.username=username;
