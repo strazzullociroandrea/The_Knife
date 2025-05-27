@@ -60,6 +60,25 @@ public class ViewCliente {
     */
 
     /**
+     * metodo per verificare che un ristorante esista all'interno di una lista
+     *
+     * @param r il ristorante da verificare
+     * @return
+     */
+
+    public boolean verificaRistorante(Ristorante r) {
+        boolean esiste = false;
+        try {
+            for (Ristorante tmp : GestoreFile.caricaRistoranti(PATHUTENTI))
+                if (tmp.equals(r))
+                    esiste = true;
+        } catch (IOException e) {
+            throw new RuntimeException("Ristorante non trovato");
+        }
+        return esiste;
+    }
+
+    /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
      *
      * @param msg     messaggio da visualizzare
@@ -77,6 +96,24 @@ public class ViewCliente {
         return input;
     }
 
+    /**
+     * metodo privato per impedire che l'utente inserisca, quando richiesto, dati che non siano numeri
+     * @param s l'oggetto di tipo Scanner usato dal metodo
+     * @param messaggio la stringa che contiene il messaggio da riferire all'utente per guidare l'inserimento dei dati
+     * @return un double
+     */
+    private static double leggiDouble(Scanner s, String messaggio) {
+        while (true) {
+            System.out.println(messaggio);
+            try {
+                return Double.parseDouble(s.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Inserisci un numero valido (usa il punto come separatore decimale)");
+            }
+        }
+    }
+
+
 
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
@@ -86,11 +123,21 @@ public class ViewCliente {
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
-    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti) {
+    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti) throws IOException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
-            System.out.println("Nessun ristorante trovato.");
+            System.out.println("Nessun ristorante trovato");
             return;
         }
+
+        //liste utenti e ristoranti aggiornate su cui vengono effettuate tutte le modifiche in esecuzione
+        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI);
+        List<Ristorante> listaristorantiTBS = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+        if (listaUtentiTBS == null || listaristorantiTBS == null) {
+            System.out.println("Errore durante il caricamento dei dati");
+            return;
+        }
+
+
 
         int indice = 0;
         boolean visualizza = true;
@@ -120,7 +167,13 @@ public class ViewCliente {
                     int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (0-5):", s);
                     u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
                     System.out.println("Recensione aggiunta con successo!");
-
+                    //salvataggio dati
+                    listaUtentiTBS.remove(u);
+                    listaUtentiTBS.add(u);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                    listaristorantiTBS.remove(ristoranteCorrente);
+                    listaristorantiTBS.add(ristoranteCorrente);
+                    GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
                     break;
 
                 case 2:
@@ -143,11 +196,19 @@ public class ViewCliente {
 
                 case 4:
                     u.aggiungiPreferito(ristoranteCorrente);
+                    //salvataggio dati
+                    listaUtentiTBS.remove(u);
+                    listaUtentiTBS.add(u);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
 
                     break;
 
                 case 5:
                     u.rimuoviPreferito(ristoranteCorrente);
+                    //salvataggio dati
+                    listaUtentiTBS.remove(u);
+                    listaUtentiTBS.add(u);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHRISTORANTI);
 
                     break;
 
@@ -158,6 +219,13 @@ public class ViewCliente {
                                 String txt = gestisciInput("inserire il testo della recensione", s, true);
                                 int stelleMod = ViewBase.convertiScannerIntero(gestisciInput("inserire il numero di stelle", s, true), s);
                                 u.modificaRecensione(r, txt, stelleMod);
+                                //salvataggio dati
+                                listaUtentiTBS.remove(u);
+                                listaUtentiTBS.add(u);
+                                listaristorantiTBS.remove(ristoranteCorrente);
+                                listaristorantiTBS.add(ristoranteCorrente);
+                                GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                                GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
                             }
 
                     break;
@@ -181,7 +249,7 @@ public class ViewCliente {
      * @param u l'utente di tipo Cliente che interagisce con la view
      */
 
-    public static void view(Cliente u) {
+    public static void view(Cliente u) throws IOException {
         try (Scanner s = new Scanner(System.in)) {
             boolean continua = true;
 
@@ -189,10 +257,9 @@ public class ViewCliente {
                 System.out.println("\n--- Menu Cliente ---");
                 System.out.println("1. Visualizza tutti i ristoranti");
                 System.out.println("2. Cerca ristoranti filtrando per parametri");
-                System.out.println("3. Scrivi una recensione");
-                System.out.println("4. Visualizza i tuoi dati personali");
-                System.out.println("5. Modifica dati personali");
-                System.out.println("6. Logout");
+                System.out.println("3. Visualizza i tuoi dati personali");
+                System.out.println("4. Modifica dati personali");
+                System.out.println("5. Logout");
 
 
                 int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione:", s);
@@ -215,12 +282,8 @@ public class ViewCliente {
                         String location = s.nextLine();
                         System.out.println("inserire il tipo di cucina desiderata tra: /n");
                         String tipoCucina = s.nextLine();
-                        System.out.println("inserire il prezzo minimo richiesto");
-                        double prezzoMinimo = s.nextDouble();
-                        s.nextLine(); // consuma il newline rimasto nel buffer
-                        System.out.println("inserire il prezzo massimo richiesto");
-                        double prezzoMassimo = s.nextDouble();
-                        s.nextLine(); // consuma il newline rimasto nel buffer
+                        double prezzoMinimo = leggiDouble(s, "Inserire il prezzo minimo richiesto:");
+                        double prezzoMassimo = leggiDouble(s, "Inserire il prezzo massimo richiesto:");
                         System.out.println("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio");
                         boolean delivery = false;
                         String deliveryText = s.nextLine();
@@ -245,23 +308,7 @@ public class ViewCliente {
 
 
                     case 3:
-                        System.out.println("inserire il nome del ristorante da recensire");
-
-                        String nome = s.nextLine();
-                        for (Ristorante r : GestoreFile.caricaRistoranti(PATHRISTORANTI)) {
-                            if (nome.equals(r.getNome())) {
-                                System.out.println("scrivere la recensione");
-                                String descrizione = s.nextLine();
-                                System.out.println("inserire il numero di stelle");
-                                int stelle = ViewBase.convertiScannerIntero(s.nextLine(), s);
-                                u.aggiungiRecensione(r, stelle, descrizione);
-                            }
-
-                        }
-
-                        break;
-
-                    case 4:
+                        GestoreFile.caricaUtenti(PATHUTENTI);
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + u.getNome());
                         System.out.println("Cognome: " + u.getCognome());
@@ -272,7 +319,7 @@ public class ViewCliente {
 
                         break;
 
-                    case 5:
+                    case 4:
                         String modNome = gestisciInput("inserisci il tuo nuovo nome", s, false);
                         if (modNome.isBlank()) {
                             System.out.println("dato non modificato");
@@ -337,15 +384,20 @@ public class ViewCliente {
                             System.out.println("dato non modificato");
                         } else {
                             u.setDomicilio(modDomicilio);
-
-                            List<Utente> listaUtenti = GestoreFile.caricaUtenti(PATHUTENTI);
-
-                            listaUtenti.add(u);
-
-                            GestoreFile.salvaUtenti(listaUtenti, PATHUTENTI);
+                        }
+                        //salvataggio dei dati modificati
+                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI);
+                        if (listaUtentiTBS == null) {
+                            System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
+                        }
+                        else {
+                            //salvataggio dati
+                            listaUtentiTBS.remove(u);
+                            listaUtentiTBS.add(u);
+                            GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
                         }
                         break;
-                    case 6:
+                    case 5:
                         System.out.println("Verrai reinderizzato al menù iniziale!");
                         ViewBase.view();
 
