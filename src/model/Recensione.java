@@ -60,7 +60,10 @@ public class Recensione {
         this.descrizione = descrizione;
         this.stelle = stelle;
         this.id = id;
-        idCounter++;
+        //Gestione unicità dell'id
+        if (this.id >= idCounter) {
+            idCounter = this.id + 1;
+        }
     }
 
     /**

@@ -67,7 +67,10 @@ public abstract class Utente {
         this.username=username;
         this.domicilio= domicilio;
         this.dataNascita=dataNascita;
-        idCounter++;
+        //Gestione unicità dell'id
+        if (this.id >= idCounter) {
+            idCounter = this.id + 1;
+        }
     }
 
     /**
@@ -86,7 +89,10 @@ public abstract class Utente {
         this.cognome=cognome;
         this.username=username;
         this.domicilio= domicilio;
-        idCounter++;
+        //Gestione unicità dell'id
+        if (this.id >= idCounter) {
+            idCounter = this.id + 1;
+        }
     }
 
     /**
@@ -106,7 +112,7 @@ public abstract class Utente {
         this.username=username;
         this.domicilio= domicilio;
         this.dataNascita=dataNascita;
-        idCounter++;
+        this.id = idCounter++;
     }
 
     /**
@@ -124,7 +130,7 @@ public abstract class Utente {
         this.cognome=cognome;
         this.username=username;
         this.domicilio= domicilio;
-        idCounter++;
+        this.id = idCounter++;
     }
 //getter e setter
 
