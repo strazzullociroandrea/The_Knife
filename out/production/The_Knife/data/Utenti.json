@@ -1,25 +1,25 @@
 [
   {
+    "ristorantiGestiti": [],
+    "id": 0,
+    "passwordCifrata": "0e151beee3ce8e972d9899cffb0a6eabeb33f26f30800ddfe2a1dda77baa3e4d",
+    "nome": "risto",
+    "cognome": "risto",
+    "username": "risto",
+    "domicilio": "rist",
+    "dataNascita": "03/02/02",
+    "ruolo": "ristoratore"
+  },
+  {
     "preferiti": [],
     "recensioniMesse": [],
     "id": 0,
-    "passwordCifrata": "8f3beeabedffd4f4dffb72c6b9589ddf6b0bbf4060d7154665470134db269907",
-    "nome": "Ciro",
-    "cognome": "Strazzullo",
-    "username": "ciro",
-    "domicilio": "via monte rosa, 19 brugherio",
-    "dataNascita": "03/04/2005",
+    "passwordCifrata": "f19e66dfccb079c908fe99c095972e7cdf68c2cc51cc8fd16a2eff18f019fdec",
+    "nome": "c",
+    "cognome": "c",
+    "username": "c",
+    "domicilio": "c",
+    "dataNascita": "c",
     "ruolo": "cliente"
-  },
-  {
-    "ristorantiGestiti": [],
-    "id": 0,
-    "passwordCifrata": "5efe14467d95a6a31d125887055e1a41741a3963cb327c864d56a0da3d21aed2",
-    "nome": "Risto",
-    "cognome": "Risto",
-    "username": "Risto",
-    "domicilio": "via dalle palme, 2 milano",
-    "dataNascita": "03/03/2006",
-    "ruolo": "ristoratore"
   }
 ]

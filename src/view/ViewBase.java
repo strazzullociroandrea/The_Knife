@@ -3,7 +3,12 @@ package src.view;
 import src.dao.GestoreFile;
 import src.model.*;
 import src.model.Ristorante;
+import src.model.util.ReverseGeocoding;
+
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,7 +45,7 @@ public class ViewBase {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
         }catch(Exception e){
-            for(int i=0;i<20;i++)
+            for(int i=0;i<50;i++)
                 System.out.println();
         }
 
@@ -120,29 +125,78 @@ public class ViewBase {
      * Metodo per registrare un nuovo utente
      * @return oggetto Utente registrato
      */
-    private static Utente registrati(Scanner s){
+    private static Utente registrati(Scanner s) throws Exception {
         String nome = gestisciInput("Inserisci il tuo nome:", s);
         String cognome = gestisciInput("Inserisci il tuo cognome:", s);
         String username = gestisciInput("Inserisci il tuo username:", s);
-        String dataNascita = gestisciInput("Inserisci la tua data di nascita (dd/MM/yyyy):", s);
-        String domicilio = gestisciInput("Inserisci il tuo domicilio:", s);//gestione posizione esistente o no
-        String password = gestisciInput("Inserisci la tua password:", s);
-        String secondaPassword = gestisciInput("Inserisci di nuovo la tua password:", s);
-        String tipologia = gestisciInput("Sei un cliente o un ristoratore? (c/r):", s);
-        if(password.equals(secondaPassword)) {
-            if(tipologia.equalsIgnoreCase("c")) {
-                return new Cliente(password, nome, cognome, username, dataNascita, domicilio);
-            }else if(tipologia.equalsIgnoreCase("r")) {
-                return new Ristoratore(password, nome, cognome, username, dataNascita, domicilio);
+        String dataNascita;
+        boolean notValidData;
+        do{
+            System.out.println("Inserisci la tua data di nascita (dd/MM/yyyy), premi invio per lasciare il campo vuoto:");
+            dataNascita = s.nextLine();
+            if(dataNascita.isEmpty()){
+                notValidData = false;
             }else{
-                System.err.println("Scelta non valida, tipologia utente non esistente!");
-                return null;
+                try {
+                    LocalDate.parse(dataNascita, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    notValidData = false;
+                } catch (DateTimeParseException e) {
+                    System.err.println("Data non valida, riprova! Formato richiesto: dd/MM/yyyy");
+                    notValidData = true;
+                }
             }
+        }while(notValidData);
+        String domicilio;
+        do{
+            domicilio = gestisciInput("Inserisci il tuo domicilio:", s);
+            double[] latLon = ReverseGeocoding.getLatitudineLongitudine(domicilio);
+            if(latLon[0] == -1 && latLon[1] == -1) {
+                domicilio = "";
+                System.out.println("Domicilio non valido, riprova! Assicurati di inserire un indirizzo completo e valido nel formato 'via, città, nazione'.");
+            }
+        }while(domicilio.isEmpty());
 
-        }else{
-            System.err.println("Le password non coincidono, riprova!");
-            System.err.println("Registrazione non avvenuta con successo!");
-            return null;
+        String password, secondaPassword;
+        do {
+            System.out.println("Inserisci la tua password (minimo 7 caratteri):");
+            password = s.nextLine();
+            if (password.length() < 7) {
+                System.err.println("La password deve contenere almeno 7 caratteri.");
+                password = "";
+            }
+        } while (password.isEmpty());
+
+        do {
+            System.out.println("Inserisci di nuovo la tua password:");
+            secondaPassword =  s.nextLine();
+            if (!secondaPassword.equals(password)) {
+                System.err.println("Le password non coincidono, riprova.");
+                secondaPassword = "";
+            }
+        } while (secondaPassword.isEmpty());
+
+        String tipologia;
+        do {
+            tipologia = gestisciInput("Sei un cliente o un ristoratore? (c/r):", s);
+            if (!tipologia.equalsIgnoreCase("c") && !tipologia.equalsIgnoreCase("r")) {
+                System.err.println("Scelta non valida, inserisci 'c' per cliente o 'r' per ristoratore.");
+                tipologia = "";
+            }
+        } while (tipologia.isEmpty());
+
+        // Restituisco l'utente corretto
+        if(tipologia.equalsIgnoreCase("c")) {
+            if(dataNascita.isEmpty()){
+                return new Cliente(password, nome, cognome, username, domicilio);
+            }else{
+                return new Cliente(password, nome, cognome, username, dataNascita, domicilio);
+            }
+        } else {
+            if(dataNascita.isEmpty()){
+                return new Ristoratore(password, nome, cognome, username, domicilio);
+            }else{
+                return new Ristoratore(password, nome, cognome, username, dataNascita, domicilio);
+            }
         }
     }
 
@@ -230,17 +284,27 @@ public class ViewBase {
                 """, s);
                 switch(scelta){
                     case 1 ->{
-                        String luogo = gestisciInput("Inserisci il luogo in cui vuoi cercare ristoranti:", s);
+
+                        String luogo;
+                        do{
+                            luogo = gestisciInput("Inserisci il luogo di ricerca:", s);
+                            double[] latLon = ReverseGeocoding.getLatitudineLongitudine(luogo);
+                            if(latLon[0] == -1 && latLon[1] == -1) {
+                                luogo = "";
+                                System.out.println("Luogo non valido, riprova! Assicurati di inserire un luogo esistente.");
+                            }
+                        }while(luogo.isEmpty());
+
                         boolean continuaInterno = true;
                         do{
                             int sceltaIn = convertiScannerIntero("""
                                 \n\n
-                                Menù:
+                                Menù Ristoranti guest:
                                 1. Visualizza ristoranti vicini al luogo specificato con i relativi dettagli
                                 2. Visualizza ristoranti secondo un filtro e i relativi dettagli
                                 3. Torna al menù principale
                                 4. Modifica luogo
-                                La tua scelta: 
+                                La tua scelta:  
                         """, s);
                             switch(sceltaIn){
                                 case 1 ->{
@@ -271,46 +335,67 @@ public class ViewBase {
                                 }
                                 case 2 ->{
                                     System.out.println("Inserisci i parametri di ricerca:");
-                                    String locazione = gestisciInput("Inserisci la locazione (via, citta, nazione). Attenzione: Parametro obbligatorio!:", s);
-                                    System.out.println("Inserisi  il tipo di cucina con cui vuoi cercare ristoranti premi invio per non inserire:");
+                                    String locazione;
+                                    do {
+                                        locazione = gestisciInput("Inserisci la locazione. Parametro obbligatorio:", s);
+                                        if (locazione.isEmpty()) {
+                                            System.err.println("La locazione è obbligatoria!");
+                                        }else{
+                                            double[] latLon = ReverseGeocoding.getLatitudineLongitudine(locazione);
+                                            if(latLon[0] == -1 && latLon[1] == -1) {
+                                                locazione = "";
+                                                System.out.println("Locazione non valida, riprova! Assicurati di inserire un luogo esistente.");
+                                            }
+                                        }
+                                    } while (locazione.isEmpty());
+                                    System.out.println("Inserisci il tipo di cucina (premi invio per saltare):");
                                     String tipoCucina = s.nextLine();
-                                    double minPrezzo = convertiScannerDouble("Inserisci il prezzo minimo (0 di default per non includerlo nella ricerca):", s);
-                                    double maxPrezzo = convertiScannerDouble("Inserisci il prezzo massimo (0 di default per non includerlo nella ricerca):", s);
-                                    System.out.println("Vuoi includere la ricerca di ristoranti con delivery? (si/no). Attenzione se non viene digitato nulla è no");
-                                    boolean vuoiDelivery = s.nextLine().equalsIgnoreCase("si");
-                                    boolean delivery = false;
-                                    if(vuoiDelivery){
-                                        System.out.println("Vuoi ristoranti che offrano il servizio di delivery? (si/no). Attenzione se non viene digitato nulla è no");
-                                        delivery = s.nextLine().equalsIgnoreCase("si");
+                                    double minPrezzo = convertiScannerDouble("Prezzo minimo (0 per ignorare):", s);
+                                    double maxPrezzo = convertiScannerDouble("Prezzo massimo (0 per ignorare):", s);
+                                    if (maxPrezzo > 0 && minPrezzo > maxPrezzo) {
+                                        System.err.println("Attenzione: il prezzo minimo supera il massimo. Imposto entrambi a 0.");
+                                        minPrezzo = 0;
+                                        maxPrezzo = 0;
                                     }
-                                    System.out.println("Vuoi includere la ricerca di ristoranti con delivery? (si/no). Attenzione se non viene digitato nulla è no");
-                                    boolean vuoiPrenotazione = s.nextLine().equalsIgnoreCase("si");
-                                    boolean prenotazione = false;
-                                    if(vuoiPrenotazione){
-                                        System.out.println("Vuoi ristoranti che offrano il servizio di delivery? (si/no). Attenzione se non viene digitato nulla è no");
-                                        prenotazione = s.nextLine().equalsIgnoreCase("si");
-                                    }
-                                    int minStelle = convertiScannerIntero("Inserisci il numero minimo di stelle (0 a 5). Attenzione se non viene inserito un numero valido viene impostato automaticamente a 0", s);
+                                    System.out.println("Vuoi includere il filtro delivery? (si/no - predefinito: no):");
+                                    boolean conDelivery = s.nextLine().equalsIgnoreCase("si");
+                                    System.out.println("Vuoi includere solo ristoranti con servizio delivery? (si/no - predefinito: no):");
+                                    boolean filtroDelivery = s.nextLine().equalsIgnoreCase("si");
+                                    System.out.println("Vuoi includere il filtro prenotazione? (si/no - predefinito: no):");
+                                    boolean conPrenotazione = s.nextLine().equalsIgnoreCase("si");
+                                    System.out.println("Vuoi includere solo ristoranti con servizio prenotazione? (si/no - predefinito: no):");
+                                    boolean filtroPrenotazione = s.nextLine().equalsIgnoreCase("si");
+                                    int minStelle = convertiScannerIntero("Numero minimo di stelle (0-5, default: 0):", s);
                                     if (minStelle < 0 || minStelle > 5) {
+                                        System.out.println("Valore non valido per le stelle. Impostato a 0.");
                                         minStelle = 0;
                                     }
-                                    List<Ristorante> tmp = Ristorante.combinata(ristoranti, locazione, tipoCucina, minPrezzo, maxPrezzo, vuoiDelivery, delivery, vuoiPrenotazione, prenotazione, minStelle);
-                                    for(Ristorante r: tmp){
-                                        System.out.println(r.visualizzaRistorante());
-                                        System.out.println("Recensioni:");
-                                        for(Recensione rec: r.getRecensioni()){
-                                            System.out.println(rec);
-                                        }
-                                        String continuaRicerca;
-                                        //Aspetta fino a quando non è stato inserito un valore valido
-                                        do {
-                                            System.out.println("Digita 'c' per continuare la ricerca o 'q' per tornare al menù principale");
-                                            continuaRicerca = s.nextLine();
-                                        }while((!continuaRicerca.equalsIgnoreCase("c") && !continuaRicerca.equalsIgnoreCase("q")));
-                                        svuotaConsole();
-                                        if(continuaRicerca.equalsIgnoreCase("q")) {
-                                            System.out.println("Tornando al menù principale...");
-                                            break;
+                                    List<Ristorante> risultati = Ristorante.combinata(
+                                            ristoranti, locazione, tipoCucina, minPrezzo, maxPrezzo,
+                                            conDelivery, filtroDelivery, conPrenotazione, filtroPrenotazione, minStelle
+                                    );
+
+                                    if (risultati.isEmpty()) {
+                                        System.out.println("Nessun ristorante trovato con i criteri specificati.");
+                                    } else {
+                                        for (Ristorante r : risultati) {
+                                            System.out.println(r.visualizzaRistorante());
+                                            System.out.println("Recensioni:");
+                                            for (Recensione rec : r.getRecensioni()) {
+                                                System.out.println(rec);
+                                            }
+                                            String sceltaInterna;
+                                            do {
+                                                System.out.println("Digita 'c' per continuare a vedere i risultati o 'q' per tornare al menu principale:");
+                                                sceltaInterna = s.nextLine();
+                                            } while (!sceltaInterna.equalsIgnoreCase("c") && !sceltaInterna.equalsIgnoreCase("q"));
+
+                                            svuotaConsole();
+
+                                            if (sceltaInterna.equalsIgnoreCase("q")) {
+                                                System.out.println("Torno al menu principale...");
+                                                break;
+                                            }
                                         }
                                     }
                                 }
@@ -320,7 +405,14 @@ public class ViewBase {
                                     svuotaConsole();
                                 }
                                 case 4 ->{
-                                    luogo = gestisciInput("Inserisci il luogo in cui vuoi cercare ristoranti:", s);
+                                    do{
+                                        luogo = gestisciInput("Inserisci il luogo di ricerca:", s);
+                                        double[] latLon = ReverseGeocoding.getLatitudineLongitudine(luogo);
+                                        if(latLon[0] == -1 && latLon[1] == -1) {
+                                            luogo = "";
+                                            System.out.println("Luogo non valido, riprova! Assicurati di inserire un luogo esistente.");
+                                        }
+                                    }while(luogo.isEmpty());
                                     System.out.println("Luogo modificato con successo!");
                                 }
                             }
