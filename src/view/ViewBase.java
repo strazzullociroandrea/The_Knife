@@ -32,12 +32,18 @@ public class ViewBase {
      * @throws InterruptedException eccezione di interruzione
      */
     private static void svuotaConsole() throws IOException, InterruptedException {
-        String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
-        if (operatingSystem.contains("Windows")) {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } else {
-            new ProcessBuilder("clear").inheritIO().start().waitFor();
+        try{
+            String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
+            if (operatingSystem.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        }catch(Exception e){
+            for(int i=0;i<20;i++)
+                System.out.println();
         }
+
     }
     /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
@@ -338,7 +344,7 @@ public class ViewBase {
                         //Registro utente
                         u = registrati(s);
                         List<Utente> utenti = caricaUtenti();
-                        if(giaPresente(utenti, u)){
+                        if(u == null || giaPresente(utenti, u)){
                             System.err.println("Registrazione non avvenuta con successo!");
                         }else{
                             //salvo il file aggiornato di utenti
@@ -365,9 +371,10 @@ public class ViewBase {
                          System.err.println("Attenzione, scelta non valida, riprova!");
                 }
             }
+        } catch (IOException e) {
+            System.err.println("Errore durante l'esecuzione del programma: " + e.getMessage());
         } catch (Exception e) {
-            throw new Exception();
+            System.err.println("Errore imprevisto: " + e.getMessage());
         }
-
     }
 }
