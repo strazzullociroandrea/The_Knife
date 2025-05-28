@@ -9,9 +9,9 @@ import java.util.Scanner;
 /**
  * Classe Ristoratore
  * @version 1.0
- *  * @Author Strazzullo Ciro Andrea
- *  * @Author Riccardo Giovanni Rubini
- *  * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
  */
 public class Ristoratore extends Utente {
 
@@ -36,7 +36,6 @@ public class Ristoratore extends Utente {
      * @param domicilio domicilio del ristoratore
      */
     public Ristoratore(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio) {
-
         super(id,password,nome,cognome,username,dataNascita,domicilio);
         this.ristorantiGestiti = new ArrayList<>();
     }
@@ -218,6 +217,10 @@ public class Ristoratore extends Utente {
         System.out.println("numero recensioni: "+c);
     }
 
+    /**
+     * Metodo per visualizzare il ruolo del ristoratore
+     * @return Restituisce "Ristoratore"
+     */
     @Override
     public String getRuolo(){
         return "Ristoratore";

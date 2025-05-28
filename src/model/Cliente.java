@@ -6,9 +6,9 @@ import java.util.Scanner;
 /**
  * Classe cliente
  * @version 1.0
- *  * @Author Strazzullo Ciro Andrea
- *  * @Author Riccardo Giovanni Rubini
- *  * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
  */
 public class Cliente extends Utente {
 

@@ -8,6 +8,9 @@ package src.model.exception;
  * @Author Matteo Mongelli
  */
 public class CreaRistoranteException extends RuntimeException {
+    /**
+     * Costruttore per creare un'eccezione personalizzata lanciata nel caso la creazione di un ristorante non vada a buon fine
+     */
     public CreaRistoranteException() {
         super("Non è stato possibile completare la creazione di un ristorante");
     }

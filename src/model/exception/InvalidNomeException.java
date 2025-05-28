@@ -8,6 +8,9 @@ package src.model.exception;
  * @Author Matteo Mongelli
  */
 public class InvalidNomeException extends RuntimeException {
+    /**
+     * Costruttore per creare un'eccezione personalizzata lanciata nel caso il nome o il cognome siano stringhe vuote
+     */
     public InvalidNomeException() {
         super("il nome e il cognome non possono essere stringhe vuote");
     }

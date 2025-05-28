@@ -173,7 +173,11 @@ public class Recensione {
      *metodo per ottenere la Stringa associata a una recensione
      * @return restituisce la recensione in forma di stringa
      */
-   
+
+    /**
+     * Metodo per ottenere la rappresentazione testuale della recensione
+     * @return una stringa che rappresenta la recensione, con descrizione, stelle, risposta e id
+     */
     @Override
     public String toString() {
         return "Recensione{" +

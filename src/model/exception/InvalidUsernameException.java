@@ -8,6 +8,9 @@ package src.model.exception;
  * @Author Matteo Mongelli
  */
 public class InvalidUsernameException extends RuntimeException {
+    /**
+     * Costruttore per creare un'eccezione personalizzata lanciata nel caso l'username sia nullo o abbia più di 18 caratteri
+     */
     public InvalidUsernameException() {
         super("l'username non puo' essere nullo e deve avere un massimo di 18 caratteri");
     }

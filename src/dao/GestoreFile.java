@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestoreFile {
-    /**
-     * Oggetto Gson per la serializzazione e deserializzazione degli oggetti
-     */
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * Metodo per adattare i path in base al sistema operativo
@@ -34,6 +30,7 @@ public class GestoreFile {
      */
     public static void salvaRistoranti(List<Ristorante> ristoranti, String path) throws IOException {
         try (Writer writer = new FileWriter(path)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(ristoranti, writer);
         }catch(Exception e){
             throw new IOException("Errore durante la scrittura dei ristoranti");
@@ -48,6 +45,7 @@ public class GestoreFile {
      */
     public static List<Ristorante> caricaRistoranti(String path) throws IOException {
         try (Reader reader = new FileReader(path)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.fromJson(reader, new TypeToken<List<Ristorante>>() {}.getType());
         }catch(Exception e){
             throw new IOException("Errore durante il caricamento dei ristoranti");
@@ -62,8 +60,8 @@ public class GestoreFile {
      */
     public static void salvaUtenti(List<Utente> utenti, String path) throws IOException {
         JsonArray array = new JsonArray();
-
         for (Utente u : utenti) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonElement jsonElement = gson.toJsonTree(u);
 
             if (jsonElement.isJsonObject()) {
@@ -78,6 +76,7 @@ public class GestoreFile {
         }
 
         try (Writer writer = new FileWriter(path)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(array, writer);
         }catch(Exception e){
             throw new IOException("Errore durante il salvataggio degli utenti");
@@ -100,7 +99,7 @@ public class GestoreFile {
             for (JsonElement elem : array) {
                 JsonObject obj = elem.getAsJsonObject();
                 String ruolo = obj.get("ruolo").getAsString().toLowerCase();
-
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 if (ruolo.equals("cliente")) {
                     utenti.add(gson.fromJson(obj, Cliente.class));
                 } else if (ruolo.equals("ristoratore")) {

@@ -10,9 +10,9 @@ import javax.naming.InvalidNameException;
 /**
  * Classe Utente
  * @version 1.0
- *  * @Author Strazzullo Ciro Andrea
- *  * @Author Riccardo Giovanni Rubini
- *  * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
  */
 public abstract class Utente {
 
@@ -258,10 +258,6 @@ public abstract class Utente {
     }
 
     /**
-     * metodo per richiamare il ruolo
-     * @return
-     */
-    /**
      * Metodo per verificare le credenziali di username e password dopo aver fatto l'hashing
      * @param username
      * @param password
@@ -272,5 +268,9 @@ public abstract class Utente {
         return this.username.equals(username) && this.passwordCifrata.equals(passwordHash);
     }
 
+    /**
+     * Metodo astratto per ottenere il ruolo dell'utente
+     * @return ruolo
+     */
     abstract public String getRuolo();
 }

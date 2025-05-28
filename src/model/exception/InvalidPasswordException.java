@@ -8,6 +8,9 @@ package src.model.exception;
  * @Author Matteo Mongelli
  */
 public class InvalidPasswordException extends RuntimeException {
+    /**
+     * Costruttore per creare un'eccezione personalizzata lanciata nel caso la password sia inferiore a 6 caratteri
+     */
     public InvalidPasswordException() {
         super("la password non puo' avere meno di 6 caratteri");
     }
