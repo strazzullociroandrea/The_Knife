@@ -69,7 +69,7 @@ public class ViewCliente {
     public boolean verificaRistorante(Ristorante r) {
         boolean esiste = false;
         try {
-            for (Ristorante tmp : GestoreFile.caricaRistoranti(PATHUTENTI))
+            for (Ristorante tmp : GestoreFile.caricaRistoranti(PATHRISTORANTI))
                 if (tmp.equals(r))
                     esiste = true;
         } catch (IOException e) {
@@ -208,7 +208,7 @@ public class ViewCliente {
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
-                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHRISTORANTI);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
 
                     break;
 
