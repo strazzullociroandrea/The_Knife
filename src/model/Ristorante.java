@@ -605,30 +605,50 @@ public class Ristorante {
      * @return  lista filtrata
      * @throws Exception eccezione lanciata se l'elenco è null o la locazione è vuota
      */
-    public static List<Ristorante> combinata(List<Ristorante> elenco, String locazione, String tipoCucina, double minPrezzo, double maxPrezzo,
-                                             boolean vuoiDelivery, boolean delivery,  boolean vuoiPrenotazione,boolean prenotazione, int minStelle) throws Exception {
-        if(elenco == null){
-            throw new IllegalArgumentException("l'elenco non può essere nullo");
+    public static List<Ristorante> combinata(List<Ristorante> elenco,
+                                             String locazione,
+                                             String tipoCucina,
+                                             double minPrezzo,
+                                             double maxPrezzo,
+                                             boolean vuoiDelivery,
+                                             boolean delivery,
+                                             boolean vuoiPrenotazione,
+                                             boolean prenotazione,
+                                             int minStelle) throws Exception {
+        if (elenco == null) {
+            throw new IllegalArgumentException("L'elenco non può essere nullo.");
         }
-        //RICERCA OBBLIGATORIA
-        if (locazione.isEmpty()) {
-            throw new IllegalArgumentException("locazione non può essere nullo");
+        if (locazione == null || locazione.trim().isEmpty()) {
+            throw new IllegalArgumentException("La locazione non può essere vuota.");
         }
+
+        // Filtro obbligatorio per locazione
         List<Ristorante> tmp = Ristorante.perLocazione(elenco, locazione);
-        //RICERCHE FACOLTATIVE
-        if (tipoCucina != null && !tipoCucina.isEmpty()) {
-            tmp = Ristorante.perTipoCucina(tmp, tipoCucina, locazione);
+
+        // Filtro per tipo di cucina, se specificato
+        if (tipoCucina != null && !tipoCucina.trim().isEmpty()) {
+            tmp = Ristorante.perTipoCucina(tmp, tipoCucina,locazione);
         }
-        tmp = Ristorante.perFasciaPrezzo(tmp, minPrezzo, maxPrezzo, locazione);
-        if(vuoiDelivery) {
-            tmp = Ristorante.perDelivery(tmp, delivery, locazione);
+
+        // Filtro per fascia di prezzo
+        tmp = Ristorante.perFasciaPrezzo(tmp, minPrezzo, maxPrezzo,locazione);
+
+        // Filtro per servizio delivery se richiesto
+        if (vuoiDelivery) {
+            tmp = Ristorante.perDelivery(tmp, delivery,locazione);
         }
-        if(vuoiPrenotazione){
-            tmp = Ristorante.perPrenotazioneOnline(tmp, prenotazione, locazione);
+
+        // Filtro per servizio prenotazione online se richiesto
+        if (vuoiPrenotazione) {
+            tmp = Ristorante.perPrenotazioneOnline(tmp, prenotazione,locazione);
         }
+
+        // Filtro per media stelle
         if (minStelle > 0) {
             tmp = Ristorante.perMediaStelle(tmp, minStelle, locazione);
         }
+
         return tmp;
     }
+
 }

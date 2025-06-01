@@ -110,5 +110,16 @@
     "domicilio": "Varese",
     "dataNascita": "14/05/2005",
     "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "45b00f5c987f716c9de20c5a06329aa9b4fe28b190acaa878be2406d09701e4d",
+    "nome": "ciro",
+    "cognome": "ciro",
+    "username": "ciro",
+    "domicilio": "via gran paradiso, 4 brugherio",
+    "ruolo": "cliente"
   }
 ]
