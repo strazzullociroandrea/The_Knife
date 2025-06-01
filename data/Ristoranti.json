@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "id": 0,
+    "nome": "Pizzeria Rossi",
+    "nazione": "Italia",
+    "citta": "Varese",
+    "indirizzo": "Via Dandolo 5",
+    "tipoCucina": "Italiana",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 5.0,
+    "maxPrezzo": 30.0,
+    "recensioni": [
+      {
+        "descrizione": "Ottimo",
+        "stelle": 5,
+        "id": 0
+      }
+    ]
+  }
+]

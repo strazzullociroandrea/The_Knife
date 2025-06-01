@@ -69,5 +69,46 @@
     "domicilio": "Varese",
     "dataNascita": "14/05/2005",
     "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "ristorantiGestiti": [],
+    "id": 0,
+    "passwordCifrata": "5379f8ce1ec05ce3694238f4e4d89de9711d24e6ad29869a665ca167cc075e0c",
+    "nome": "Mario",
+    "cognome": "Rossi",
+    "username": "Rossi5",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "ristoratore"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "Ottimo",
+        "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
   }
 ]

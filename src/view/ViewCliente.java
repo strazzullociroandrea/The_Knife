@@ -278,26 +278,22 @@ public class ViewCliente {
                     case 2:
                         System.out.println("\n--- Scegliere i criteri del filtro ---");
 
-                        System.out.println("inserire una location");
-                        String location = s.nextLine();
-                        System.out.println("inserire il tipo di cucina desiderata tra: /n");
-                        String tipoCucina = s.nextLine();
+                        String location = gestisciInput("inserire una location", s, true);
+                        String tipoCucina = gestisciInput("inserire il tipo di cucina desiderata", s, true);
                         double prezzoMinimo = leggiDouble(s, "Inserire il prezzo minimo richiesto:");
                         double prezzoMassimo = leggiDouble(s, "Inserire il prezzo massimo richiesto:");
-                        System.out.println("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio");
                         boolean delivery = false;
-                        String deliveryText = s.nextLine();
+                        String deliveryText = gestisciInput("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio", s, false);
                         if (deliveryText.equals("1")) {
                             delivery = true;
                         }
-                        System.out.println("Digitare 1 per ricercare solo ristoranti con prenotazione disponibile, altrimenti premere invio");
                         boolean prenotazione = false;
-                        String prenotazioneText = s.nextLine();
+                        String prenotazioneText = gestisciInput("Digitare 1 per ricercare solo ristoranti con prenotazione disponibile, altrimenti premere invio", s, false);
                         if (prenotazioneText.equals("1")) {
                             prenotazione = true;
                         }
-                        System.out.println("inserire il minimo di stelle richiesto");
-                        int stelleMin = ViewBase.convertiScannerIntero(s.nextLine(), s);
+
+                        int stelleMin = ViewBase.convertiScannerIntero(gestisciInput("inserire il minimo di stelle richiesto", s, true), s);
 
 
                         List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, true, delivery, true, prenotazione, stelleMin);
