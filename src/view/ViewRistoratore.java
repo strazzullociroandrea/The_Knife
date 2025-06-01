@@ -29,7 +29,7 @@ public class ViewRistoratore {
      */
 
     private static String gestisciInput(String msg, Scanner scanner) {
-        String input = "";
+        String input;
         do {
             System.out.println(msg);
             input = scanner.nextLine();
@@ -44,59 +44,67 @@ public class ViewRistoratore {
      * @param listaRecensioni lista delle recensioni che si vuole scorrere
      */
     private static void navigazioneRecensioni(Ristoratore u, Ristorante r, List<Recensione> listaRecensioni) {
-        Scanner s= new Scanner(System.in);
-        if (listaRecensioni == null || listaRecensioni.isEmpty()) {
-            System.out.println("Nessuna recensione trovata.");
-            return;
-        }
-        int indiceR = 0;
-        boolean visualizzaR = true;
-        while (visualizzaR) {
-            Recensione recensioneCorrente = listaRecensioni.get(indiceR);
-            System.out.println("\n--- Recensione " + (indiceR + 1) + " di " + listaRecensioni.size() + " ---");
-            System.out.println(recensioneCorrente.getDescrizione());
-            System.out.println(recensioneCorrente.getStelle());
-            System.out.println("""
-                        Scegli un'opzione:
-                        1. Vai alla recensione successiva
-                        2. Torna al recensione precedente
-                        3. Rispondi a recensione
-                        4. Esci dalla visualizzazione
-                    """);
-            int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
-            switch (sceltaInterna) {
-
-                case 1:
-                    if (indiceR< listaRecensioni.size() - 1) {
-                        indiceR++;
-                    } else {
-                        System.out.println("Hai raggiunto l'ultima recensione.");
-                    }
-
-                    break;
-
-                case 2:
-                    if (indiceR > 0) {
-                        indiceR--;
-                    } else {
-                        System.out.println("Sei già alla prima recensione");
-                    }
-
-                    break;
-                case 3:
-                    String risposta=recensioneCorrente.getRisposta();
-                    u.rispondiRecensione(recensioneCorrente,risposta);
-                    break;
-                case 4:
-                    visualizzaR= false;
-                    break;
-
-                default:
-                    System.out.println("Scelta non valida.");
+        try (Scanner s = new Scanner(System.in)) {
+            if (u.getRistorantiGestiti() == null || !u.getRistorantiGestiti().contains(r)) {
+                System.out.println("Non gestisci questo ristorante.");
+                return;
             }
-        }
+            if (listaRecensioni == null || listaRecensioni.isEmpty()) {
+                System.out.println("Nessuna recensione trovata per questo ristorante.");
+                return;
+            }
+            int indiceR = 0;
+            boolean visualizzaR = true;
+            while (visualizzaR) {
+                Recensione recensioneCorrente = listaRecensioni.get(indiceR);
+                if (r.getRecensioni() == null || !r.getRecensioni().contains(recensioneCorrente)) {
+                    System.out.println("Recensione non appartenente al ristorante selezionato.");
+                    return;
+                }
+                System.out.println("\n--- Recensione " + (indiceR + 1) + " di " + listaRecensioni.size() + " ---");
+                System.out.println("Testo: " + recensioneCorrente.getDescrizione());
+                System.out.println("Stelle: " + recensioneCorrente.getStelle());
+                System.out.println("""
+                Scegli un'opzione:
+                1. Vai alla recensione successiva
+                2. Torna alla recensione precedente
+                3. Rispondi alla recensione
+                4. Esci dalla visualizzazione
+            """);
 
+                int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
+
+                switch (sceltaInterna) {
+                    case 1 -> {
+                        if (indiceR < listaRecensioni.size() - 1) {
+                            indiceR++;
+                        } else {
+                            System.out.println("Hai raggiunto l'ultima recensione.");
+                        }
+                    }
+                    case 2 -> {
+                        if (indiceR > 0) {
+                            indiceR--;
+                        } else {
+                            System.out.println("Sei già alla prima recensione.");
+                        }
+                    }
+                    case 3 -> {
+                        System.out.println("Inserisci la tua risposta, attenzione la risposta verrà sovrascritta:");
+                        String risposta = s.nextLine();
+                        u.rispondiRecensione(recensioneCorrente, risposta);
+                        System.out.println("Risposta aggiunta/modificata con successo.");
+                    }
+                    case 4 -> visualizzaR = false;
+                    default -> System.out.println("Scelta non valida.");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Errore nella navigazione delle recensioni: " + e.getMessage());
+        }
     }
+
+
 
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
@@ -111,72 +119,65 @@ public class ViewRistoratore {
             System.out.println("Nessun ristorante trovato.");
             return;
         }
-
         int indice = 0;
         boolean visualizza = true;
-
         while (visualizza) {
+            if (listaRistoranti.isEmpty()) {
+                System.out.println("Non ci sono più ristoranti da visualizzare.");
+                return;
+            }
+            if (indice >= listaRistoranti.size()) {
+                indice = listaRistoranti.size() - 1;
+            }
             Ristorante ristoranteCorrente = listaRistoranti.get(indice);
+            if (u.getRistorantiGestiti() == null || !u.getRistorantiGestiti().contains(ristoranteCorrente)) {
+                System.out.println("Non gestisci questo ristorante, rimosso dalla lista.");
+                listaRistoranti.remove(ristoranteCorrente);
+                continue; // passa al prossimo ciclo senza incrementare l'indice
+            }
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
             System.out.println(ristoranteCorrente.visualizzaRistorante());
-
             System.out.println("""
-                        Scegli un'opzione:
-                        1. Vai al ristorante successivo
-                        2. Torna al ristorante precedente
-                        3. Rimuovi il ristorante 
-                        4. Visualizza recensioni ristorante
-                        5. Visualizza riepilogo ristorante
-                        6. Esci dalla visualizzazione
-                    """);
-
+                Scegli un'opzione:
+                1. Vai al ristorante successivo
+                2. Torna al ristorante precedente
+                3. Rimuovi il ristorante
+                4. Visualizza recensioni ristorante
+                5. Visualizza riepilogo ristorante
+                6. Esci dalla visualizzazione
+                """);
             int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
-
             switch (sceltaInterna) {
-
-                case 1:
+                case 1 -> {
                     if (indice < listaRistoranti.size() - 1) {
                         indice++;
                     } else {
                         System.out.println("Hai raggiunto l'ultimo ristorante.");
                     }
-
-                    break;
-
-                case 2:
+                }
+                case 2 -> {
                     if (indice > 0) {
                         indice--;
                     } else {
                         System.out.println("Sei già al primo ristorante.");
                     }
-
-                    break;
-
-                case 3:
+                }
+                case 3 -> {
                     u.eliminaRistorante(ristoranteCorrente);
-
-                    break;
-
-                case 4:
-                    List<Recensione> listaRecensioni;
-                    listaRecensioni=ristoranteCorrente.getRecensioni();
-                    navigazioneRecensioni(u,ristoranteCorrente,listaRecensioni);
-                    break;
-
-                case 5:
-                    u.visualizzaRiepilogo(ristoranteCorrente);
-                    break;
-
-                case 6:
-                    visualizza = false;
-
-                    break;
-
-                default:
-                    System.out.println("Scelta non valida.");
+                    listaRistoranti.remove(ristoranteCorrente);
+                    System.out.println("Ristorante rimosso con successo.");
+                }
+                case 4 -> {
+                    List<Recensione> listaRecensioni = ristoranteCorrente.getRecensioni();
+                    navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni);
+                }
+                case 5 -> u.visualizzaRiepilogo(ristoranteCorrente);
+                case 6 -> visualizza = false;
+                default -> System.out.println("Scelta non valida.");
             }
         }
     }
+
 
     /**
      * metodo per accedere alla view del risotrante
@@ -184,132 +185,103 @@ public class ViewRistoratore {
      * @throws Exception
      */
     public static void view(Ristoratore u) throws Exception {
-        /*
-         Menù ristoratore:
-         1. Lista ristoranti gestiti (crea,modifica, elimina, aggiungi ristorante ai gestiti)
-         2. Gestisci recensioni ristoranti gestiti (visualizza recensioni, rispondi a recensioni)
-                """,
-         */
-
         boolean continua = true;
-        boolean delivery = false;
-        boolean prenotazione = false;
-        boolean prenotazioneOnline = false;
 
-        while (continua) {
-
-            System.out.println("\n---Menù Ristoratore:---");
-            System.out.println("1.Visualizza tutti i ristoranti gestiti");
-            System.out.println("2.Crea ristorante");
-            System.out.println("3.visualizza dati personali");
-            System.out.println("4.modifica dati personali");
-            System.out.println("5. Logout");
-
-
-            try (Scanner s = new Scanner(System.in)) {
+        try (Scanner s = new Scanner(System.in)) {
+            while (continua) {
+                System.out.println("\n--- Menù Ristoratore ---");
+                System.out.println("1. Visualizza tutti i ristoranti gestiti");
+                System.out.println("2. Crea ristorante");
+                System.out.println("3. Visualizza dati personali");
+                System.out.println("4. Modifica dati personali");
+                System.out.println("5. Logout");
 
                 int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione", s);
 
                 switch (scelta) {
-                    case 1:
+                    case 1 -> {
                         List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
                         if (listaRistoranti.isEmpty()) {
                             System.out.println("Nessun ristorante trovato.");
+                        } else {
+                            navigazioneRistoranti(u, s, listaRistoranti);
                         }
-                        navigazioneRistoranti(u, s, listaRistoranti);
-                        break;
-                    case 2:
+                    }
 
+                    case 2 -> {
                         System.out.println("Creazione del ristorante...");
-                        String nome= gestisciInput("inserire il nome del ristorante: ",s);
-                        String nazione= gestisciInput("inserire la nazione del ristorante: ",s);
-                        String citta= gestisciInput("inserire la città del ristorante: ",s);
-                        String indirizzo= gestisciInput("inserire l'indirizzo del ristorante: ",s);
-                        System.out.println("inserire se presente delivery del ristorante");
-                        int sceltaDelivery;
-                        do{
-                             sceltaDelivery = ViewBase.convertiScannerIntero("""
-                                            \n\n
-                                            Scegli un'opzione delivery:
-                                            1.si
-                                            2.no""",s);
-                            switch (sceltaDelivery) {
-                                case 1:
-                                    delivery= true;
 
-                                    break;
-                                case 2:
-                                    delivery=false;
+                        String nome = gestisciInput("Inserire il nome del ristorante: ", s);
+                        String nazione = gestisciInput("Inserire la nazione del ristorante: ", s);
+                        String citta = gestisciInput("Inserire la città del ristorante: ", s);
+                        String indirizzo = gestisciInput("Inserire l'indirizzo del ristorante: ", s);
 
-                                    break;
-                                default:
-                                    System.out.println("Inserire un'opzione delivery");;
-                                    break;
+                        boolean delivery;
+                        while (true) {
+                            int sceltaDelivery = ViewBase.convertiScannerIntero(
+                                    "\nScegli un'opzione delivery:\n1. sì\n2. no\n", s);
+                            if (sceltaDelivery == 1) {
+                                delivery = true;
+                                break;
+                            } else if (sceltaDelivery == 2) {
+                                delivery = false;
+                                break;
+                            } else {
+                                System.out.println("Opzione inserita in modo errato, riprova.");
                             }
-                        }while(sceltaDelivery!=1 && sceltaDelivery!=2);
-                        int sceltaPrenotazione;
-                        do {
-                            sceltaPrenotazione = ViewBase.convertiScannerIntero("""
-                                            \n\n
-                                            Scegli un'opzione prenotazione:
-                                            1.si
-                                            2.no""",s);
-                            switch (sceltaPrenotazione) {
-                                case 1:
-                                    prenotazione= true;
+                        }
 
-                                    break;
-                                case 2:
-                                    prenotazione=false;
-
-                                    break;
-                                default:
-                                    System.out.println("opzione inserita in modo errato!");;
-                                    break;
+                        boolean prenotazione;
+                        while (true) {
+                            int sceltaPrenotazione = ViewBase.convertiScannerIntero(
+                                    "\nScegli un'opzione prenotazione:\n1. sì\n2. no\n", s);
+                            if (sceltaPrenotazione == 1) {
+                                prenotazione = true;
+                                break;
+                            } else if (sceltaPrenotazione == 2) {
+                                prenotazione = false;
+                                break;
+                            } else {
+                                System.out.println("Opzione inserita in modo errato, riprova.");
                             }
+                        }
 
-                        }while(sceltaPrenotazione !=1 && sceltaPrenotazione !=2 );
+                        String tipoCucina = gestisciInput("Inserire il tipo di cucina: ", s);
 
-                        String tipoCucina= gestisciInput("inserire il tipo di cucina: ",s);
-
-                        int sceltaPrenotazioneOnline;
-                        do {
-                            sceltaPrenotazioneOnline = ViewBase.convertiScannerIntero("""
-                                            \n\n
-                                            Scegli un'opzione prenotazione:
-                                            1.si
-                                            2.no""",s);
-                            switch (sceltaPrenotazioneOnline) {
-                                case 1:
-                                    prenotazioneOnline= true;
-
-                                    break;
-                                case 2:
-                                    prenotazioneOnline=false;
-
-                                    break;
-                                default:
-                                    System.out.println("opzione inserita in modo errato!");
-                                    break;
+                        boolean prenotazioneOnline;
+                        while (true) {
+                            int sceltaPrenotazioneOnline = ViewBase.convertiScannerIntero(
+                                    "\nScegli un'opzione prenotazione online:\n1. sì\n2. no\n", s);
+                            if (sceltaPrenotazioneOnline == 1) {
+                                prenotazioneOnline = true;
+                                break;
+                            } else if (sceltaPrenotazioneOnline == 2) {
+                                prenotazioneOnline = false;
+                                break;
+                            } else {
+                                System.out.println("Opzione inserita in modo errato, riprova.");
                             }
+                        }
 
-                        }while(sceltaPrenotazioneOnline!=1 && sceltaPrenotazioneOnline !=2 );
+                        System.out.print("Inserire il prezzo minimo per il tuo ristorante: ");
+                        double minPrezzo = s.nextDouble();
+                        s.nextLine(); // Consuma newline
 
-                        System.out.println("inserire il prezzo minimo per il tuo ristorante");
-                        double minPrezzo=  s.nextDouble();
-                        s.nextLine();
+                        System.out.print("Inserire il prezzo massimo per il tuo ristorante: ");
+                        double maxPrezzo = s.nextDouble();
+                        s.nextLine(); // Consuma newline
 
-                        System.out.println("inserire il prezzo massimo per il tuo ristorante");
-                        double maxPrezzo=  s.nextDouble();
-                        s.nextLine();
+                        Ristorante nuovoRistorante = u.creaRistorante(nome, nazione, citta, indirizzo,
+                                delivery, prenotazione, tipoCucina, prenotazioneOnline, minPrezzo, maxPrezzo);
 
-                        Ristorante nuovoRistorante=u.creaRistorante(nome,nazione,citta,indirizzo,delivery,prenotazione,tipoCucina,prenotazioneOnline,minPrezzo,maxPrezzo);
-                        List<Ristorante>listaRistoranti2=GestoreFile.caricaRistoranti(PATHRISTORANTI);
-                        listaRistoranti2.add(nuovoRistorante);
-                        GestoreFile.salvaRistoranti(listaRistoranti2,PATHRISTORANTI);
-                        break;
+                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        listaRistoranti.add(nuovoRistorante);
+                        GestoreFile.salvaRistoranti(listaRistoranti, PATHRISTORANTI);
 
-                    case 3:
+                        System.out.println("Ristorante creato con successo.");
+                    }
+
+                    case 3 -> {
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + u.getNome());
                         System.out.println("Cognome: " + u.getCognome());
@@ -317,18 +289,16 @@ public class ViewRistoratore {
                         System.out.println("Data di nascita: " + u.getDataNascita());
                         System.out.println("Domicilio: " + u.getDomicilio());
                         System.out.println("Tipo utente: " + (u instanceof Ristoratore ? "Ristoratore" : "Cliente"));
+                    }
 
-                        break;
-                    case 4:
-                        String modNome = gestisciInput("inserisci il tuo nuovo nome", s);
-
+                    case 4 -> {
+                        String modNome = gestisciInput("Inserisci il tuo nuovo nome: ", s);
                         u.setNome(modNome);
 
-                        String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s);
-
+                        String modCognome = gestisciInput("Inserisci il tuo nuovo cognome: ", s);
                         u.setCognome(modCognome);
 
-                        String modUserName = gestisciInput("inserisci il tuo nuovo username", s);
+                        String modUserName = gestisciInput("Inserisci il tuo nuovo username: ", s);
 
                         boolean usernameEsistente = false;
                         for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
@@ -338,16 +308,15 @@ public class ViewRistoratore {
                                 break;
                             }
                         }
+
                         if (!usernameEsistente) {
                             u.setUsername(modUserName);
-                            System.out.println("Username aggiornato");
+                            System.out.println("Username aggiornato.");
                         }
 
-
                         boolean passwordValida = false;
-
                         while (!passwordValida) {
-                            String modPassword = gestisciInput("Inserisci la tua nuova password:", s);
+                            String modPassword = gestisciInput("Inserisci la tua nuova password: ", s);
                             String pwCifrata = PasswordUtil.hashPassword(modPassword);
 
                             if (pwCifrata.equals(u.getPasswordCifrata())) {
@@ -359,20 +328,19 @@ public class ViewRistoratore {
                             }
                         }
 
-                        String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s);
+                        String modDomicilio = gestisciInput("Inserisci il tuo nuovo domicilio: ", s);
                         u.setDomicilio(modDomicilio);
+                    }
 
-                        break;
-
-                        case 5:
+                    case 5 -> {
+                        System.out.println("Logout effettuato.");
                         continua = false;
-                        break;
+                    }
 
-                    default:
-                        System.out.println("inserire una scelta valida: ");
-                        break;
+                    default -> System.out.println("Inserire una scelta valida.");
                 }
             }
         }
     }
+
 }
