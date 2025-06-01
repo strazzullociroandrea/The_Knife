@@ -21,5 +21,65 @@
     "domicilio": "c",
     "dataNascita": "c",
     "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "69d6b2868876116203e97e797bcb205fe9d848f98680e048ab5b449dace23d3d",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "69d6b2868876116203e97e797bcb205fe9d848f98680e048ab5b449dace23d3d",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "9bc8814c6369dc0a9885ab163227c592c74512111cf6dfd0ce54dd543199766f",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
   }
 ]

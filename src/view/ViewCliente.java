@@ -351,30 +351,29 @@ public class ViewCliente {
                             }
                         }
 
-
                         boolean passwordValida = false;
 
-                        String modPassword = gestisciInput("Inserisci la tua nuova password:", s, false);
-                        if (modPassword.isBlank())
-                            System.out.println("dato non modificato");
-                        else {
+                        while (!passwordValida) {
+                            String modPassword = gestisciInput("Inserisci la tua nuova password:", s, false);
 
-                            while (!passwordValida) {
-                                modPassword = gestisciInput("Inserisci la tua nuova password:", s, false);
+                            if (modPassword.isBlank()) {
+                                System.out.println("dato non modificato");
+                                break;
+                            }
 
-                                if (modPassword.isBlank()) {
-                                    System.out.println("dato non modificato");
-                                } else {
-                                    String pwCifrata = PasswordUtil.hashPassword(modPassword);
+                            if (modPassword.length() < 7) {
+                                System.out.println("La password deve contenere almeno 7 caratteri.");
+                                continue;
+                            }
 
-                                    if (pwCifrata.equals(u.getPasswordCifrata())) {
-                                        System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
-                                    } else {
-                                        u.setPasswordCifrata(pwCifrata);
-                                        System.out.println("Password modificata con successo.");
-                                        passwordValida = true;
-                                    }
-                                }
+                            String pwCifrata = PasswordUtil.hashPassword(modPassword);
+
+                            if (pwCifrata.equals(u.getPasswordCifrata())) {
+                                System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
+                            } else {
+                                u.setPasswordCifrata(pwCifrata);
+                                System.out.println("Password modificata con successo.");
+                                passwordValida = true;
                             }
                         }
 
