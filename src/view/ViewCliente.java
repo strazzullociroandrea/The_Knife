@@ -293,7 +293,7 @@ public class ViewCliente {
                             prenotazione = true;
                         }
 
-                        int stelleMin = ViewBase.convertiScannerIntero("inserire il minimo di stelle richiesto"2ù, s);
+                        int stelleMin = ViewBase.convertiScannerIntero("inserire il minimo di stelle richiesto", s);
 
 
                         List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, true, delivery, true, prenotazione, stelleMin);
