@@ -625,6 +625,7 @@ public class Ristorante {
         // Filtro obbligatorio per locazione
         List<Ristorante> tmp = Ristorante.perLocazione(elenco, locazione);
 
+
         // Filtro per tipo di cucina, se specificato
         if (tipoCucina != null && !tipoCucina.trim().isEmpty()) {
             tmp = Ristorante.perTipoCucina(tmp, tipoCucina,locazione);
@@ -632,22 +633,34 @@ public class Ristorante {
 
         // Filtro per fascia di prezzo
         tmp = Ristorante.perFasciaPrezzo(tmp, minPrezzo, maxPrezzo,locazione);
-
+        System.out.println("per fascia prezzo");
+        for(Ristorante r: tmp){
+            System.out.println(r);
+        }
         // Filtro per servizio delivery se richiesto
         if (vuoiDelivery) {
             tmp = Ristorante.perDelivery(tmp, delivery,locazione);
         }
-
+        System.out.println("per delivery");
+        for(Ristorante r: tmp){
+            System.out.println(r);
+        }
         // Filtro per servizio prenotazione online se richiesto
         if (vuoiPrenotazione) {
             tmp = Ristorante.perPrenotazioneOnline(tmp, prenotazione,locazione);
         }
-
+        System.out.println("per prenotazione online");
+        for(Ristorante r: tmp){
+            System.out.println(r);
+        }
         // Filtro per media stelle
         if (minStelle > 0) {
             tmp = Ristorante.perMediaStelle(tmp, minStelle, locazione);
         }
-
+        System.out.println("per media stelle");
+        for(Ristorante r: tmp){
+            System.out.println(r);
+        }
         return tmp;
     }
 

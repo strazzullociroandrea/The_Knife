@@ -163,6 +163,7 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 * Strazzullo Ciro Andrea
 * Mongelli Matteo
 * Rubini Riccardo Giovanni
+* Girardelllo Nicolò Valer (abbandato il progetto)
 
 ## 10. Passi
 
@@ -179,6 +180,7 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 * Il progetto è stato sviluppato e testato su Windows e MacOS
 
 **Un utilizzo diverso della versione di Java o del sistema operativo potrebbe portare a malfunzionamenti dell'applicazione.**
+**Per un utilizzo ottimale si consiglia di eseguire il programma tramite il terminale del proprio sistema operativo.**
 
 Per avviare l'applicazione si hanno due modi:
 * Eseguire il file jar da terminale (java -jar TheKnife.jar, assicurandosi di trovarsi nella cartella corretta) o cliccando due volte sul file (dipende dal sistema operativo)
