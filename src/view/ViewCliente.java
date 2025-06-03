@@ -130,7 +130,7 @@ public class ViewCliente {
         }
 
         //liste utenti e ristoranti aggiornate su cui vengono effettuate tutte le modifiche in esecuzione
-        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI);
+        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
         List<Ristorante> listaristorantiTBS = GestoreFile.caricaRistoranti(PATHRISTORANTI);
         if (listaUtentiTBS == null || listaristorantiTBS == null) {
             System.out.println("Errore durante il caricamento dei dati");
@@ -304,7 +304,7 @@ public class ViewCliente {
 
 
                     case 3:
-                        GestoreFile.caricaUtenti(PATHUTENTI);
+                        GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + u.getNome());
                         System.out.println("Cognome: " + u.getCognome());
@@ -333,7 +333,7 @@ public class ViewCliente {
                             System.out.println("dato non modificato");
                         } else {
                             boolean usernameEsistente = false;
-                            for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
+                            for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI)) {
                                 if (modUserName.equals(u1.getUsername())) {
                                     System.out.println("Username già esistente: modifica annullata");
                                     usernameEsistente = true;
@@ -381,7 +381,7 @@ public class ViewCliente {
                             u.setDomicilio(modDomicilio);
                         }
                         //salvataggio dei dati modificati
-                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI);
+                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
                         if (listaUtentiTBS == null) {
                             System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
                         }

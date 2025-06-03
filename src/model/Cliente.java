@@ -1,6 +1,7 @@
 package src.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,11 +17,11 @@ public class Cliente extends Utente {
     /**
      * Lista dei ristoranti prefetiti dal cliente
      */
-    private ArrayList<Ristorante> preferiti;
+    private List<Ristorante> preferiti;
     /**
      * Lista delle recensioni del cliente
      */
-    private ArrayList<Recensione> recensioniMesse;
+    private List<Recensione> recensioniMesse;
 
     //costruttori
 
@@ -130,7 +131,7 @@ public class Cliente extends Utente {
      * Metodo per visualizzare i preferiti del cliente
      * @return restituisce lista preferiti
      */
-    public ArrayList<Ristorante> visualizzaPreferiti(){
+    public List<Ristorante> visualizzaPreferiti(){
         return preferiti;
     }
 
@@ -146,7 +147,6 @@ public class Cliente extends Utente {
         recensioniMesse.add(recensione);
         ristorante.recensisciRistorante(recensione);
     }
-
     /**
      * metodo per modificare una recensione
      * @param recensione
@@ -178,10 +178,24 @@ public class Cliente extends Utente {
      * get lista di recensioni messe
      * @return restituisce la lista delle recensioni lasciate dal cliente
      */
-    public ArrayList<Recensione> getRecensioniMesse() {
+    public List<Recensione> getRecensioniMesse() {
         return recensioniMesse;
     }
+    /**
+     * set lista di recensioni messe
+     * @param recensioniMesse lista delle recensioni lasciate dal cliente
+     */
+    public void setRecensioniMesse(List<Recensione> recensioniMesse) {
+        this.recensioniMesse = recensioniMesse;
+    }
 
+    /**
+     * metodo per inserire la lista dei ristoranti preferiti
+     * @param preferiti
+     */
+    public void setPreferiti(List<Ristorante> preferiti) {
+        this.preferiti = preferiti;
+    }
     /**
      * metodo per ottenere il ruolo
      * @return restituisce il ruolo cliente

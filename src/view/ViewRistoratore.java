@@ -301,7 +301,7 @@ public class ViewRistoratore {
                         String modUserName = gestisciInput("Inserisci il tuo nuovo username: ", s);
 
                         boolean usernameEsistente = false;
-                        for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI)) {
+                        for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI)) {
                             if (modUserName.equals(u1.getUsername())) {
                                 System.out.println("Username già esistente: modifica annullata");
                                 usernameEsistente = true;

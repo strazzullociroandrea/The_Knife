@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import src.model.Ristorante;
 import src.model.Cliente;
 import src.model.Ristoratore;
+import src.model.Recensione;
 import src.model.Utente;
 
 import java.io.*;
@@ -45,11 +46,11 @@ public class GestoreFile {
      * @throws IOException in caso di errore durante la scrittura del file
      */
     public static void salvaRistoranti(List<Ristorante> ristoranti, String path) throws IOException {
-        creaFile(path, "[]"); // crea il file se non esiste con un array vuoto come contenuto iniziale
+        creaFile(path, "[]");
         try (Writer writer = new FileWriter(path)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(ristoranti, writer);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new IOException("Errore durante la scrittura dei ristoranti");
         }
     }
@@ -61,11 +62,11 @@ public class GestoreFile {
      * @throws IOException in caso di errore durante la lettura del file
      */
     public static List<Ristorante> caricaRistoranti(String path) throws IOException {
-        creaFile(path, "[]"); // crea il file se non esiste con un array vuoto come contenuto iniziale
+        creaFile(path, "[]");
         try (Reader reader = new FileReader(path)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.fromJson(reader, new TypeToken<List<Ristorante>>() {}.getType());
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new IOException("Errore durante il caricamento dei ristoranti");
         }
     }
@@ -77,60 +78,105 @@ public class GestoreFile {
      * @throws IOException in caso di errore durante la scrittura del file
      */
     public static void salvaUtenti(List<Utente> utenti, String path) throws IOException {
-        creaFile(path, "[]"); // crea il file se non esiste con un array vuoto come contenuto iniziale
+        creaFile(path, "[]");
         JsonArray array = new JsonArray();
         for (Utente u : utenti) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonElement jsonElement = gson.toJsonTree(u);
-
             if (jsonElement.isJsonObject()) {
                 JsonObject obj = jsonElement.getAsJsonObject();
-                if (u instanceof Cliente) {
+                if (u instanceof Cliente && !obj.has("ruolo")) {
                     obj.addProperty("ruolo", "cliente");
-                } else if (u instanceof Ristoratore) {
+                } else if (u instanceof Ristoratore && !obj.has("ruolo")) {
                     obj.addProperty("ruolo", "ristoratore");
                 }
                 array.add(obj);
             }
         }
-
         try (Writer writer = new FileWriter(path)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(array, writer);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new IOException("Errore durante il salvataggio degli utenti");
         }
     }
 
-
     /**
-     * Metodo per caricare la lista di utenti da un file JSON
-     * @param path path del file da cui caricare gli utenti
+     * Metodo per caricare la lista di utenti da un file JSON, associando correttamente i ristoranti e le recensioni
+     * @param pathUtenti path del file da cui caricare gli utenti
+     * @param pathRistoranti path del file da cui caricare i ristoranti
      * @return lista di utenti caricati
      * @throws IOException in caso di errore durante la lettura del file
      */
-    public static List<Utente> caricaUtenti(String path) throws IOException {
-        creaFile(path, "[]"); // crea il file se non esiste con un array vuoto come contenuto iniziale
+    public static List<Utente> caricaUtenti(String pathUtenti, String pathRistoranti) throws IOException {
+        creaFile(pathUtenti, "[]");
+        creaFile(pathRistoranti, "[]");
         List<Utente> utenti = new ArrayList<>();
-        try (Reader reader = new FileReader(path)) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        List<Ristorante> ristorantiDisponibili = caricaRistoranti(pathRistoranti);
+        try (Reader reader = new FileReader(pathUtenti)) {
             JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
-
             for (JsonElement elem : array) {
                 JsonObject obj = elem.getAsJsonObject();
+                if (!obj.has("ruolo")) {
+                    System.err.println("Utente senza ruolo specificato: " + obj);
+                    continue;
+                }
                 String ruolo = obj.get("ruolo").getAsString().toLowerCase();
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 if (ruolo.equals("cliente")) {
-                    utenti.add(gson.fromJson(obj, Cliente.class));
+                    Cliente cliente = gson.fromJson(obj, Cliente.class);
+                    if (obj.has("preferiti")) {
+                        JsonArray preferitiArray = obj.getAsJsonArray("preferiti");
+                        List<Ristorante> preferiti = new ArrayList<>();
+                        for (JsonElement elemento : preferitiArray) {
+                            Ristorante r = gson.fromJson(elemento, Ristorante.class);
+                            for (Ristorante disponibile : ristorantiDisponibili) {
+                                if (disponibile.getId() == r.getId() ||
+                                        (disponibile.getNome().equalsIgnoreCase(r.getNome())
+                                                && disponibile.getIndirizzo().equalsIgnoreCase(r.getIndirizzo()))) {
+                                    r = disponibile;
+                                    break;
+                                }
+                            }
+                            preferiti.add(r);
+                        }
+                        cliente.setPreferiti(preferiti);
+                    }
+                    if (obj.has("recensioniMesse")) {
+                        JsonArray recensioniArray = obj.getAsJsonArray("recensioniMesse");
+                        List<Recensione> recensioni = new ArrayList<>();
+                        for (JsonElement elemento : recensioniArray) {
+                            Recensione recensione = gson.fromJson(elemento, Recensione.class);
+                            recensioni.add(recensione);
+                        }
+                        cliente.setRecensioniMesse(recensioni);
+                    }
+                    utenti.add(cliente);
                 } else if (ruolo.equals("ristoratore")) {
-                    utenti.add(gson.fromJson(obj, Ristoratore.class));
-                } else {
-                    System.err.println("Tipo di utente sconosciuto: " + ruolo);
+                    Ristoratore ristoratore = gson.fromJson(obj, Ristoratore.class);
+                    if (obj.has("ristorantiGestiti")) {
+                        JsonArray gestitiArray = obj.getAsJsonArray("ristorantiGestiti");
+                        List<Ristorante> gestiti = new ArrayList<>();
+                        for (JsonElement elemento : gestitiArray) {
+                            Ristorante r = gson.fromJson(elemento, Ristorante.class);
+                            for (Ristorante disponibile : ristorantiDisponibili) {
+                                if (disponibile.getId() == r.getId() ||
+                                        (disponibile.getNome().equalsIgnoreCase(r.getNome())
+                                                && disponibile.getIndirizzo().equalsIgnoreCase(r.getIndirizzo()))) {
+                                    r = disponibile;
+                                    break;
+                                }
+                            }
+                            gestiti.add(r);
+                        }
+                        ristoratore.setRistorantiGestiti(gestiti);
+                    }
+                    utenti.add(ristoratore);
                 }
             }
-        }catch(Exception e){
-            throw new IOException("Errore durante il caricamento degli utenti");
+        } catch (Exception e) {
+            throw new IOException("Errore durante il caricamento degli utenti", e);
         }
-
         return utenti;
     }
 }
