@@ -98,7 +98,8 @@ public class ViewCliente {
 
     /**
      * metodo privato per impedire che l'utente inserisca, quando richiesto, dati che non siano numeri
-     * @param s l'oggetto di tipo Scanner usato dal metodo
+     *
+     * @param s         l'oggetto di tipo Scanner usato dal metodo
      * @param messaggio la stringa che contiene il messaggio da riferire all'utente per guidare l'inserimento dei dati
      * @return un double
      */
@@ -112,7 +113,6 @@ public class ViewCliente {
             }
         }
     }
-
 
 
     /**
@@ -138,7 +138,6 @@ public class ViewCliente {
         }
 
 
-
         int indice = 0;
         boolean visualizza = true;
 
@@ -154,8 +153,9 @@ public class ViewCliente {
                         3. Torna al ristorante precedente
                         4. Inserisci il ristorante tra i preferiti
                         5. Rimuovi il ristorante dai preferiti
-                        6. Modifica la recensione lasciata al ristorante 
-                        7. Esci dalla visualizzazione
+                        6. Visualizza e modifica le recensioni che hai lasciato al ristorante 
+                        7. Visualizza tutte le recensioni lasciate al ristorante 
+                        8. Esci dalla visualizzazione
                     """);
 
             int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
@@ -195,6 +195,7 @@ public class ViewCliente {
                     break;
 
                 case 4:
+                    System.out.println("Ristorante aggiunto ai preferiti");
                     u.aggiungiPreferito(ristoranteCorrente);
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
@@ -204,6 +205,7 @@ public class ViewCliente {
                     break;
 
                 case 5:
+                    System.out.println("Ristorante rimosso dai preferiti");
                     u.rimuoviPreferito(ristoranteCorrente);
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
@@ -213,25 +215,68 @@ public class ViewCliente {
                     break;
 
                 case 6:
-                    for (Recensione r : ristoranteCorrente.getRecensioni())
-                        for (Recensione r1 : u.getRecensioniMesse())
-                            if (r.getId() == r1.getId()) {
-                                String txt = gestisciInput("inserire il testo della recensione", s, true);
-                                int stelleMod = ViewBase.convertiScannerIntero(gestisciInput("inserire il numero di stelle", s, true), s);
-                                u.modificaRecensione(r, txt, stelleMod);
-                                //salvataggio dati
-                                listaUtentiTBS.remove(u);
-                                listaUtentiTBS.add(u);
-                                listaristorantiTBS.remove(ristoranteCorrente);
-                                listaristorantiTBS.add(ristoranteCorrente);
-                                GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
-                                GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
-                            }
+                    List<Recensione> recensioniUtente = new ArrayList<>();
+
+                    // Filtra solo le recensioni dell'utente relative a ristoranteCorrente
+                    for (Recensione r : ristoranteCorrente.getRecensioni()) {
+                        if (u.getRecensioniMesse().contains(r)) {
+                            recensioniUtente.add(r);
+                        }
+                    }
+
+                    if (recensioniUtente.isEmpty()) {
+                        System.out.println("Non hai lasciato recensioni per questo ristorante.");
+                        break;
+                    }
+
+                    System.out.println("Le tue recensioni per questo ristorante:");
+                    for (int i = 0; i < recensioniUtente.size(); i++) {
+                        System.out.println((i + 1) + ". " + recensioniUtente.get(i));
+                    }
+
+                    int sceltaRec = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare:", s);
+
+                    if (sceltaRec < 1 || sceltaRec > recensioniUtente.size()) {
+                        System.out.println("Scelta non valida.");
+                        break;
+                    }
+
+                    Recensione daModificare = recensioniUtente.get(sceltaRec - 1);
+
+                    String nuovoTesto = gestisciInput("Inserisci il nuovo testo:", s, true);
+                    int nuoveStelle = ViewBase.convertiScannerIntero("Inserisci il nuovo numero di stelle (0-5):", s);
+
+                    u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
+
+
+                    // salva modifiche
+                    listaUtentiTBS.remove(u);
+                    listaUtentiTBS.add(u);
+                    listaristorantiTBS.remove(ristoranteCorrente);
+                    listaristorantiTBS.add(ristoranteCorrente);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                    GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
+                    System.out.println("Recensione modificata con successo!");
+
+
+                    break;
+
+                case 7:
+                    if (ristoranteCorrente.getRecensioni().isEmpty() || ristoranteCorrente.getRecensioni() == null)
+                        System.out.println("il ristorante non ha ancora recensioni, sii il primo a lasciarne una!");
+                    else {
+                        for (Recensione r : ristoranteCorrente.getRecensioni()) {
+                            System.out.println("Id Recensione:" + r.getId());
+                            System.out.println(r.getDescrizione());
+                            System.out.println("Numero stelle: " + r.getStelle());
+                            System.out.println("");
+                        }
+                    }
 
                     break;
 
 
-                case 7:
+                case 8:
                     visualizza = false;
 
                     break;
@@ -259,7 +304,8 @@ public class ViewCliente {
                 System.out.println("2. Cerca ristoranti filtrando per parametri");
                 System.out.println("3. Visualizza i tuoi dati personali");
                 System.out.println("4. Modifica dati personali");
-                System.out.println("5. Logout");
+                System.out.println("5. Visualizza le recensioni lasciate");
+                System.out.println("6. Logout");
 
 
                 int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione:", s);
@@ -283,20 +329,26 @@ public class ViewCliente {
                         double prezzoMinimo = leggiDouble(s, "Inserire il prezzo minimo richiesto:");
                         double prezzoMassimo = leggiDouble(s, "Inserire il prezzo massimo richiesto:");
                         boolean delivery = false;
+                        boolean vuoiDelivery = false;
                         String deliveryText = gestisciInput("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio", s, false);
                         if (deliveryText.equals("1")) {
                             delivery = true;
+                        } else {
+                            vuoiDelivery = false;
                         }
                         boolean prenotazione = false;
+                        boolean vuoiPrenotazione = false;
                         String prenotazioneText = gestisciInput("Digitare 1 per ricercare solo ristoranti con prenotazione disponibile, altrimenti premere invio", s, false);
                         if (prenotazioneText.equals("1")) {
                             prenotazione = true;
+                        } else {
+                            vuoiPrenotazione = false;
                         }
 
-                        int stelleMin = ViewBase.convertiScannerIntero("inserire il minimo di stelle richiesto"2ù, s);
+                        int stelleMin = ViewBase.convertiScannerIntero("inserire il minimo di stelle richiesto", s);
 
 
-                        List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, true, delivery, true, prenotazione, stelleMin);
+                        List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, vuoiDelivery, delivery, vuoiPrenotazione, prenotazione, stelleMin);
 
                         navigazioneRistoranti(u, s, filtrati);
 
@@ -384,15 +436,69 @@ public class ViewCliente {
                         List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI);
                         if (listaUtentiTBS == null) {
                             System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
-                        }
-                        else {
+                        } else {
                             //salvataggio dati
                             listaUtentiTBS.remove(u);
                             listaUtentiTBS.add(u);
                             GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
                         }
                         break;
+
                     case 5:
+                        GestoreFile.caricaUtenti(PATHUTENTI);
+                        GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        List<Recensione> tutteRecensioni = u.getRecensioniMesse();
+
+                        if (tutteRecensioni.isEmpty()) {
+                            System.out.println("Non hai ancora lasciato recensioni.");
+                            break;
+                        }
+
+                        System.out.println("\n--- Le tue recensioni ---");
+                        for (int i = 0; i < tutteRecensioni.size(); i++) {
+                            System.out.println((i + 1) + ". " + tutteRecensioni.get(i));
+                        }
+
+                        int sceltaMod = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare (0 per annullare):", s);
+
+                        if (sceltaMod == 0) {
+                            System.out.println("Modifica annullata.");
+                            break;
+                        }
+
+                        if (sceltaMod < 1 || sceltaMod > tutteRecensioni.size()) {
+                            System.out.println("Scelta non valida.");
+                            break;
+                        }
+
+                        Recensione recDaModificare = tutteRecensioni.get(sceltaMod - 1);
+
+                        String nuovoTesto = gestisciInput("Inserisci il nuovo testo della recensione:", s, true);
+                        int nuoveStelle = ViewBase.convertiScannerIntero("Inserisci il nuovo numero di stelle (0-5):", s);
+
+                        u.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
+                        System.out.println("Recensione modificata con successo.");
+
+                        // Salvataggio
+                        List<Utente> listaUtentiTBS2 = GestoreFile.caricaUtenti(PATHUTENTI);
+                        List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        listaUtentiTBS2.remove(u);
+                        listaUtentiTBS2.add(u);
+
+                        for (Ristorante r : listaRistorantiTBS2) {
+                            if (r.getRecensioni().contains(recDaModificare)) {
+                                r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle); // supponendo esista
+                                break;
+                            }
+                        }
+
+                        GestoreFile.salvaUtenti(listaUtentiTBS2, PATHUTENTI);
+                        GestoreFile.salvaRistoranti(listaRistorantiTBS2, PATHRISTORANTI);
+
+                        break;
+
+
+                    case 6:
                         System.out.println("Verrai reinderizzato al menù iniziale!");
                         ViewBase.view();
 

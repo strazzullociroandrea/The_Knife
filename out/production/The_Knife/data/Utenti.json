@@ -121,5 +121,293 @@
     "username": "ciro",
     "domicilio": "via gran paradiso, 4 brugherio",
     "ruolo": "cliente"
+  },
+  {
+    "ristorantiGestiti": [],
+    "id": 0,
+    "passwordCifrata": "8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414",
+    "nome": "1",
+    "cognome": "2",
+    "username": "12",
+    "domicilio": "fsa",
+    "ruolo": "ristoratore"
+  },
+  {
+    "preferiti": [
+      {
+        "id": 0,
+        "nome": "Pizzeria Rossi",
+        "nazione": "Italia",
+        "citta": "Varese",
+        "indirizzo": "Via Dandolo 5",
+        "tipoCucina": "Italiana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 5.0,
+        "maxPrezzo": 30.0,
+        "recensioni": [
+          {
+            "descrizione": "Ottimo",
+            "stelle": 5,
+            "id": 0
+          }
+        ]
+      }
+    ],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "Buono",
+        "stelle": 0,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "discreto",
+        "stelle": 3,
+        "id": 0
+      },
+      {
+        "descrizione": "non male ",
+        "stelle": 3,
+        "id": 1
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "discreto",
+        "stelle": 3,
+        "id": 0
+      },
+      {
+        "descrizione": "non male ",
+        "stelle": 3,
+        "id": 1
+      },
+      {
+        "descrizione": "terribile",
+        "stelle": 0,
+        "id": 2
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "pessima esperienza ",
+        "stelle": 0,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "malino ",
+        "stelle": 1,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "eccellente",
+        "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "bell\u0027esperienza!!",
+        "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "buonissimo!",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bene ",
+        "stelle": 3,
+        "id": 1
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "carino",
+        "stelle": 3,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "ottimo cibo",
+        "stelle": 4,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "malino",
+        "stelle": 2,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "non proprio al top",
+        "stelle": 2,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "ristorantiGestiti": [],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Mario ",
+    "cognome": "Bianchi",
+    "username": "Whites05",
+    "domicilio": "Varese",
+    "ruolo": "ristoratore"
   }
 ]

@@ -101,7 +101,7 @@ public class Recensione {
      * @throws StelleOutOfBoundException eccezione lanciata se il numero di stelle è minore di 0 o maggiore di 5
      */
     public void setNumeroStelle(int nStelle) throws StelleOutOfBoundException {
-        if (nStelle > 0 && nStelle <= 5)
+        if (nStelle >= 0 && nStelle <= 5)
             this.stelle = nStelle;
         else throw new StelleOutOfBoundException();
     }

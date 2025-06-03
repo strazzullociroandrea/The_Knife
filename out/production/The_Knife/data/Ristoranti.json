@@ -12,10 +12,88 @@
     "maxPrezzo": 30.0,
     "recensioni": [
       {
-        "descrizione": "Ottimo",
+        "descrizione": "maluccio",
+        "stelle": 2,
+        "id": 0
+      },
+      {
+        "descrizione": "2",
+        "stelle": 2,
+        "id": 0
+      },
+      {
+        "descrizione": "2",
+        "stelle": 2,
+        "id": 0
+      },
+      {
+        "descrizione": "non male ",
+        "stelle": 3,
+        "id": 1
+      },
+      {
+        "descrizione": "terribile",
+        "stelle": 0,
+        "id": 2
+      },
+      {
+        "descrizione": "pessima esperienza ",
+        "stelle": 0,
+        "id": 0
+      },
+      {
+        "descrizione": "malino ",
+        "stelle": 1,
+        "id": 0
+      },
+      {
+        "descrizione": "eccellente",
         "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bell\u0027esperienza!!",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "buonissimo!",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bene ",
+        "stelle": 3,
+        "id": 1
+      },
+      {
+        "descrizione": "carino",
+        "stelle": 3,
+        "id": 0
+      },
+      {
+        "descrizione": "ottimo cibo",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "non proprio al top",
+        "stelle": 2,
         "id": 0
       }
     ]
+  },
+  {
+    "id": 0,
+    "nome": "Da Bianchi",
+    "nazione": "Italia",
+    "citta": "Varese",
+    "indirizzo": "Via Rossi, 4",
+    "tipoCucina": "Italiana",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 2.0,
+    "maxPrezzo": 150.0,
+    "recensioni": []
   }
 ]
