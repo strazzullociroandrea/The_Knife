@@ -136,18 +136,38 @@
     "preferiti": [
       {
         "id": 0,
-        "nome": "Pizzeria Rossi",
+        "nome": "Da Bianchi",
         "nazione": "Italia",
         "citta": "Varese",
-        "indirizzo": "Via Dandolo 5",
+        "indirizzo": "Via Rossi, 4",
         "tipoCucina": "Italiana",
         "delivery": true,
         "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 30.0,
+        "minPrezzo": 2.0,
+        "maxPrezzo": 150.0,
         "recensioni": [
           {
-            "descrizione": "Ottimo",
+            "descrizione": "bel posto",
+            "stelle": 4,
+            "id": 0
+          },
+          {
+            "descrizione": "bello",
+            "stelle": 5,
+            "id": 0
+          },
+          {
+            "descrizione": "bel posto",
+            "stelle": 53,
+            "id": 0
+          },
+          {
+            "descrizione": "bel posto",
+            "stelle": 5,
+            "id": 1
+          },
+          {
+            "descrizione": "bello!!",
             "stelle": 5,
             "id": 0
           }
@@ -587,6 +607,24 @@
     "recensioniMesse": [
       {
         "descrizione": "bello!!",
+        "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "Bello!",
         "stelle": 5,
         "id": 0
       }
