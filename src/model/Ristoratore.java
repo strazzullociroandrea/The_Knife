@@ -218,6 +218,13 @@ public class Ristoratore extends Utente {
     }
 
     /**
+     * Metodo per impostare la lista dei ristoranti gestiti
+     * @param ristorantiGestiti lista di ristoranti gestiti dal ristoratore
+     */
+    public void setRistorantiGestiti(List<Ristorante> ristorantiGestiti){
+        this.ristorantiGestiti = ristorantiGestiti;
+    }
+    /**
      * Metodo per visualizzare il ruolo del ristoratore
      * @return Restituisce "Ristoratore"
      */

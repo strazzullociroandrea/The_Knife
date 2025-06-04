@@ -93,7 +93,6 @@ public class ViewBase {
     private static double convertiScannerDouble(String msg, Scanner scanner){
         double numero;
         while (true) {
-            System.out.println(msg);
             String input = gestisciInput(msg, scanner);
             try {
                 numero = Double.parseDouble(input);
@@ -206,7 +205,7 @@ public class ViewBase {
      * @throws IOException eccezione di input/output
      */
     private static List<Utente> caricaUtenti() throws IOException {
-        return GestoreFile.caricaUtenti(PATHUTENTI);
+        return GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
     }
 
     /**
