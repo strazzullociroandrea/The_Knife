@@ -170,6 +170,11 @@
             "descrizione": "bello!!",
             "stelle": 5,
             "id": 0
+          },
+          {
+            "descrizione": "Bello!!! ottima pasta",
+            "stelle": 5,
+            "id": 0
           }
         ]
       }
@@ -626,6 +631,60 @@
       {
         "descrizione": "Bello!",
         "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "Bello!!! ottima pasta",
+        "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "bell\u0027esperienza",
+        "stelle": 4,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "Male",
+        "stelle": 0,
         "id": 0
       }
     ],

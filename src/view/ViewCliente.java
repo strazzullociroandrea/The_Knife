@@ -290,17 +290,39 @@ public class ViewCliente {
                     break;
 
                 case 7:
-                    if (ristoranteCorrente.getRecensioni().isEmpty() || ristoranteCorrente.getRecensioni() == null)
-                        System.out.println("il ristorante non ha ancora recensioni, sii il primo a lasciarne una!");
-                    else {
-                        for (Recensione r : ristoranteCorrente.getRecensioni()) {
-                            System.out.println("Id Recensione:" + r.getId());
-                            System.out.println(r.getDescrizione());
-                            System.out.println("Numero stelle: " + r.getStelle());
-                            System.out.println("");
+                    //recensioni del ristorante corrente
+                    List<Recensione> recensioni = ristoranteCorrente.getRecensioni();
+                    if (recensioni.isEmpty()) {
+                        System.out.println("Nessuna recensione per questo ristorante.");
+                    } else {
+                        System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
+
+                        // Carichiamo tutti gli utenti per confrontare le loro recensioni
+                        List<Utente> tuttiGliUtenti = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+
+                        for (Recensione r : recensioni) {
+                            String autore = "Utente sconosciuto";
+
+                            // Cerchiamo quale utente ha questa recensione tra le sue
+                            for (Utente u1 : tuttiGliUtenti) {
+                                if (u1 instanceof Cliente cliente) {
+                                    for (Recensione rUtente : cliente.getRecensioniMesse()) {
+                                        if (rUtente.getId() == r.getId()) {
+                                            autore = cliente.getUsername();
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (!autore.equals("Utente sconosciuto")) break;
+                            }
+
+                            // Stampa dettagli della recensione
+                            System.out.println("Utente: " + autore);
+                            System.out.println("Stelle: " + r.getStelle());
+                            System.out.println("Descrizione: " + r.getDescrizione());
+                            System.out.println("-----");
                         }
                     }
-
                     break;
 
 
@@ -483,9 +505,26 @@ public class ViewCliente {
                         }
 
                         System.out.println("\n--- Le tue recensioni ---");
+
+                        List<Ristorante> tuttiRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+
                         for (int i = 0; i < tutteRecensioni.size(); i++) {
-                            System.out.println((i + 1) + ". " + tutteRecensioni.get(i));
+                            Recensione rec = tutteRecensioni.get(i);
+                            String nomeRistorante = "Ristorante sconosciuto";
+
+                            // For annidati per cercare la recensione nei ristoranti
+                            for (Ristorante r : tuttiRistoranti) {
+                                for (Recensione rRec : r.getRecensioni()) {
+                                    if (rRec.getId() == rec.getId()) {
+                                        nomeRistorante = r.getNome();
+                                        break;
+                                    }
+                                }
+                            }
+
+                            System.out.println((i + 1) + ". [" + nomeRistorante + "] " + rec);
                         }
+
 
                         int sceltaMod = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare (0 per annullare):", s);
 
@@ -528,7 +567,6 @@ public class ViewCliente {
                                 System.out.println("Valore non valido. Inserisci un numero di stelle compreso tra 0 e 5.");
                             }
                         }
-
 
 
                         u.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
