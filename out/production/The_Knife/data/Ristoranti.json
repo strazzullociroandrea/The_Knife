@@ -1,84 +1,39 @@
 [
   {
     "id": 0,
-    "nome": "Pizzeria Rossi",
+    "nome": "Da Bianchi",
     "nazione": "Italia",
     "citta": "Varese",
-    "indirizzo": "Via Dandolo 5",
+    "indirizzo": "Via Rossi, 4",
     "tipoCucina": "Italiana",
     "delivery": true,
     "prenotazioneOnline": true,
-    "minPrezzo": 5.0,
-    "maxPrezzo": 30.0,
+    "minPrezzo": 2.0,
+    "maxPrezzo": 150.0,
     "recensioni": [
       {
-        "descrizione": "maluccio",
-        "stelle": 2,
-        "id": 0
-      },
-      {
-        "descrizione": "2",
-        "stelle": 2,
-        "id": 0
-      },
-      {
-        "descrizione": "2",
-        "stelle": 2,
-        "id": 0
-      },
-      {
-        "descrizione": "non male ",
-        "stelle": 3,
-        "id": 1
-      },
-      {
-        "descrizione": "terribile",
-        "stelle": 0,
-        "id": 2
-      },
-      {
-        "descrizione": "pessima esperienza ",
-        "stelle": 0,
-        "id": 0
-      },
-      {
-        "descrizione": "malino ",
-        "stelle": 1,
-        "id": 0
-      },
-      {
-        "descrizione": "eccellente",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bell\u0027esperienza!!",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "buonissimo!",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bene ",
-        "stelle": 3,
-        "id": 1
-      },
-      {
-        "descrizione": "carino",
-        "stelle": 3,
-        "id": 0
-      },
-      {
-        "descrizione": "ottimo cibo",
+        "descrizione": "bel posto",
         "stelle": 4,
         "id": 0
       },
       {
-        "descrizione": "non proprio al top",
-        "stelle": 2,
+        "descrizione": "bello",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 53,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 5,
+        "id": 1
+      },
+      {
+        "descrizione": "bello!!",
+        "stelle": 5,
         "id": 0
       }
     ]
@@ -94,6 +49,32 @@
     "prenotazioneOnline": true,
     "minPrezzo": 2.0,
     "maxPrezzo": 150.0,
-    "recensioni": []
+    "recensioni": [
+      {
+        "descrizione": "bel posto",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "bello",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 53,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 5,
+        "id": 1
+      },
+      {
+        "descrizione": "bello!!",
+        "stelle": 5,
+        "id": 0
+      }
+    ]
   }
 ]

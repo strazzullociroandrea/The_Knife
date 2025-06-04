@@ -10,7 +10,33 @@
     "prenotazioneOnline": true,
     "minPrezzo": 2.0,
     "maxPrezzo": 150.0,
-    "recensioni": []
+    "recensioni": [
+      {
+        "descrizione": "bel posto",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "bello",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 53,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 5,
+        "id": 1
+      },
+      {
+        "descrizione": "bello!!",
+        "stelle": 5,
+        "id": 0
+      }
+    ]
   },
   {
     "id": 0,
@@ -25,8 +51,28 @@
     "maxPrezzo": 150.0,
     "recensioni": [
       {
-        "descrizione": "malissimo",
-        "stelle": 0,
+        "descrizione": "bel posto",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "bello",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 53,
+        "id": 0
+      },
+      {
+        "descrizione": "bel posto",
+        "stelle": 5,
+        "id": 1
+      },
+      {
+        "descrizione": "bello!!",
+        "stelle": 5,
         "id": 0
       }
     ]
