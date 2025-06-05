@@ -132,7 +132,6 @@ public abstract class Utente {
         this.domicilio= domicilio;
         this.id = idCounter++;
     }
-//getter e setter
 
     /**
      *Metodo che restituisce l'id associato all'utente

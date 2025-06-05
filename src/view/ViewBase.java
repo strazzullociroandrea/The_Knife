@@ -104,30 +104,37 @@ public class ViewBase {
     }
 
     /**
-     * Metodo privato per indicare se un utente è già presente nella lista o no per evitare duplicati
+     * Metodo privato per indicare se un utente è già presente nella lista o no per evitare duplicati - verifica username
      * @param utenti lista di utenti da scorrere
-     * @param u utente da testare
+     * @param username username da verificare
      * @return true se è già presente, false altrimenti
      */
-    private static boolean giaPresente(List<Utente> utenti, Utente u){
-        if(!utenti.isEmpty() && u != null){
+    private static boolean giaPresente(List<Utente> utenti, String username){
+        if(!utenti.isEmpty() && !username.isEmpty()){
             for(Utente user: utenti){
-                if (user.getUsername().equalsIgnoreCase(u.getUsername())) {
-                    System.err.println("Attenzione, username già in uso!");
+                if (user.getUsername().equalsIgnoreCase(username)) {
+                    System.out.println("Attenzione, l'username è già in uso, riprova!");
                     return true;
                 }
             }
         }
         return false;
     }
+
     /**
-     * Metodo per registrare un nuovo utente
-     * @return oggetto Utente registrato
+     * Metodo privato per registrare un nuovo utente
+     * @param utenti lista di utenti già registrati
+     * @param s Scanner per l'input
+     * @return oggetto Utente registrato di tipo Cliente o Ristoratore, null se la registrazione non è andata a buon fine
+     * @throws Exception eccezione in caso di errore durante la registrazione
      */
-    private static Utente registrati(Scanner s) throws Exception {
+    private static Utente registrati(List<Utente> utenti, Scanner s) throws Exception {
         String nome = gestisciInput("Inserisci il tuo nome:", s);
         String cognome = gestisciInput("Inserisci il tuo cognome:", s);
-        String username = gestisciInput("Inserisci il tuo username:", s);
+        String username;
+        do{
+            username= gestisciInput("Inserisci il tuo username:", s);
+        }while(giaPresente(utenti, username));
         String dataNascita;
         boolean notValidData;
         do{
@@ -214,8 +221,8 @@ public class ViewBase {
      * @return oggetto Utente loggato di tipo Cliente o Ristoratore o null (Se non esiste)
      */
     private static Utente login(Scanner s){
-        String username = gestisciInput("Inserisci il tuo username:", s);
-        String password = gestisciInput("Inserisci la tua password:", s);
+        String username = gestisciInput("Inserisci il tuo username: ", s);
+        String password = gestisciInput("Inserisci la tua password: ", s);
         List<Utente> utenti;
         try {
             utenti = caricaUtenti();
@@ -298,7 +305,7 @@ public class ViewBase {
                         do{
                             int sceltaIn = convertiScannerIntero("""
                                 \n\n
-                                Menù Ristoranti guest:
+                                Menù Ristoranti guest :
                                 1. Visualizza ristoranti vicini al luogo specificato con i relativi dettagli
                                 2. Visualizza ristoranti secondo un filtro e i relativi dettagli
                                 3. Torna al menù principale
@@ -328,7 +335,7 @@ public class ViewBase {
                                             }
                                         }
                                     }else{
-                                        System.out.println("nessun ristorante trovato!");
+                                        System.out.println("Nessun ristorante trovato!");
                                     }
 
                                 }
@@ -433,22 +440,20 @@ public class ViewBase {
                     }
                     case 3 ->{
                         //Registro utente
-                        u = registrati(s);
                         List<Utente> utenti = caricaUtenti();
-                        if(u == null || giaPresente(utenti, u)){
-                            System.err.println("Registrazione non avvenuta con successo!");
-                        }else{
-                            //salvo il file aggiornato di utenti
+                        u = registrati((utenti == null ? new ArrayList<Utente>() : utenti), s);
+                        //salvo il file aggiornato di utenti
+                        if(u != null) {
                             utenti.add(u);
                             GestoreFile.salvaUtenti(utenti, PATHUTENTI);
                             //In base alla tipologia di u visualizzo la relativa interfaccia
-                            if(u instanceof  Cliente){
+                            if (u instanceof Cliente) {
                                 continua = false;
-                                ViewCliente.view((Cliente)u);
-                            }else if(u instanceof Ristoratore){
+                                ViewCliente.view((Cliente) u);
+                            } else if (u instanceof Ristoratore) {
                                 continua = false;
-                                ViewRistoratore.view((Ristoratore)u);
-                            }else{
+                                ViewRistoratore.view((Ristoratore) u);
+                            } else {
                                 System.err.println("Registrazione non avvenuta con successo!");
                             }
                         }

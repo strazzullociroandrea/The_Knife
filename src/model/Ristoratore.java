@@ -15,15 +15,12 @@ import java.util.Scanner;
  */
 public class Ristoratore extends Utente {
 
-    //attributi
     /**
      * Lista ristoranti gestiti dal ristoratore
      */
     private List<Ristorante> ristorantiGestiti;
 
 
-    //costruttori
-    //costruttore base
 
     /**
      *Costruttore della classe Ristoratore
@@ -40,7 +37,6 @@ public class Ristoratore extends Utente {
         this.ristorantiGestiti = new ArrayList<>();
     }
 
-    //costruttore senza data nascita
 
     /**
      *Costruttore della classe Ristoratore senza data di nascita
@@ -57,7 +53,6 @@ public class Ristoratore extends Utente {
         this.ristorantiGestiti = new ArrayList<>();
     }
 
-    //costruttore senza id
 
     /**
      *Costruttore della classe Ristoratore senza id
@@ -74,7 +69,6 @@ public class Ristoratore extends Utente {
         this.ristorantiGestiti = new ArrayList<>();
     }
 
-    //costruttore senza id e data nascita
 
     /**
      *Costruttore della classe Ristoratore senza id e data di nascita
@@ -90,7 +84,6 @@ public class Ristoratore extends Utente {
         this.ristorantiGestiti = new ArrayList<>();
     }
 
-    //metodi
     /**
      *
      * metodo per creare un ristorante da ristoratore (lo aggiunge in automatico alla lista dei gestiti)
@@ -129,9 +122,6 @@ public class Ristoratore extends Utente {
     public void eliminaRistorante(Ristorante ristorante) {
         if (ristorantiGestiti.contains(ristorante)) {
             ristorantiGestiti.remove(ristorante);
-            System.out.println("Ristorante rimosso");
-        } else {
-            System.out.println("Il ristorante non è gestito da te");
         }
     }
 
@@ -141,33 +131,6 @@ public class Ristoratore extends Utente {
      */
     public List<Ristorante> getRistorantiGestiti() {
         return ristorantiGestiti;
-    }
-
-    /**
-     *metodo per visualizzare recensione di un singolo ristorante
-     * @param ristorante
-     */
-
-    public void visualizzaRecensioneRistorante(Ristorante ristorante) {
-        if (ristorantiGestiti.contains(ristorante)) {
-            for (Recensione r : ristorante.getRecensioni()) {
-                System.out.println(r+ " numero stelle: " + r.getStelle());
-            }
-        }else{
-            System.out.println("il ristorante non è gestito da te ");
-        }
-    }
-
-    /**
-     * metodo per visualizzare le recensioni di tutti i ristoranti
-     */
-    public void visualizzaTutteRecensioni() {
-        for (Ristorante ristorante : ristorantiGestiti) {
-            System.out.println("Recensioni per il ristorante: " + ristorante.getNome());
-            for (Recensione recensione : ristorante.getRecensioni()) {
-                System.out.println(recensione + " - numero stelle: " + recensione.getStelle());
-            }
-        }
     }
 
     /**

@@ -2,12 +2,7 @@ package src.dao;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import src.model.Ristorante;
-import src.model.Cliente;
-import src.model.Ristoratore;
-import src.model.Recensione;
-import src.model.Utente;
-
+import src.model.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +42,11 @@ public class GestoreFile {
      */
     public static void salvaRistoranti(List<Ristorante> ristoranti, String path) throws IOException {
         creaFile(path, "[]");
-        try (Writer writer = new FileWriter(path)) {
+        try (Writer writer = new FileWriter(path, false)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(ristoranti, writer);
         } catch (Exception e) {
-            throw new IOException("Errore durante la scrittura dei ristoranti");
+            throw new IOException("Errore durante la scrittura dei ristoranti", e);
         }
     }
 
@@ -67,7 +62,7 @@ public class GestoreFile {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.fromJson(reader, new TypeToken<List<Ristorante>>() {}.getType());
         } catch (Exception e) {
-            throw new IOException("Errore durante il caricamento dei ristoranti");
+            throw new IOException("Errore durante il caricamento dei ristoranti", e);
         }
     }
 
@@ -93,11 +88,11 @@ public class GestoreFile {
                 array.add(obj);
             }
         }
-        try (Writer writer = new FileWriter(path)) {
+        try (Writer writer = new FileWriter(path, false)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(array, writer);
         } catch (Exception e) {
-            throw new IOException("Errore durante il salvataggio degli utenti");
+            throw new IOException("Errore durante il salvataggio degli utenti", e);
         }
     }
 
@@ -147,6 +142,16 @@ public class GestoreFile {
                         List<Recensione> recensioni = new ArrayList<>();
                         for (JsonElement elemento : recensioniArray) {
                             Recensione recensione = gson.fromJson(elemento, Recensione.class);
+                            // Sincronizza la recensione con quella del ristorante
+                            for (Ristorante ristorante : ristorantiDisponibili) {
+                                List<Recensione> recensioniRistorante = ristorante.getRecensioni();
+                                for (Recensione rec : recensioniRistorante) {
+                                    if (rec.equals(recensione)) {
+                                        recensione = rec;
+                                        break;
+                                    }
+                                }
+                            }
                             recensioni.add(recensione);
                         }
                         cliente.setRecensioniMesse(recensioni);

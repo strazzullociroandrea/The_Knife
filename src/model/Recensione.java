@@ -12,7 +12,6 @@ import src.model.exception.StelleOutOfBoundException;
  * @Author Matteo Mongelli
  */
 public class Recensione {
-   //attributi
 
     /**
      * il contenuto testuale della recensione, di tipo String
