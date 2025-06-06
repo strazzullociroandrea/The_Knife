@@ -18,7 +18,6 @@ public class PasswordUtil {
      * @param password la password da convertire in hash
      * @return l'hash della password sotto forma di stringa
      */
-
     public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

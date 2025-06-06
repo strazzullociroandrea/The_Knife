@@ -29,7 +29,6 @@ public class ReverseGeocoding {
         if (indirizzo == null || indirizzo.trim().isEmpty()) {
             throw new IllegalArgumentException("Indirizzo non valido.");
         }
-
         try {
             String encodedAddress = URLEncoder.encode(indirizzo, "UTF-8");
             String urlStr = "https://nominatim.openstreetmap.org/search?q=" + encodedAddress + "&format=json&limit=1";
@@ -60,11 +59,9 @@ public class ReverseGeocoding {
             if (!location.has("lat") || !location.has("lon")) {
                 return new double[]{-1, -1};
             }
-
             double lat = location.get("lat").getAsDouble();
             double lon = location.get("lon").getAsDouble();
             return new double[]{lat, lon};
-
         } catch (Exception e) {
             throw new Exception("Errore durante il geocoding: " + e.getMessage(), e);
         }

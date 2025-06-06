@@ -13,7 +13,6 @@ import java.util.Scanner;
  */
 public class Cliente extends Utente {
 
-    //attributi
     /**
      * Lista dei ristoranti prefetiti dal cliente
      */
@@ -23,9 +22,6 @@ public class Cliente extends Utente {
      */
     private List<Recensione> recensioniMesse;
 
-    //costruttori
-
-    //costruttore base
 
     /**
      *Costruttore base della classse cliente
@@ -45,7 +41,6 @@ public class Cliente extends Utente {
         this.recensioniMesse = new ArrayList<>();
     }
 
-    //costruttore senza data nascita
 
     /**
      *Costruttore senza data di nascita della classe cliente
@@ -64,7 +59,6 @@ public class Cliente extends Utente {
         this.recensioniMesse = new ArrayList<>();
     }
 
-    //costruttore senza id
 
     /**
      *Costruttore senza id della classe cliente
@@ -82,7 +76,6 @@ public class Cliente extends Utente {
         this.recensioniMesse = new ArrayList<>();
     }
 
-    //costruttore senza id e data nascita
 
     /**
      *Costruttore senza id e data di nascita della classe cliente
@@ -99,7 +92,6 @@ public class Cliente extends Utente {
         this.recensioniMesse = new ArrayList<>();
     }
 
-    //metodi
 
     /**
      * Metodo per aggiungere il ristorante nei preferiti
@@ -108,10 +100,7 @@ public class Cliente extends Utente {
     public void aggiungiPreferito(Ristorante ristorante){
         if(!preferiti.contains(ristorante)){
             preferiti.add(ristorante);
-        }else{
-            System.out.println("Ristorante già inserito nei preferiti");
         }
-
     }
 
     /**
@@ -122,8 +111,6 @@ public class Cliente extends Utente {
     public void rimuoviPreferito(Ristorante ristorante){
         if(preferiti.contains(ristorante)) {
             preferiti.remove(ristorante);
-        }else{
-            System.out.println("Ristorante non inserito nei preferiti!");
         }
     }
 
@@ -168,9 +155,6 @@ public class Cliente extends Utente {
         if (recensioniMesse.contains(recensione)) {
             recensioniMesse.remove(recensione);
             ristorante.rimuoviRecensione(recensione);
-            System.out.println("Recensione rimossa");
-        } else {
-            System.out.println("Recensione non trovata");
         }
     }
 
