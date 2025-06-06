@@ -102,7 +102,8 @@ public class Recensione {
     public void setNumeroStelle(int nStelle) throws StelleOutOfBoundException {
         if (nStelle >= 0 && nStelle <= 5)
             this.stelle = nStelle;
-        else throw new StelleOutOfBoundException();
+        else
+            throw new StelleOutOfBoundException();
     }
 
     /**

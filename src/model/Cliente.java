@@ -1,5 +1,8 @@
 package src.model;
 
+import src.model.exception.RecensioneOutOfBoundException;
+import src.model.exception.StelleOutOfBoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -134,6 +137,7 @@ public class Cliente extends Utente {
         recensioniMesse.add(recensione);
         ristorante.recensisciRistorante(recensione);
     }
+
     /**
      * metodo per modificare una recensione
      * @param recensione

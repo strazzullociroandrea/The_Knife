@@ -117,20 +117,56 @@ public class ViewCliente {
     }
 
     /**
+     * metodo privato per ottenere una stringa descrizione, possibile attributo di un oggetto di tipo Recensione, in maniera corretta (<250 caratteri)
+     * @param s lo scanner utilizzato per leggere l'input dell'utente
+     * @return la stringa da massimo 250 caratteri che può rappresentare il testo della recensione
+     */
+
+    private static String leggiDescrizioneValida(Scanner s) {
+        while (true) {
+            String input = gestisciInput("Scrivi la descrizione (max 250 caratteri):", s, true);
+            if (input.length() <= 250) {
+                return input;
+            } else {
+                System.out.println("Errore: la descrizione non può superare 250 caratteri.");
+            }
+        }
+    }
+
+    /**
+     * metodo privato per ottenere un int stelle, possibile attributo di un oggetto di tipo Recensione, in maniera corretta (tra 0 e 5)
+     * @param s lo scanner utilizzato per leggere l'input dell'utente
+     * @return l'int che può rappresentare le stelle di una recensione (da 0 a 5)
+     */
+
+    private static int leggiStelleValide(Scanner s) {
+        while (true) {
+            int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (0-5):", s);
+            if (stelle >= 0 && stelle <= 5) {
+                return stelle;
+            } else {
+                System.out.println("Errore: inserisci un numero tra 0 e 5.");
+            }
+        }
+    }
+
+
+    /**
      * Metodo per svuotare la console dai log di configurazione
-     * @throws IOException eccezione di input/output
+     *
+     * @throws IOException          eccezione di input/output
      * @throws InterruptedException eccezione di interruzione
      */
     private static void svuotaConsole() throws IOException, InterruptedException {
-        try{
+        try {
             String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
             if (operatingSystem.contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
-        }catch(Exception e){
-            for(int i=0;i<50;i++)
+        } catch (Exception e) {
+            for (int i = 0; i < 50; i++)
                 System.out.println();
         }
 
@@ -186,8 +222,8 @@ public class ViewCliente {
             switch (sceltaInterna) {
                 case 1:
                     System.out.println("Scrivi la tua recensione:");
-                    String descrizione = s.nextLine();
-                    int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (0-5):", s);
+                    String descrizione = leggiDescrizioneValida(s);
+                    int stelle = leggiStelleValide(s);
                     u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
                     System.out.println("Recensione aggiunta con successo!");
                     //salvataggio dati
@@ -266,34 +302,9 @@ public class ViewCliente {
 
                     Recensione daModificare = recensioniUtente.get(sceltaRec - 1);
 
-                    //richiesta inserimento nuovo testo che gestisce eccezione
-                    String nuovoTesto;
-                    while (true) {
-                        try {
-                            nuovoTesto = gestisciInput("Inserisci il nuovo testo della recensione:", s, true);
-                            if (nuovoTesto.length() > 250) {
-                                System.out.println("il numero di caratteri non deve superare i 250");
-                            } else {
-                                break;
-                            }
-                        } catch (StelleOutOfBoundException e) {
-                            System.out.println("Valore non valido. Inserisci un testo che non superi i 250 caratteri.");
-                        }
-                    }
-                    //richiesta inserimento del nuovo valore delle stelle che gestisce eccezione
-                    int nuoveStelle;
-                    while (true) {
-                        try {
-                            nuoveStelle = ViewBase.convertiScannerIntero("Inserisci il nuovo numero di stelle (0-5):", s);
-                            if (nuoveStelle < 0 || nuoveStelle > 5) {
-                                System.out.println("Il numero di stelle deve essere compreso tra 0 e 5.");
-                            } else {
-                                break;
-                            }
-                        } catch (RecensioneOutOfBoundException e) {
-                            System.out.println("Valore non valido. Inserisci un numero di stelle compreso tra 0 e 5.");
-                        }
-                    }
+                    String nuovoTesto = leggiDescrizioneValida(s);
+
+                    int nuoveStelle = leggiStelleValide(s);
 
                     u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
 
@@ -432,13 +443,12 @@ public class ViewCliente {
                     case 3:
                         GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
                         System.out.println("\n--- Dati utente ---");
-                        System.out.println("Nome: " + u.getNome());
-                        System.out.println("Cognome: " + u.getCognome());
-                        System.out.println("Username: " + u.getUsername());
-                        System.out.println("Data di nascita: " + u.getDataNascita());
-                        System.out.println("Domicilio: " + u.getDomicilio());
+                        System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
+                        System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
+                        System.out.println("Username: " + (u.getUsername() != null ? u.getUsername() : "Non specificato"));
+                        System.out.println("Data di nascita: " + (u.getDataNascita() != null ? u.getDataNascita() : "Non specificata"));
+                        System.out.println("Domicilio: " + (u.getDomicilio() != null ? u.getDomicilio() : "Non specificato"));
                         System.out.println("Tipo utente: " + (u instanceof Cliente ? "Cliente" : "Ristoratore"));
-
                         break;
 
                     case 4:
@@ -563,35 +573,9 @@ public class ViewCliente {
                         }
 
                         Recensione recDaModificare = tutteRecensioni.get(sceltaMod - 1);
-                        //richiesta inserimento nuovo testo che gestisce eccezione
-                        String nuovoTesto;
-                        while (true) {
-                            try {
-                                nuovoTesto = gestisciInput("Inserisci il nuovo testo della recensione:", s, true);
-                                if (nuovoTesto.length() > 250) {
-                                    System.out.println("il numero di caratteri non deve superare i 250");
-                                } else {
-                                    break;
-                                }
-                            } catch (StelleOutOfBoundException e) {
-                                System.out.println("Valore non valido. Inserisci un testo che non superi i 250 caratteri.");
-                            }
-                        }
-                        //richiesta inserimento del nuovo valore delle stelle che gestisce eccezione
-                        int nuoveStelle;
-                        while (true) {
-                            try {
-                                nuoveStelle = ViewBase.convertiScannerIntero("Inserisci il nuovo numero di stelle (0-5):", s);
-                                if (nuoveStelle < 0 || nuoveStelle > 5) {
-                                    System.out.println("Il numero di stelle deve essere compreso tra 0 e 5.");
-                                } else {
-                                    break;
-                                }
-                            } catch (RecensioneOutOfBoundException e) {
-                                System.out.println("Valore non valido. Inserisci un numero di stelle compreso tra 0 e 5.");
-                            }
-                        }
 
+                        String nuovoTesto = leggiDescrizioneValida(s);
+                        int nuoveStelle = leggiStelleValide(s);
 
                         u.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
                         System.out.println("Recensione modificata con successo.");

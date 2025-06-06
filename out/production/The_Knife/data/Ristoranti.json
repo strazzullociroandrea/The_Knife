@@ -1,128 +1,19 @@
 [
   {
     "id": 0,
-    "nome": "Da Bianchi",
+    "nome": "La carobanara con la panna",
     "nazione": "Italia",
-    "citta": "Varese",
-    "indirizzo": "Via Rossi, 4",
+    "citta": "Roma",
+    "indirizzo": "Viale europa, 10 Roma",
     "tipoCucina": "Italiana",
-    "delivery": true,
-    "prenotazioneOnline": true,
-    "minPrezzo": 2.0,
-    "maxPrezzo": 150.0,
+    "delivery": false,
+    "prenotazioneOnline": false,
+    "minPrezzo": 20.0,
+    "maxPrezzo": 100.0,
     "recensioni": [
       {
-        "descrizione": "bel posto",
-        "stelle": 4,
-        "id": 0
-      },
-      {
-        "descrizione": "bello",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bel posto",
-        "stelle": 53,
-        "id": 0
-      },
-      {
-        "descrizione": "bel posto",
-        "stelle": 5,
-        "id": 1
-      },
-      {
-        "descrizione": "bello!!",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "Bello!",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bell\u0027esperienza",
-        "stelle": 4,
-        "id": 0
-      },
-      {
-        "descrizione": "Buon cibo",
-        "stelle": 4,
-        "id": 0
-      },
-      {
-        "descrizione": "bellissimo",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "1",
-        "stelle": 1,
-        "id": 0
-      }
-    ]
-  },
-  {
-    "id": 0,
-    "nome": "Da Bianchi",
-    "nazione": "Italia",
-    "citta": "Varese",
-    "indirizzo": "Via Rossi, 4",
-    "tipoCucina": "Italiana",
-    "delivery": true,
-    "prenotazioneOnline": true,
-    "minPrezzo": 2.0,
-    "maxPrezzo": 150.0,
-    "recensioni": [
-      {
-        "descrizione": "bel posto",
-        "stelle": 4,
-        "id": 0
-      },
-      {
-        "descrizione": "bello",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bel posto",
-        "stelle": 53,
-        "id": 0
-      },
-      {
-        "descrizione": "bel posto",
-        "stelle": 5,
-        "id": 1
-      },
-      {
-        "descrizione": "bello!!",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "Bello!",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bell\u0027esperienza",
-        "stelle": 4,
-        "id": 0
-      },
-      {
-        "descrizione": "Buon cibo",
-        "stelle": 4,
-        "id": 0
-      },
-      {
-        "descrizione": "bellissimo",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "1",
-        "stelle": 1,
+        "descrizione": "Bello!!",
+        "stelle": 18,
         "id": 0
       }
     ]

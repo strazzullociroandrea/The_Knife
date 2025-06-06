@@ -1,4 +1,5 @@
 package src.view;
+
 import src.dao.GestoreFile;
 import src.model.*;
 import src.model.util.PasswordUtil;
@@ -14,52 +15,73 @@ public class ViewRistoratore {
     /**
      * Path del file JSON contenente gli utenti
      */
-    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{ "data", "Utenti.json"});
+    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"data", "Utenti.json"});
     /**
      * Path del file JSON contenente i ristoranti
      */
-    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{ "data", "Ristoranti.json"});
+    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{"data", "Ristoranti.json"});
 
     /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
      *
      * @param msg     messaggio da visualizzare
      * @param scanner scanner da utilizzare per l'input
+     * @param blank   boolean per decidere se richiedere nuovamente l'inserimento dei dati tramite scanner se l'input è vuoto (true per richiederlo, false per non richiederlo)
      * @return stringa inserita dall'utente
      */
 
-    private static String gestisciInput(String msg, Scanner scanner) {
-        String input;
+    private static String gestisciInput(String msg, Scanner scanner, boolean blank) {
+        String input = "";
         do {
             System.out.println(msg);
             input = scanner.nextLine();
-        } while (input.isEmpty());
+        } while (input.isEmpty() && blank);
         return input;
     }
 
     /**
      * Metodo per svuotare la console dai log di configurazione
-     * @throws IOException eccezione di input/output
+     *
+     * @throws IOException          eccezione di input/output
      * @throws InterruptedException eccezione di interruzione
      */
     private static void svuotaConsole() throws IOException, InterruptedException {
-        try{
+        try {
             String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
             if (operatingSystem.contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
-        }catch(Exception e){
-            for(int i=0;i<50;i++)
+        } catch (Exception e) {
+            for (int i = 0; i < 50; i++)
                 System.out.println();
         }
 
     }
 
     /**
+     * metodo privato per ottenere una stringa risposta, possibile attributo di di oggetti di tipo Recensione, in maniera corretta (<250 caratteri)
+     *
+     * @param s lo scanner utilizzato per leggere l'input dell'utente
+     * @return la stringa da massimo 250 caratteri che può rappresentare il testo della recensione
+     */
+
+    private static String leggiRispostaValida(Scanner s) {
+        while (true) {
+            String input = gestisciInput("Scrivi la risposta (max 250 caratteri):", s, true);
+            if (input.length() <= 250) {
+                return input;
+            } else {
+                System.out.println("Errore: la risposta non può superare 250 caratteri.");
+            }
+        }
+    }
+
+    /**
      * metodo per visualizzare, interagire e scorrere dinamicamente le recensioni
-     * @param u utente (ristoratore) che può interagire con le recensioni
+     *
+     * @param u               utente (ristoratore) che può interagire con le recensioni
      * @param r
      * @param listaRecensioni lista delle recensioni che si vuole scorrere
      */
@@ -87,12 +109,12 @@ public class ViewRistoratore {
                 System.out.println("Testo: " + recensioneCorrente.getDescrizione());
                 System.out.println("Stelle: " + recensioneCorrente.getStelle());
                 System.out.println("""
-                Scegli un'opzione:
-                1. Vai alla recensione successiva
-                2. Torna alla recensione precedente
-                3. Rispondi alla recensione
-                4. Esci dalla visualizzazione
-            """);
+                            Scegli un'opzione:
+                            1. Vai alla recensione successiva
+                            2. Torna alla recensione precedente
+                            3. Rispondi alla recensione
+                            4. Esci dalla visualizzazione
+                        """);
 
                 int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
 
@@ -113,7 +135,7 @@ public class ViewRistoratore {
                     }
                     case 3 -> {
                         System.out.println("Inserisci la tua risposta, attenzione la risposta verrà sovrascritta:");
-                        String risposta = s.nextLine();
+                        String risposta = leggiRispostaValida(s);
                         u.rispondiRecensione(recensioneCorrente, risposta);
                         System.out.println("Risposta aggiunta/modificata con successo.");
                     }
@@ -125,7 +147,6 @@ public class ViewRistoratore {
             System.err.println("Errore nella navigazione delle recensioni: " + e.getMessage());
         }
     }
-
 
 
     /**
@@ -162,14 +183,14 @@ public class ViewRistoratore {
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
             System.out.println(ristoranteCorrente.visualizzaRistorante());
             System.out.println("""
-                Scegli un'opzione:
-                1. Vai al ristorante successivo
-                2. Torna al ristorante precedente
-                3. Rimuovi il ristorante
-                4. Visualizza recensioni ristorante
-                5. Visualizza riepilogo ristorante
-                6. Esci dalla visualizzazione
-                """);
+                    Scegli un'opzione:
+                    1. Vai al ristorante successivo
+                    2. Torna al ristorante precedente
+                    3. Rimuovi il ristorante
+                    4. Visualizza recensioni ristorante
+                    5. Visualizza riepilogo ristorante
+                    6. Esci dalla visualizzazione
+                    """);
             int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
             switch (sceltaInterna) {
                 case 1 -> {
@@ -205,6 +226,7 @@ public class ViewRistoratore {
 
     /**
      * metodo per accedere alla view del risotrante
+     *
      * @param u utente in grado di interagire con la view
      * @throws Exception
      */
@@ -235,10 +257,10 @@ public class ViewRistoratore {
                     case 2 -> {
                         System.out.println("Creazione del ristorante...");
 
-                        String nome = gestisciInput("Inserire il nome del ristorante: ", s);
-                        String nazione = gestisciInput("Inserire la nazione del ristorante: ", s);
-                        String citta = gestisciInput("Inserire la città del ristorante: ", s);
-                        String indirizzo = gestisciInput("Inserire l'indirizzo del ristorante: ", s);
+                        String nome = gestisciInput("Inserire il nome del ristorante: ", s, true);
+                        String nazione = gestisciInput("Inserire la nazione del ristorante: ", s, true);
+                        String citta = gestisciInput("Inserire la città del ristorante: ", s, true);
+                        String indirizzo = gestisciInput("Inserire l'indirizzo del ristorante: ", s, true);
 
                         boolean delivery;
                         while (true) {
@@ -270,7 +292,7 @@ public class ViewRistoratore {
                             }
                         }
 
-                        String tipoCucina = gestisciInput("Inserire il tipo di cucina: ", s);
+                        String tipoCucina = gestisciInput("Inserire il tipo di cucina: ", s, true);
 
                         boolean prenotazioneOnline;
                         while (true) {
@@ -306,23 +328,25 @@ public class ViewRistoratore {
                     }
 
                     case 3 -> {
+                        GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
                         System.out.println("\n--- Dati utente ---");
-                        System.out.println("Nome: " + u.getNome());
-                        System.out.println("Cognome: " + u.getCognome());
-                        System.out.println("Username: " + u.getUsername());
-                        System.out.println("Data di nascita: " + u.getDataNascita());
-                        System.out.println("Domicilio: " + u.getDomicilio());
-                        System.out.println("Tipo utente: " + (u instanceof Ristoratore ? "Ristoratore" : "Cliente"));
+                        System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
+                        System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
+                        System.out.println("Username: " + (u.getUsername() != null ? u.getUsername() : "Non specificato"));
+                        System.out.println("Data di nascita: " + (u.getDataNascita() != null ? u.getDataNascita() : "Non specificata"));
+                        System.out.println("Domicilio: " + (u.getDomicilio() != null ? u.getDomicilio() : "Non specificato"));
+                        System.out.println("Tipo utente: " + (u instanceof Ristoratore ? "Cliente" : "Ristoratore"));
                     }
 
+
                     case 4 -> {
-                        String modNome = gestisciInput("Inserisci il tuo nuovo nome: ", s);
+                        String modNome = gestisciInput("Inserisci il tuo nuovo nome: ", s, true);
                         u.setNome(modNome);
 
-                        String modCognome = gestisciInput("Inserisci il tuo nuovo cognome: ", s);
+                        String modCognome = gestisciInput("Inserisci il tuo nuovo cognome: ", s, true);
                         u.setCognome(modCognome);
 
-                        String modUserName = gestisciInput("Inserisci il tuo nuovo username: ", s);
+                        String modUserName = gestisciInput("Inserisci il tuo nuovo username: ", s, true);
 
                         boolean usernameEsistente = false;
                         for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI)) {
@@ -340,7 +364,7 @@ public class ViewRistoratore {
 
                         boolean passwordValida = false;
                         while (!passwordValida) {
-                            String modPassword = gestisciInput("Inserisci la tua nuova password: ", s);
+                            String modPassword = gestisciInput("Inserisci la tua nuova password: ", s, true);
                             String pwCifrata = PasswordUtil.hashPassword(modPassword);
 
                             if (pwCifrata.equals(u.getPasswordCifrata())) {
@@ -352,7 +376,7 @@ public class ViewRistoratore {
                             }
                         }
 
-                        String modDomicilio = gestisciInput("Inserisci il tuo nuovo domicilio: ", s);
+                        String modDomicilio = gestisciInput("Inserisci il tuo nuovo domicilio: ", s, true);
                         u.setDomicilio(modDomicilio);
                     }
 

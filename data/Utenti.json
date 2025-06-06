@@ -19,5 +19,35 @@
     "username": "ristoratore",
     "domicilio": "Viale sarca,9 milano",
     "ruolo": "ristoratore"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "Bello!!",
+        "stelle": 18,
+        "id": 0
+      }
+    ],
+    "id": 0,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
+    "dataNascita": "14/05/2005",
+    "ruolo": "cliente"
   }
 ]
