@@ -9,6 +9,7 @@ import javax.naming.InvalidNameException;
 
 /**
  * Classe Utente
+ *
  * @version 1.0
  * @Author Strazzullo Ciro Andrea
  * @Author Riccardo Giovanni Rubini
@@ -17,56 +18,65 @@ import javax.naming.InvalidNameException;
 public abstract class Utente {
 
     /**
-     * id associato all'utente
+     * Id associato all'utente
      */
     private int id;
+
     /**
-     * password cifrata dell'utente
+     * Password cifrata dell'utente
      */
     private String passwordCifrata;
+
     /**
-     * nome associato all'utente
+     * Nome associato all'utente
      */
     private String nome;
+
     /**
-     * cognome associato all'utente
+     * Cognome associato all'utente
      */
     private String cognome;
+
     /**
-     * username associato all'utente
+     * Username associato all'utente
      */
     private String username;
+
     /**
-     * domicilio associato all'utente
+     * Domicilio associato all'utente
      */
     private String domicilio;
+
     /**
-     * data di nascita dell'utente
+     * Data di nascita dell'utente
      */
     private String dataNascita;
-    /**
-     * counter per ottenere un id unico
-     */
-    private static int idCounter=0;//ID univoco per ogni utente
 
     /**
-     *costruttore base della classe Utente
-     * @param id id associato all'utente
-     * @param password password associata all'utente
-     * @param nome nome associato all'utente
-     * @param cognome cognome associato all'utente
-     * @param username username associato all'utente
-     * @param dataNascita da di nascita associata all'utente
-     * @param domicilio domicilio associato all'utente
+     * Counter per ottenere un id unico
      */
-    public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio)throws InvalidPasswordException{
-        this.id=id;
+    private static int idCounter = 0;
+
+    /**
+     * Costruttore base della classe Utente
+     *
+     * @param id          id associato all'utente
+     * @param password    password associata all'utente
+     * @param nome        nome associato all'utente
+     * @param cognome     cognome associato all'utente
+     * @param username    username associato all'utente
+     * @param dataNascita data di nascita associata all'utente
+     * @param domicilio   domicilio associato all'utente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Utente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio) throws Exception {
+        setId(id);
         setPasswordCifrata(password);
-        this.nome=nome;
-        this.cognome=cognome;
-        this.username=username;
-        this.domicilio= domicilio;
-        this.dataNascita=dataNascita;
+        setNome(nome);
+        setCognome(cognome);
+        setUsername(username);
+        setDomicilio(domicilio);
+        setDataNascita(dataNascita);
         //Gestione unicità dell'id
         if (this.id >= idCounter) {
             idCounter = this.id + 1;
@@ -74,21 +84,23 @@ public abstract class Utente {
     }
 
     /**
-     *Costruttore senza data di nascita della classe Utente
-     * @param id id associato all'utente
-     * @param password password associata all'utente
-     * @param nome nome associato all'utente
-     * @param cognome cognome associato all'utente
-     * @param username username associato all'utente
+     * Costruttore senza data di nascita della classe Utente
+     *
+     * @param id        id associato all'utente
+     * @param password  password associata all'utente
+     * @param nome      nome associato all'utente
+     * @param cognome   cognome associato all'utente
+     * @param username  username associato all'utente
      * @param domicilio domicilio associato all'utente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
      */
-    public Utente(int id, String password, String nome,String cognome, String username, String domicilio){
-        this.id=id;
+    public Utente(int id, String password, String nome, String cognome, String username, String domicilio) throws Exception {
+        setId(id);
         setPasswordCifrata(password);
-        this.nome=nome;
-        this.cognome=cognome;
-        this.username=username;
-        this.domicilio= domicilio;
+        setNome(nome);
+        setCognome(cognome);
+        setUsername(username);
+        setDomicilio(domicilio);
         //Gestione unicità dell'id
         if (this.id >= idCounter) {
             idCounter = this.id + 1;
@@ -96,45 +108,50 @@ public abstract class Utente {
     }
 
     /**
-     *Costruttore senza id della classe Utente
-     * @param password password associata all'utente
-     * @param nome nome associato all'utente
-     * @param cognome cognome associato all'utente
-     * @param username username associato all'utente
-     * @param dataNascita da di nascita associata all'utente
-     * @param domicilio domicilio associato all'utente
+     * Costruttore senza id della classe Utente
+     *
+     * @param password    password associata all'utente
+     * @param nome        nome associato all'utente
+     * @param cognome     cognome associato all'utente
+     * @param username    username associato all'utente
+     * @param dataNascita data di nascita associata all'utente
+     * @param domicilio   domicilio associato all'utente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
      */
 
-    public Utente(String password, String nome,String cognome, String username,String dataNascita, String domicilio){
+    public Utente(String password, String nome, String cognome, String username, String dataNascita, String domicilio) throws Exception {
         setPasswordCifrata(password);
-        this.nome=nome;
-        this.cognome=cognome;
-        this.username=username;
-        this.domicilio= domicilio;
-        this.dataNascita=dataNascita;
+        setNome(nome);
+        setCognome(cognome);
+        setUsername(username);
+        setDomicilio(domicilio);
+        setDataNascita(dataNascita);
         this.id = idCounter++;
     }
 
     /**
-     *Costruttore senza id e data di nascita della classe utente
-     * @param password password associata all'utente
-     * @param nome nome associato all'utente
-     * @param cognome cognome associato all'utente
-     * @param username username associato all'utente
+     * Costruttore senza id e data di nascita della classe utente
+     *
+     * @param password  password associata all'utente
+     * @param nome      nome associato all'utente
+     * @param cognome   cognome associato all'utente
+     * @param username  username associato all'utente
      * @param domicilio domicilio associato all'utente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
      */
 
-    public Utente(String password, String nome,String cognome, String username, String domicilio){
+    public Utente(String password, String nome, String cognome, String username, String domicilio) throws Exception {
         setPasswordCifrata(password);
-        this.nome=nome;
-        this.cognome=cognome;
-        this.username=username;
-        this.domicilio= domicilio;
+        setNome(nome);
+        setCognome(cognome);
+        setUsername(username);
+        setDomicilio(domicilio);
         this.id = idCounter++;
     }
 
     /**
-     *Metodo che restituisce l'id associato all'utente
+     * Metodo che restituisce l'id associato all'utente
+     *
      * @return restituisce l'id utente
      */
     public int getId() {
@@ -142,7 +159,8 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che associa l'id dell'utente
+     * Metodo che associa l'id dell'utente
+     *
      * @param id associa l'id tramite il metodo
      */
     public void setId(int id) {
@@ -150,7 +168,8 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che restituisce la data di nascita dell'utente
+     * Metodo che restituisce la data di nascita dell'utente
+     *
      * @return restituisce la data di nascita associata all'utente
      */
     public String getDataNascita() {
@@ -158,7 +177,8 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che associa la data di nascita all'utente
+     * Metodo che associa la data di nascita all'utente
+     *
      * @param dataNascita associa la data di nascita tramite il metodo
      */
     public void setDataNascita(String dataNascita) {
@@ -166,7 +186,8 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che restituisce il domicilio associato all'utente
+     * Metodo che restituisce il domicilio associato all'utente
+     *
      * @return restituisce il domicilio associato all'utente
      */
     public String getDomicilio() {
@@ -174,7 +195,8 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che associa il domicilio dell'utente
+     * Metodo che associa il domicilio dell'utente
+     *
      * @param domicilio associa il domicilio tramite il metodo
      */
     public void setDomicilio(String domicilio) {
@@ -182,7 +204,8 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che restituisce l'username dell'utente
+     * Metodo che restituisce l'username dell'utente
+     *
      * @return restituisce l'username associato all'utente
      */
     public String getUsername() {
@@ -190,19 +213,21 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che associa l'username dell'utente
+     * Metodo che associa l'username dell'utente
+     *
      * @param username associa l'username tramite il metodo
      */
-    public void setUsername(String username)throws InvalidUsernameException {
-        if (username.length()==0 || username.length() > 18){
+    public void setUsername(String username) throws InvalidUsernameException {
+        if (username.isEmpty() || username.length() > 18) {
             throw new InvalidUsernameException();
-        }else{
+        } else {
             this.username = username;
         }
     }
 
     /**
-     *Metodo che restituisce il cognome dell'utente
+     * Metodo che restituisce il cognome dell'utente
+     *
      * @return restituisce il cognome associato all'utente
      */
     public String getCognome() {
@@ -210,19 +235,21 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che associa il cognome dell'utente
+     * Metodo che associa il cognome dell'utente
+     *
      * @param cognome associa il cognome tramite il metodo
      */
-    public void setCognome(String cognome)throws InvalidNomeException{
-        if(cognome.length()==0) {
+    public void setCognome(String cognome) throws InvalidNomeException {
+        if (cognome.isEmpty()) {
             throw new InvalidNomeException();
-        }else{
+        } else {
             this.cognome = cognome;
         }
     }
 
     /**
-     *Metodo che restituisce il nome dell'utente
+     * Metodo che restituisce il nome dell'utente
+     *
      * @return restituisce il nome associato all'utente
      */
     public String getNome() {
@@ -231,18 +258,20 @@ public abstract class Utente {
 
     /**
      * Metodo che associa il nome dell'utente
+     *
      * @param nome asssocia il nome all'utente
      */
-    public void setNome(String nome)throws InvalidNomeException{
-        if(nome.length()==0) {
+    public void setNome(String nome) throws InvalidNomeException {
+        if (nome.isEmpty()) {
             throw new InvalidNomeException();
-        }else {
+        } else {
             this.nome = nome;
         }
     }
 
     /**
-     *Metodo che restituisce la password cifrata dell'utente
+     * Metodo che restituisce la password cifrata dell'utente
+     *
      * @return restituisce la password cifrata associata all'utente
      */
     public String getPasswordCifrata() {
@@ -250,22 +279,24 @@ public abstract class Utente {
     }
 
     /**
-     *Metodo che associa la password all'utente
+     * Metodo che associa la password all'utente
+     *
      * @param password associa la password tramite il metodo
      * @throws InvalidPasswordException eccezione lanciata quando la password ha meno di 6 caratteri
      */
-    public void setPasswordCifrata(String password)throws InvalidPasswordException {
+    public void setPasswordCifrata(String password) throws InvalidPasswordException {
         if (password.length() < 6) {
             throw new InvalidPasswordException();
-        }else {
+        } else {
             this.passwordCifrata = PasswordUtil.hashPassword(password);
         }
     }
 
     /**
      * Metodo per verificare le credenziali di username e password dopo aver fatto l'hashing
-     * @param username
-     * @param password
+     *
+     * @param username username associato all'utente
+     * @param password password associata all'utente
      * @return riporta vero se entrambe le credenziali sono verificate, falso se anche solo una delle due non viene verificata
      */
     public boolean verificaCredenziali(String username, String password) {
@@ -275,6 +306,7 @@ public abstract class Utente {
 
     /**
      * Metodo astratto per ottenere il ruolo dell'utente
+     *
      * @return ruolo
      */
     abstract public String getRuolo();

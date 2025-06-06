@@ -1,14 +1,11 @@
 package src.model;
 
-import src.model.exception.RecensioneOutOfBoundException;
-import src.model.exception.StelleOutOfBoundException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Classe cliente
+ *
  * @version 1.0
  * @Author Strazzullo Ciro Andrea
  * @Author Riccardo Giovanni Rubini
@@ -20,6 +17,7 @@ public class Cliente extends Utente {
      * Lista dei ristoranti prefetiti dal cliente
      */
     private List<Ristorante> preferiti;
+
     /**
      * Lista delle recensioni del cliente
      */
@@ -27,70 +25,73 @@ public class Cliente extends Utente {
 
 
     /**
-     *Costruttore base della classse cliente
-     * @param id id associato al cliente
-     * @param password password associata al cliente
-     * @param nome nome associato al cliente
-     * @param cognome cognome associato al cliente
-     * @param username username associato al cliente
-     * @param dataNascita data di nascita associata al cliente
-     * @param domicilio domicilio associato al cliente
+     * Costruttore base della classe cliente
      *
-     */
-    public Cliente(int id, String password, String nome,String cognome, String username, String dataNascita, String domicilio){
-
-        super(id,password,nome,cognome,username,dataNascita,domicilio);
-        this.preferiti = new ArrayList<>();
-        this.recensioniMesse = new ArrayList<>();
-    }
-
-
-    /**
-     *Costruttore senza data di nascita della classe cliente
-     * @param id id associato al cliente
-     * @param password password associata al cliente
-     * @param nome nome associato al cliente
-     * @param cognome cognome associato al cliente
-     * @param username username associato al cliente
-     * @param domicilio domicilio associato al cliente
-     */
-    public Cliente(int id, String password, String nome,String cognome, String username, String domicilio)
-    {
-
-        super(id,password,nome,cognome,username,domicilio);
-        this.preferiti = new ArrayList<>();
-        this.recensioniMesse = new ArrayList<>();
-    }
-
-
-    /**
-     *Costruttore senza id della classe cliente
-     * @param password password associata al cliente
-     * @param nome nome associato al cliente
-     * @param cognome cognome associato al cliente
-     * @param username username associato al cliente
+     * @param id          id associato al cliente
+     * @param password    password associata al cliente
+     * @param nome        nome associato al cliente
+     * @param cognome     cognome associato al cliente
+     * @param username    username associato al cliente
      * @param dataNascita data di nascita associata al cliente
-     * @param domicilio domicilio associata al cliente
+     * @param domicilio   domicilio associato al cliente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
      */
-    public Cliente(String password, String nome,String cognome, String username, String dataNascita, String domicilio)
-    {
-        super(password,nome,cognome,username,dataNascita,domicilio);
+    public Cliente(int id, String password, String nome, String cognome, String username, String dataNascita, String domicilio) throws Exception {
+        super(id, password, nome, cognome, username, dataNascita, domicilio);
         this.preferiti = new ArrayList<>();
         this.recensioniMesse = new ArrayList<>();
     }
 
 
     /**
-     *Costruttore senza id e data di nascita della classe cliente
-     * @param password password associata al cliente
-     * @param nome nome associato al cliente
-     * @param cognome cognome associato al cliente
-     * @param username username associato al cliente
+     * Costruttore senza data di nascita della classe cliente
+     *
+     * @param id        id associato al cliente
+     * @param password  password associata al cliente
+     * @param nome      nome associato al cliente
+     * @param cognome   cognome associato al cliente
+     * @param username  username associato al cliente
      * @param domicilio domicilio associato al cliente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
      */
-    public Cliente(String password, String nome,String cognome, String username, String domicilio)
-    {
-        super(password,nome,cognome,username, domicilio);
+    public Cliente(int id, String password, String nome, String cognome, String username, String domicilio) throws Exception {
+
+        super(id, password, nome, cognome, username, domicilio);
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
+    }
+
+
+    /**
+     * Costruttore senza id della classe cliente
+     *
+     * @param password    password associata al cliente
+     * @param nome        nome associato al cliente
+     * @param cognome     cognome associato al cliente
+     * @param username    username associato al cliente
+     * @param dataNascita data di nascita associata al cliente
+     * @param domicilio   domicilio associata al cliente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Cliente(String password, String nome, String cognome, String username, String dataNascita, String domicilio) throws Exception {
+        super(password, nome, cognome, username, dataNascita, domicilio);
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
+    }
+
+
+    /**
+     * Costruttore senza id e data di nascita della classe cliente
+     *
+     * @param password  password associata al cliente
+     * @param nome      nome associato al cliente
+     * @param cognome   cognome associato al cliente
+     * @param username  username associato al cliente
+     * @param domicilio domicilio associato al cliente
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Cliente(String password, String nome, String cognome, String username, String domicilio) throws Exception {
+        super(password, nome, cognome, username, domicilio);
         this.preferiti = new ArrayList<>();
         this.recensioniMesse = new ArrayList<>();
     }
@@ -98,62 +99,63 @@ public class Cliente extends Utente {
 
     /**
      * Metodo per aggiungere il ristorante nei preferiti
-     * @param ristorante
+     *
+     * @param ristorante ristorante da aggiungere ai preferiti
      */
-    public void aggiungiPreferito(Ristorante ristorante){
-        if(!preferiti.contains(ristorante)){
+    public void aggiungiPreferito(Ristorante ristorante) {
+        if (!preferiti.contains(ristorante)) {
             preferiti.add(ristorante);
         }
     }
 
     /**
-     * metodo per rimuovere il ristorante dai preferiti
-     * @param ristorante
+     * Metodo per rimuovere il ristorante dai preferiti
+     *
+     * @param ristorante ristorante da rimuovere dai preferiti
      */
-
-    public void rimuoviPreferito(Ristorante ristorante){
-        if(preferiti.contains(ristorante)) {
-            preferiti.remove(ristorante);
-        }
+    public void rimuoviPreferito(Ristorante ristorante) {
+        preferiti.remove(ristorante);
     }
 
     /**
      * Metodo per visualizzare i preferiti del cliente
+     *
      * @return restituisce lista preferiti
      */
-    public List<Ristorante> visualizzaPreferiti(){
+    public List<Ristorante> visualizzaPreferiti() {
         return preferiti;
     }
 
     /**
-     * metodo per far aggiungere al cliente una recensione
-     * @param ristorante
-     * @param stelle
-     * @param descrizione
+     * Metodo per far aggiungere al cliente una recensione
+     *
+     * @param ristorante  ristorante su cui si vuole lasciare la recensione
+     * @param stelle      numero di stelle della recensione
+     * @param descrizione descrizione della recensione
      */
-
-    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione){
+    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione) {
         Recensione recensione = new Recensione(descrizione, stelle);
         recensioniMesse.add(recensione);
         ristorante.recensisciRistorante(recensione);
     }
 
     /**
-     * metodo per modificare una recensione
-     * @param recensione
-     * @param txt
-     * @param stelle
+     * Metodo per modificare una recensione
+     *
+     * @param recensione recensione da modificare
+     * @param txt        testo della recensione
+     * @param stelle     numero di stelle della recensione
      */
-    public Recensione modificaRecensione(Recensione recensione,String txt, int stelle){
+    public void modificaRecensione(Recensione recensione, String txt, int stelle) {
         recensione.setDescrizione(txt);
         recensione.setNumeroStelle(stelle);
-        return recensione;
     }
 
     /**
-     * metodo per rimuovere una recensione
-     * @param ristorante
-     * @param recensione
+     * Metodo per rimuovere una recensione
+     *
+     * @param ristorante ristorante da cui si vuole rimuovere la recensione
+     * @param recensione recensione da rimuovere
      */
     public void rimuoviRecensione(Ristorante ristorante, Recensione recensione) {
         if (recensioniMesse.contains(recensione)) {
@@ -163,14 +165,17 @@ public class Cliente extends Utente {
     }
 
     /**
-     * get lista di recensioni messe
+     * Get lista di recensioni messe
+     *
      * @return restituisce la lista delle recensioni lasciate dal cliente
      */
     public List<Recensione> getRecensioniMesse() {
         return recensioniMesse;
     }
+
     /**
-     * set lista di recensioni messe
+     * Set lista di recensioni messe
+     *
      * @param recensioniMesse lista delle recensioni lasciate dal cliente
      */
     public void setRecensioniMesse(List<Recensione> recensioniMesse) {
@@ -178,17 +183,19 @@ public class Cliente extends Utente {
     }
 
     /**
-     * metodo per inserire la lista dei ristoranti preferiti
-     * @param preferiti
+     * Metodo per inserire la lista dei ristoranti preferiti
+     *
+     * @param preferiti lista dei ristoranti preferiti dal cliente
      */
     public void setPreferiti(List<Ristorante> preferiti) {
         this.preferiti = preferiti;
     }
+
     /**
-     * metodo per ottenere il ruolo
+     * Metodo per ottenere il ruolo
+     *
      * @return restituisce il ruolo cliente
      */
-
     @Override
     public String getRuolo() {
         return "Cliente";

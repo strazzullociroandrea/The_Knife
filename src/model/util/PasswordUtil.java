@@ -1,6 +1,8 @@
 package src.model.util;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 /**
  * Classe per la gestione dell'hashing della password
  *
@@ -15,6 +17,7 @@ public class PasswordUtil {
      * Questo algoritmo trasforma la password in una stringa appartenente al dominio della funzione hash.
      * Non è possibile risalire alla password originale a partire dall'hash, questo perchè servirebbero
      * grandi capacità di calcolo, garantendo così un elevato livello di sicurezza.
+     *
      * @param password la password da convertire in hash
      * @return l'hash della password sotto forma di stringa
      */

@@ -12,14 +12,6 @@ import java.util.Scanner;
 import static src.view.ViewBase.convertiScannerIntero;
 
 public class ViewRistoratore {
-    /**
-     * Path del file JSON contenente gli utenti
-     */
-    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"data", "Utenti.json"});
-    /**
-     * Path del file JSON contenente i ristoranti
-     */
-    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{"data", "Ristoranti.json"});
 
     /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
@@ -29,7 +21,6 @@ public class ViewRistoratore {
      * @param blank   boolean per decidere se richiedere nuovamente l'inserimento dei dati tramite scanner se l'input è vuoto (true per richiederlo, false per non richiederlo)
      * @return stringa inserita dall'utente
      */
-
     private static String gestisciInput(String msg, Scanner scanner, boolean blank) {
         String input = "";
         do {
@@ -227,10 +218,12 @@ public class ViewRistoratore {
     /**
      * metodo per accedere alla view del risotrante
      *
-     * @param u utente in grado di interagire con la view
+     * @param u              utente in grado di interagire con la view
+     * @param PATHUTENTI     path del file JSON contenente gli utenti
+     * @param PATHRISTORANTI path del file JSON contenente i ristoranti
      * @throws Exception
      */
-    public static void view(Ristoratore u) throws Exception {
+    public static void view(Ristoratore u, String PATHUTENTI, String PATHRISTORANTI) throws Exception {
         boolean continua = true;
 
         try (Scanner s = new Scanner(System.in)) {

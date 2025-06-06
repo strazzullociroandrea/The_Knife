@@ -21,6 +21,7 @@ import com.google.gson.JsonObject;
 public class ReverseGeocoding {
     /**
      * Metodo per ottenere la latitudine e longitudine da un indirizzo
+     *
      * @param indirizzo Indirizzo da analizzare il formato obbligatorio è "via, città, nazione"
      * @return Array di double con latitudine e longitudine nel formato [latitudine, longitudine], restituisce un array di -1 nel caso in cui non viene trovato l'indirizzo
      * @throws Exception Viene lanciata un'eccezione generare nel caso di errore
@@ -70,9 +71,10 @@ public class ReverseGeocoding {
 
     /**
      * Metodo per ottenere l'indirizzo da latitudine e longitudine
-     * @param latitudine latitudine dell'indirizzo, il formato obbligatorio è "xx.xxxxx"
+     *
+     * @param latitudine  latitudine dell'indirizzo, il formato obbligatorio è "xx.xxxxx"
      * @param longitudine longitudine dell'indirizzo, il formato obbligatorio è "xx.xxxxx"
-     * @return  String con l'indirizzo trovato, restituisce una stringa di errore nel caso in cui non viene trovato l'indirizzo
+     * @return String con l'indirizzo trovato, restituisce una stringa di errore nel caso in cui non viene trovato l'indirizzo
      * @throws Exception Viene lanciata un'eccezione generare nel caso di errore
      */
     public static String getIndirizzoDaCoordinate(double latitudine, double longitudine) throws Exception {

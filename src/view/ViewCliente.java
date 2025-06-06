@@ -1,5 +1,6 @@
 package src.view;
 
+import src.controller.Main;
 import src.dao.GestoreFile;
 import src.model.Cliente;
 import src.model.Recensione;
@@ -31,14 +32,6 @@ import static src.dao.GestoreFile.caricaUtenti;
  * classe che rappresenta l'interfaccia grafica del cliente e contiene metodi utili ad essa
  */
 public class ViewCliente {
-    /**
-     * Path del file JSON contenente gli utenti
-     */
-    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"data", "Utenti.json"});
-    /**
-     * Path del file JSON contenente i ristoranti
-     */
-    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{"data", "Ristoranti.json"});
 
     //metodi
 
@@ -65,10 +58,11 @@ public class ViewCliente {
      * metodo per verificare che un ristorante esista all'interno di una lista
      *
      * @param r il ristorante da verificare
+     * @paaram PATHRISTORANTI il path del file JSON contenente i ristoranti
      * @return
      */
 
-    public boolean verificaRistorante(Ristorante r) {
+    public boolean verificaRistorante(Ristorante r, String PATHRISTORANTI) {
         boolean esiste = false;
         try {
             for (Ristorante tmp : GestoreFile.caricaRistoranti(PATHRISTORANTI))
@@ -151,37 +145,18 @@ public class ViewCliente {
     }
 
 
-    /**
-     * Metodo per svuotare la console dai log di configurazione
-     *
-     * @throws IOException          eccezione di input/output
-     * @throws InterruptedException eccezione di interruzione
-     */
-    private static void svuotaConsole() throws IOException, InterruptedException {
-        try {
-            String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
-            if (operatingSystem.contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            for (int i = 0; i < 50; i++)
-                System.out.println();
-        }
-
-    }
-
 
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
      *
      * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
      * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
+     * @param PATHUTENTI il path del file JSON contenente gli utenti
+     * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
-    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti) throws IOException, InterruptedException {
+    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti, String PATHUTENTI, String PATHRISTORANTI) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
             System.out.println("Nessun ristorante trovato");
             return;
@@ -200,7 +175,7 @@ public class ViewCliente {
         boolean visualizza = true;
 
         while (visualizza) {
-            svuotaConsole();
+            Main.svuotaConsole();
             Ristorante ristoranteCorrente = listaRistoranti.get(indice);
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
             System.out.println(ristoranteCorrente.visualizzaRistorante());
@@ -374,14 +349,16 @@ public class ViewCliente {
      * metodo per acccedere alla view del cliente
      *
      * @param u l'utente di tipo Cliente che interagisce con la view
+     * @param PATHUTENTI il path del file JSON contenente gli utenti
+     * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
      */
 
-    public static void view(Cliente u) throws IOException {
+    public static void view(Cliente u, String PATHUTENTI, String PATHRISTORANTI) throws IOException {
         try (Scanner s = new Scanner(System.in)) {
             boolean continua = true;
 
             while (continua) {
-                svuotaConsole();
+                Main.svuotaConsole();
 
                 System.out.println("\n--- Menu Cliente ---");
                 System.out.println("1. Visualizza tutti i ristoranti");
@@ -401,7 +378,7 @@ public class ViewCliente {
                             System.out.println("Nessun ristorante trovato.");
                         }
 
-                        navigazioneRistoranti(u, s, listaRistoranti);
+                        navigazioneRistoranti(u, s, listaRistoranti, PATHUTENTI, PATHRISTORANTI);
 
                         break;
 
@@ -435,7 +412,7 @@ public class ViewCliente {
 
                         List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, vuoiDelivery, delivery, vuoiPrenotazione, prenotazione, stelleMin);
 
-                        navigazioneRistoranti(u, s, filtrati);
+                        navigazioneRistoranti(u, s, filtrati, PATHUTENTI, PATHRISTORANTI);
 
                         break;
 
@@ -601,8 +578,7 @@ public class ViewCliente {
 
                     case 6:
                         System.out.println("Verrai reinderizzato al menù iniziale!");
-                        ViewBase.view();
-
+                        ViewBase.view(PATHUTENTI, PATHRISTORANTI);
                         return;
                 }
             }

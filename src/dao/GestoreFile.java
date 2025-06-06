@@ -3,6 +3,7 @@ package src.dao;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import src.model.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class GestoreFile {
 
     /**
      * Metodo per adattare i path in base al sistema operativo
+     *
      * @param pathParti array di stringhe che rappresentano i vari componenti del path
      * @return stringa che rappresenta il path completo
      */
@@ -20,7 +22,8 @@ public class GestoreFile {
 
     /**
      * Metodo per creare un file con contenuto iniziale se non esiste
-     * @param path path del file da creare
+     *
+     * @param path              path del file da creare
      * @param contenutoIniziale contenuto iniziale del file
      * @throws IOException in caso di errore durante la creazione del file
      */
@@ -36,8 +39,9 @@ public class GestoreFile {
 
     /**
      * Metodo per salvare la lista di ristoranti in un file JSON
+     *
      * @param ristoranti lista di ristoranti da salvare
-     * @param path path del file in cui salvare i ristoranti
+     * @param path       path del file in cui salvare i ristoranti
      * @throws IOException in caso di errore durante la scrittura del file
      */
     public static void salvaRistoranti(List<Ristorante> ristoranti, String path) throws IOException {
@@ -52,6 +56,7 @@ public class GestoreFile {
 
     /**
      * Metodo per caricare la lista di ristoranti da un file JSON
+     *
      * @param path path del file da cui caricare i ristoranti
      * @return lista di ristoranti caricati
      * @throws IOException in caso di errore durante la lettura del file
@@ -60,7 +65,8 @@ public class GestoreFile {
         creaFile(path, "[]");
         try (Reader reader = new FileReader(path)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            return gson.fromJson(reader, new TypeToken<List<Ristorante>>() {}.getType());
+            return gson.fromJson(reader, new TypeToken<List<Ristorante>>() {
+            }.getType());
         } catch (Exception e) {
             throw new IOException("Errore durante il caricamento dei ristoranti", e);
         }
@@ -68,8 +74,9 @@ public class GestoreFile {
 
     /**
      * Metodo per salvare la lista di utenti in un file JSON
+     *
      * @param utenti lista di utenti da salvare
-     * @param path path del file in cui salvare gli utenti
+     * @param path   path del file in cui salvare gli utenti
      * @throws IOException in caso di errore durante la scrittura del file
      */
     public static void salvaUtenti(List<Utente> utenti, String path) throws IOException {
@@ -98,7 +105,8 @@ public class GestoreFile {
 
     /**
      * Metodo per caricare la lista di utenti da un file JSON, associando correttamente i ristoranti e le recensioni
-     * @param pathUtenti path del file da cui caricare gli utenti
+     *
+     * @param pathUtenti     path del file da cui caricare gli utenti
      * @param pathRistoranti path del file da cui caricare i ristoranti
      * @return lista di utenti caricati
      * @throws IOException in caso di errore durante la lettura del file

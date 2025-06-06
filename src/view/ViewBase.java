@@ -1,5 +1,6 @@
 package src.view;
 
+import src.controller.Main;
 import src.dao.GestoreFile;
 import src.model.*;
 import src.model.Ristorante;
@@ -22,34 +23,8 @@ import java.util.Scanner;
  * @Author Matteo Mongelli
  */
 public class ViewBase {
-    /**
-     * Path del file JSON contenente gli utenti
-     */
-    private static final String PATHUTENTI = GestoreFile.adattaPath(new String[]{"data", "Utenti.json"});
-    /**
-     * Path del file JSON contenente i ristoranti
-     */
-    private static final String PATHRISTORANTI = GestoreFile.adattaPath(new String[]{ "data", "Ristoranti.json"});
 
-    /**
-     * Metodo per svuotare la console dai log di configurazione
-     * @throws IOException eccezione di input/output
-     * @throws InterruptedException eccezione di interruzione
-     */
-    private static void svuotaConsole() throws IOException, InterruptedException {
-        try{
-            String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
-            if (operatingSystem.contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        }catch(Exception e){
-            for(int i=0;i<50;i++)
-                System.out.println();
-        }
-
-    }
+     
     /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
      * @param msg messaggio da visualizzare
@@ -208,24 +183,28 @@ public class ViewBase {
 
     /**
      * Metodo per caricare gli utenti dal file json
+     * @param PATHUTENTI path del file contenente gli utenti
+     * @param PATHRISTORANTI path del file contenente i ristoranti
      * @return lista di utenti caricati
      * @throws IOException eccezione di input/output
      */
-    private static List<Utente> caricaUtenti() throws IOException {
+    private static List<Utente> caricaUtenti(String PATHUTENTI, String PATHRISTORANTI) throws IOException {
         return GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
     }
 
     /**
      * Metodo per loggare l'utente verificando le credenziali
      * @param s Scanner per l'input
+     * @param PATHUTENTI path del file contenente gli utenti
+     * @param PATHRISTORANTI path del file contenente i ristoranti
      * @return oggetto Utente loggato di tipo Cliente o Ristoratore o null (Se non esiste)
      */
-    private static Utente login(Scanner s){
+    private static Utente login(Scanner s, String PATHUTENTI, String PATHRISTORANTI){
         String username = gestisciInput("Inserisci il tuo username: ", s);
         String password = gestisciInput("Inserisci la tua password: ", s);
         List<Utente> utenti;
         try {
-            utenti = caricaUtenti();
+            utenti = caricaUtenti(PATHUTENTI, PATHRISTORANTI);
             for(Utente u: utenti){
                 if(u.verificaCredenziali(username, password)){
                     return u;
@@ -263,9 +242,11 @@ public class ViewBase {
 
     /**
      * Metodo per visualizzare l'interfaccia grafica di base
+     * @param PATHUTENTI path del file contenente gli utenti
+     * @param PATHRISTORANTI path del file contenente i ristoranti
      * @throws Exception eccezione lanciata in qualsiasi caso di errore di esecuzione con messaggio
      */
-    public static void view() throws Exception {
+    public static void view(String PATHUTENTI, String PATHRISTORANTI) throws Exception {
         try(Scanner s = new Scanner(System.in)){
             System.out.println("Avvio del progetto....");
             System.out.println("Progetto avviato con successo!");
@@ -273,7 +254,7 @@ public class ViewBase {
             List<Ristorante> ristoranti =  GestoreFile.caricaRistoranti(PATHRISTORANTI);
             System.out.println("Ristoranti caricati con successo!");
             System.out.println("Carico l'interfaccia grafica di base, inzio programma...");
-            svuotaConsole();//Svuoto la console dai log di configurazione
+            Main.svuotaConsole();//Svuoto la console dai log di configurazione
             System.out.println("Benvenuto in TheKnife!");
             System.out.println("Ecco il menu principale:");
             boolean continua = true;
@@ -328,7 +309,7 @@ public class ViewBase {
                                                 System.out.println("Digita 'c' per continuare la ricerca o 'q' per tornare al menù ");
                                                 continuaRicerca = s.nextLine();
                                             }while((!continuaRicerca.equalsIgnoreCase("c") && !continuaRicerca.equalsIgnoreCase("q")));
-                                            svuotaConsole();
+                                            Main.svuotaConsole();
                                             if(continuaRicerca.equalsIgnoreCase("q")) {
                                                 System.out.println("Tornando al menù ...");
                                                 break;
@@ -396,7 +377,7 @@ public class ViewBase {
                                                 sceltaInterna = s.nextLine();
                                             } while (!sceltaInterna.equalsIgnoreCase("c") && !sceltaInterna.equalsIgnoreCase("q"));
 
-                                            svuotaConsole();
+                                            Main.svuotaConsole();
 
                                             if (sceltaInterna.equalsIgnoreCase("q")) {
                                                 System.out.println("Torno al menu principale...");
@@ -408,7 +389,7 @@ public class ViewBase {
                                 case 3 ->{
                                     System.out.println("Tornando al menù principale...");
                                     continuaInterno = false;
-                                    svuotaConsole();
+                                    Main.svuotaConsole();
                                 }
                                 case 4 ->{
                                     do{
@@ -426,21 +407,21 @@ public class ViewBase {
                     }
                     case 2 ->{
                         //login dell'utente
-                        u = login(s);
+                        u = login(s, PATHUTENTI, PATHRISTORANTI);
                         //In base alla tipologia di u visualizzo la relativa interfaccia
                         if(u instanceof  Cliente){
                             continua = false;
-                            ViewCliente.view((Cliente)u);
+                            ViewCliente.view((Cliente)u, PATHUTENTI, PATHRISTORANTI);
                         }else if(u instanceof Ristoratore){
                             continua = false;
-                            ViewRistoratore.view((Ristoratore)u);
+                            ViewRistoratore.view((Ristoratore)u, PATHRISTORANTI);
                         }else{
                             System.err.println("Login non avvenuto con successo!");
                         }
                     }
                     case 3 ->{
                         //Registro utente
-                        List<Utente> utenti = caricaUtenti();
+                        List<Utente> utenti = caricaUtenti(PATHUTENTI, PATHRISTORANTI);
                         u = registrati((utenti == null ? new ArrayList<Utente>() : utenti), s);
                         //salvo il file aggiornato di utenti
                         if(u != null) {
@@ -449,10 +430,10 @@ public class ViewBase {
                             //In base alla tipologia di u visualizzo la relativa interfaccia
                             if (u instanceof Cliente) {
                                 continua = false;
-                                ViewCliente.view((Cliente) u);
+                                ViewCliente.view((Cliente) u, PATHUTENTI, PATHRISTORANTI);
                             } else if (u instanceof Ristoratore) {
                                 continua = false;
-                                ViewRistoratore.view((Ristoratore) u);
+                                ViewRistoratore.view((Ristoratore) u, PATHRISTORANTI);
                             } else {
                                 System.err.println("Registrazione non avvenuta con successo!");
                             }
