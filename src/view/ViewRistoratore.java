@@ -219,11 +219,11 @@ public class ViewRistoratore {
      * metodo per accedere alla view del risotrante
      *
      * @param u              utente in grado di interagire con la view
-     * @param PATHUTENTI     path del file JSON contenente gli utenti
-     * @param PATHRISTORANTI path del file JSON contenente i ristoranti
+     * @param pathUtenti     path del file JSON contenente gli utenti
+     * @param pathRistoranti path del file JSON contenente i ristoranti
      * @throws Exception
      */
-    public static void view(Ristoratore u, String PATHUTENTI, String PATHRISTORANTI) throws Exception {
+    public static void view(Ristoratore u, String pathUtenti, String pathRistoranti) throws Exception {
         boolean continua = true;
 
         try (Scanner s = new Scanner(System.in)) {
@@ -239,7 +239,7 @@ public class ViewRistoratore {
 
                 switch (scelta) {
                     case 1 -> {
-                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(pathRistoranti);
                         if (listaRistoranti.isEmpty()) {
                             System.out.println("Nessun ristorante trovato.");
                         } else {
@@ -313,15 +313,15 @@ public class ViewRistoratore {
                         Ristorante nuovoRistorante = u.creaRistorante(nome, nazione, citta, indirizzo,
                                 delivery, prenotazione, tipoCucina, prenotazioneOnline, minPrezzo, maxPrezzo);
 
-                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(pathRistoranti);
                         listaRistoranti.add(nuovoRistorante);
-                        GestoreFile.salvaRistoranti(listaRistoranti, PATHRISTORANTI);
+                        GestoreFile.salvaRistoranti(listaRistoranti, pathRistoranti);
 
                         System.out.println("Ristorante creato con successo.");
                     }
 
                     case 3 -> {
-                        GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+                        GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
                         System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
@@ -342,7 +342,7 @@ public class ViewRistoratore {
                         String modUserName = gestisciInput("Inserisci il tuo nuovo username: ", s, true);
 
                         boolean usernameEsistente = false;
-                        for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI)) {
+                        for (Utente u1 : GestoreFile.caricaUtenti(pathUtenti, pathRistoranti)) {
                             if (modUserName.equals(u1.getUsername())) {
                                 System.out.println("Username già esistente: modifica annullata");
                                 usernameEsistente = true;

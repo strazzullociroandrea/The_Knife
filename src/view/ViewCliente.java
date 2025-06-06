@@ -151,19 +151,19 @@ public class ViewCliente {
      *
      * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
      * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
-     * @param PATHUTENTI il path del file JSON contenente gli utenti
+     * @param pathUtenti il path del file JSON contenente gli utenti
      * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
-    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti, String PATHUTENTI, String PATHRISTORANTI) throws IOException, InterruptedException {
+    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti, String pathUtenti, String PATHRISTORANTI) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
             System.out.println("Nessun ristorante trovato");
             return;
         }
 
         //liste utenti e ristoranti aggiornate su cui vengono effettuate tutte le modifiche in esecuzione
-        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
         List<Ristorante> listaristorantiTBS = GestoreFile.caricaRistoranti(PATHRISTORANTI);
         if (listaUtentiTBS == null || listaristorantiTBS == null) {
             System.out.println("Errore durante il caricamento dei dati");
@@ -204,7 +204,7 @@ public class ViewCliente {
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
-                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                     listaristorantiTBS.remove(ristoranteCorrente);
                     listaristorantiTBS.add(ristoranteCorrente);
                     GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
@@ -234,7 +234,7 @@ public class ViewCliente {
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
-                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
 
                     break;
 
@@ -244,7 +244,7 @@ public class ViewCliente {
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
-                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
 
                     break;
 
@@ -289,7 +289,7 @@ public class ViewCliente {
                     listaUtentiTBS.add(u);
                     listaristorantiTBS.remove(ristoranteCorrente);
                     listaristorantiTBS.add(ristoranteCorrente);
-                    GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                     GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
                     System.out.println("Recensione modificata con successo!");
 
@@ -305,7 +305,7 @@ public class ViewCliente {
                         System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
 
                         // Carichiamo tutti gli utenti per confrontare le loro recensioni
-                        List<Utente> tuttiGliUtenti = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+                        List<Utente> tuttiGliUtenti = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
 
                         for (Recensione r : recensioni) {
                             String autore = "Utente sconosciuto";
@@ -349,11 +349,11 @@ public class ViewCliente {
      * metodo per acccedere alla view del cliente
      *
      * @param u l'utente di tipo Cliente che interagisce con la view
-     * @param PATHUTENTI il path del file JSON contenente gli utenti
+     * @param pathUtenti il path del file JSON contenente gli utenti
      * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
      */
 
-    public static void view(Cliente u, String PATHUTENTI, String PATHRISTORANTI) throws IOException {
+    public static void view(Cliente u, String pathUtenti, String PATHRISTORANTI) throws IOException {
         try (Scanner s = new Scanner(System.in)) {
             boolean continua = true;
 
@@ -378,7 +378,7 @@ public class ViewCliente {
                             System.out.println("Nessun ristorante trovato.");
                         }
 
-                        navigazioneRistoranti(u, s, listaRistoranti, PATHUTENTI, PATHRISTORANTI);
+                        navigazioneRistoranti(u, s, listaRistoranti, pathUtenti, PATHRISTORANTI);
 
                         break;
 
@@ -412,13 +412,13 @@ public class ViewCliente {
 
                         List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, vuoiDelivery, delivery, vuoiPrenotazione, prenotazione, stelleMin);
 
-                        navigazioneRistoranti(u, s, filtrati, PATHUTENTI, PATHRISTORANTI);
+                        navigazioneRistoranti(u, s, filtrati, pathUtenti, PATHRISTORANTI);
 
                         break;
 
 
                     case 3:
-                        GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+                        GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
                         System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
@@ -446,7 +446,7 @@ public class ViewCliente {
                             System.out.println("dato non modificato");
                         } else {
                             boolean usernameEsistente = false;
-                            for (Utente u1 : GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI)) {
+                            for (Utente u1 : GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI)) {
                                 if (modUserName.equals(u1.getUsername())) {
                                     System.out.println("Username già esistente: modifica annullata");
                                     usernameEsistente = true;
@@ -494,19 +494,19 @@ public class ViewCliente {
                             u.setDomicilio(modDomicilio);
                         }
                         //salvataggio dei dati modificati
-                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         if (listaUtentiTBS == null) {
                             System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
                         } else {
                             //salvataggio dati
                             listaUtentiTBS.remove(u);
                             listaUtentiTBS.add(u);
-                            GestoreFile.salvaUtenti(listaUtentiTBS, PATHUTENTI);
+                            GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         }
                         break;
 
                     case 5:
-                        GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+                        GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         GestoreFile.caricaRistoranti(PATHRISTORANTI);
                         List<Recensione> tutteRecensioni = u.getRecensioniMesse();
 
@@ -558,7 +558,7 @@ public class ViewCliente {
                         System.out.println("Recensione modificata con successo.");
 
                         // Salvataggio
-                        List<Utente> listaUtentiTBS2 = GestoreFile.caricaUtenti(PATHUTENTI, PATHRISTORANTI);
+                        List<Utente> listaUtentiTBS2 = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
                         listaUtentiTBS2.remove(u);
                         listaUtentiTBS2.add(u);
@@ -570,7 +570,7 @@ public class ViewCliente {
                             }
                         }
 
-                        GestoreFile.salvaUtenti(listaUtentiTBS2, PATHUTENTI);
+                        GestoreFile.salvaUtenti(listaUtentiTBS2, pathUtenti);
                         GestoreFile.salvaRistoranti(listaRistorantiTBS2, PATHRISTORANTI);
 
                         break;
@@ -578,7 +578,7 @@ public class ViewCliente {
 
                     case 6:
                         System.out.println("Verrai reinderizzato al menù iniziale!");
-                        ViewBase.view(PATHUTENTI, PATHRISTORANTI);
+                        ViewBase.view(pathUtenti, PATHRISTORANTI);
                         return;
                 }
             }
