@@ -38,6 +38,26 @@ public class ViewRistoratore {
     }
 
     /**
+     * Metodo per svuotare la console dai log di configurazione
+     * @throws IOException eccezione di input/output
+     * @throws InterruptedException eccezione di interruzione
+     */
+    private static void svuotaConsole() throws IOException, InterruptedException {
+        try{
+            String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
+            if (operatingSystem.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        }catch(Exception e){
+            for(int i=0;i<50;i++)
+                System.out.println();
+        }
+
+    }
+
+    /**
      * metodo per visualizzare, interagire e scorrere dinamicamente le recensioni
      * @param u utente (ristoratore) che può interagire con le recensioni
      * @param r
@@ -56,6 +76,8 @@ public class ViewRistoratore {
             int indiceR = 0;
             boolean visualizzaR = true;
             while (visualizzaR) {
+                svuotaConsole();
+
                 Recensione recensioneCorrente = listaRecensioni.get(indiceR);
                 if (r.getRecensioni() == null || !r.getRecensioni().contains(recensioneCorrente)) {
                     System.out.println("Recensione non appartenente al ristorante selezionato.");
@@ -114,7 +136,7 @@ public class ViewRistoratore {
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
-    private static void navigazioneRistoranti(Ristoratore u, Scanner s, List<Ristorante> listaRistoranti) {
+    private static void navigazioneRistoranti(Ristoratore u, Scanner s, List<Ristorante> listaRistoranti) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
             System.out.println("Nessun ristorante trovato.");
             return;
@@ -122,6 +144,8 @@ public class ViewRistoratore {
         int indice = 0;
         boolean visualizza = true;
         while (visualizza) {
+            svuotaConsole();
+
             if (listaRistoranti.isEmpty()) {
                 System.out.println("Non ci sono più ristoranti da visualizzare.");
                 return;

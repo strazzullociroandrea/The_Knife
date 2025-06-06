@@ -116,6 +116,26 @@ public class ViewCliente {
         }
     }
 
+    /**
+     * Metodo per svuotare la console dai log di configurazione
+     * @throws IOException eccezione di input/output
+     * @throws InterruptedException eccezione di interruzione
+     */
+    private static void svuotaConsole() throws IOException, InterruptedException {
+        try{
+            String operatingSystem = System.getProperty("os.name"); // recupero del sistema operativo corrente
+            if (operatingSystem.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        }catch(Exception e){
+            for(int i=0;i<50;i++)
+                System.out.println();
+        }
+
+    }
+
 
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
@@ -125,7 +145,7 @@ public class ViewCliente {
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
-    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti) throws IOException {
+    private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
             System.out.println("Nessun ristorante trovato");
             return;
@@ -144,6 +164,7 @@ public class ViewCliente {
         boolean visualizza = true;
 
         while (visualizza) {
+            svuotaConsole();
             Ristorante ristoranteCorrente = listaRistoranti.get(indice);
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
             System.out.println(ristoranteCorrente.visualizzaRistorante());
@@ -349,6 +370,8 @@ public class ViewCliente {
             boolean continua = true;
 
             while (continua) {
+                svuotaConsole();
+
                 System.out.println("\n--- Menu Cliente ---");
                 System.out.println("1. Visualizza tutti i ristoranti");
                 System.out.println("2. Cerca ristoranti filtrando per parametri");
@@ -366,6 +389,7 @@ public class ViewCliente {
                         if (listaRistoranti.isEmpty()) {
                             System.out.println("Nessun ristorante trovato.");
                         }
+
                         navigazioneRistoranti(u, s, listaRistoranti);
 
                         break;

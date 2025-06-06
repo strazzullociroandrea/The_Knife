@@ -37,8 +37,28 @@
         "id": 0
       },
       {
-        "descrizione": "Bello!!! ottima pasta",
+        "descrizione": "Bello!",
         "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "bell\u0027esperienza",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "Buon cibo",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "bellissimo",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "1",
+        "stelle": 1,
         "id": 0
       }
     ]
@@ -88,6 +108,21 @@
       {
         "descrizione": "bell\u0027esperienza",
         "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "Buon cibo",
+        "stelle": 4,
+        "id": 0
+      },
+      {
+        "descrizione": "bellissimo",
+        "stelle": 5,
+        "id": 0
+      },
+      {
+        "descrizione": "1",
+        "stelle": 1,
         "id": 0
       }
     ]
