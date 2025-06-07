@@ -9,6 +9,7 @@ import src.model.Utente;
 import src.model.exception.RecensioneOutOfBoundException;
 import src.model.exception.StelleOutOfBoundException;
 import src.model.util.PasswordUtil;
+import src.model.util.ReverseGeocoding;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -359,8 +360,10 @@ public class ViewCliente {
 
             while (continua) {
                 Main.svuotaConsole();
-
-                System.out.println("\n--- Menu Cliente ---");
+                //caricamento lista aggiornata dei ristoranti
+                List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                //menù di navigazione iniziale
+                System.out.println("\n--- Menù Cliente ---");
                 System.out.println("1. Visualizza tutti i ristoranti");
                 System.out.println("2. Cerca ristoranti filtrando per parametri");
                 System.out.println("3. Visualizza i tuoi dati personali");
@@ -373,7 +376,6 @@ public class ViewCliente {
 
                 switch (scelta) {
                     case 1:
-                        List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
                         if (listaRistoranti.isEmpty()) {
                             System.out.println("Nessun ristorante trovato.");
                         }
@@ -384,37 +386,52 @@ public class ViewCliente {
 
 
                     case 2:
-                        System.out.println("\n--- Scegliere i criteri del filtro ---");
-
-                        String location = gestisciInput("inserire una location", s, true);
-                        String tipoCucina = gestisciInput("inserire il tipo di cucina desiderata", s, true);
-                        double prezzoMinimo = leggiDouble(s, "Inserire il prezzo minimo richiesto:");
-                        double prezzoMassimo = leggiDouble(s, "Inserire il prezzo massimo richiesto:");
-                        boolean delivery = false;
-                        boolean vuoiDelivery = false;
-                        String deliveryText = gestisciInput("Digitare 1 per ricercare solo ristoranti con delivery, altrimenti premere invio", s, false);
-                        if (deliveryText.equals("1")) {
-                            delivery = true;
-                        } else {
-                            vuoiDelivery = false;
+                        List<Ristorante> Ristoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        System.out.println("Inserisci i parametri di ricerca:");
+                        String locazione;
+                        do {
+                            locazione = gestisciInput("Inserisci la locazione. Parametro obbligatorio:", s, false);
+                            if (locazione.isEmpty()) {
+                                System.err.println("La locazione è obbligatoria!");
+                            } else {
+                                double[] latLon = ReverseGeocoding.getLatitudineLongitudine(locazione);
+                                if (latLon[0] == -1 && latLon[1] == -1) {
+                                    locazione = "";
+                                    System.out.println("Locazione non valida, riprova! Assicurati di inserire un luogo esistente.");
+                                }
+                            }
+                        } while (locazione.isEmpty());
+                        System.out.println("Inserisci il tipo di cucina (premi invio per saltare):");
+                        String tipoCucina = s.nextLine();
+                        double minPrezzo = leggiDouble(s, "Prezzo minimo (0 per ignorare):");
+                        double maxPrezzo = leggiDouble(s, "Prezzo massimo (0 per ignorare):");
+                        if (maxPrezzo > 0 && minPrezzo > maxPrezzo) {
+                            System.err.println("Attenzione: il prezzo minimo supera il massimo. Imposto entrambi a 0.");
+                            minPrezzo = 0;
+                            maxPrezzo = 0;
                         }
-                        boolean prenotazione = false;
-                        boolean vuoiPrenotazione = false;
-                        String prenotazioneText = gestisciInput("Digitare 1 per ricercare solo ristoranti con prenotazione disponibile, altrimenti premere invio", s, false);
-                        if (prenotazioneText.equals("1")) {
-                            prenotazione = true;
-                        } else {
-                            vuoiPrenotazione = false;
+                        System.out.println("Vuoi includere il filtro delivery? (si/no - predefinito: no):");
+                        boolean conDelivery = s.nextLine().equalsIgnoreCase("si");
+                        System.out.println("Vuoi includere solo ristoranti con servizio delivery? (si/no - predefinito: no):");
+                        boolean filtroDelivery = s.nextLine().equalsIgnoreCase("si");
+                        System.out.println("Vuoi includere il filtro prenotazione? (si/no - predefinito: no):");
+                        boolean conPrenotazione = s.nextLine().equalsIgnoreCase("si");
+                        System.out.println("Vuoi includere solo ristoranti con servizio prenotazione? (si/no - predefinito: no):");
+                        boolean filtroPrenotazione = s.nextLine().equalsIgnoreCase("si");
+                        int minStelle = ViewBase.convertiScannerIntero("Numero minimo di stelle (0-5, default: 0):", s);
+                        if (minStelle < 0 || minStelle > 5) {
+                            System.out.println("Valore non valido per le stelle. Impostato a 0.");
+                            minStelle = 0;
                         }
-
-                        int stelleMin = ViewBase.convertiScannerIntero("inserire il minimo di stelle richiesto", s);
-
-
-                        List<Ristorante> filtrati = Ristorante.combinata(GestoreFile.caricaRistoranti(PATHRISTORANTI), location, tipoCucina, prezzoMinimo, prezzoMassimo, vuoiDelivery, delivery, vuoiPrenotazione, prenotazione, stelleMin);
+                        List<Ristorante> filtrati = Ristorante.combinata(
+                                listaRistoranti, locazione, tipoCucina, minPrezzo, maxPrezzo,
+                                conDelivery, filtroDelivery, conPrenotazione, filtroPrenotazione, minStelle
+                        );
 
                         navigazioneRistoranti(u, s, filtrati, pathUtenti, PATHRISTORANTI);
 
                         break;
+
 
 
                     case 3:
@@ -429,19 +446,19 @@ public class ViewCliente {
                         break;
 
                     case 4:
-                        String modNome = gestisciInput("inserisci il tuo nuovo nome", s, false);
+                        String modNome = gestisciInput("inserisci il tuo nuovo nome. Premi invio per lasciarlo invariato", s, false);
                         if (modNome.isBlank()) {
                             System.out.println("dato non modificato");
                         } else
                             u.setNome(modNome);
 
-                        String modCognome = gestisciInput("inserisci il tuo nuovo cognome", s, false);
+                        String modCognome = gestisciInput("inserisci il tuo nuovo cognome. Premi invio per lasciarlo invariato", s, false);
                         if (modCognome.isBlank()) {
                             System.out.println("dato non modificato");
                         } else
                             u.setCognome(modCognome);
 
-                        String modUserName = gestisciInput("inserisci il tuo nuovo username", s, false);
+                        String modUserName = gestisciInput("inserisci il tuo nuovo username. Premi invio per lasciarlo invariato", s, false);
                         if (modUserName.isBlank()) {
                             System.out.println("dato non modificato");
                         } else {
@@ -463,7 +480,7 @@ public class ViewCliente {
                         boolean passwordValida = false;
 
                         while (!passwordValida) {
-                            String modPassword = gestisciInput("Inserisci la tua nuova password:", s, false);
+                            String modPassword = gestisciInput("Inserisci la tua nuova password. Premi invio per lasciarla invariata: ", s, false);
 
                             if (modPassword.isBlank()) {
                                 System.out.println("dato non modificato");
@@ -486,7 +503,7 @@ public class ViewCliente {
                             }
                         }
 
-                        String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio", s, false);
+                        String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio. Premi invio per lasciarlo invariato", s, false);
 
                         if (modDomicilio.isBlank()) {
                             System.out.println("dato non modificato");

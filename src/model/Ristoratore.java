@@ -97,6 +97,9 @@ public class Ristoratore extends Utente {
      * @param delivery     indica se il ristorante offre servizio di delivery
      * @param prenotazione indica se il ristorante accetta prenotazioni
      * @param tipoCucina   tipo di cucina del ristorante
+     * @param prenotazioneOnline indica se il ristorante accetta prenotazioni online
+     * @param minPrezzo prezzo minimo nel menù del ristorante
+     * @param maxPrezzo prezzo massimo nel menù del ristorante
      */
     public Ristorante creaRistorante(String nome, String nazione, String citta, String indirizzo,
                                      boolean delivery, boolean prenotazione, String tipoCucina, boolean prenotazioneOnline, double minPrezzo, double maxPrezzo) throws CreaRistoranteException {

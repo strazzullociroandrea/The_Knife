@@ -117,10 +117,11 @@ public class Ristorante {
         setTipoCucina(tipoCucina);
         setDelivery(delivery);
         setPrenotazioneOnline(prenotazioneOnline);
-        setMinPrezzo(minPrezzo);
-        setMaxPrezzo(maxPrezzo);
+        setMaxPrezzo(maxPrezzo);     // ← invertito
+        setMinPrezzo(minPrezzo);     // ← invertito
         this.recensioni = new ArrayList<>();
     }
+
 
 
     /**
@@ -437,11 +438,17 @@ public class Ristorante {
      * @return stringa complementare al metodo toString
      */
     public String visualizzaRistorante() {
+        String delivery = "sì";
+        String prenotazione = "sì";
+        if(this.delivery == false)
+            delivery = "no";
+        if(this.prenotazioneOnline == false)
+            prenotazione = "no";
         return "Ristorante: " + this.nome + "\n" +
                 "Luogo: " + this.indirizzo + ", " + this.citta + ", " + this.nazione + "\n" +
                 "Cucina: " + this.tipoCucina + "\n" +
                 "Fascia di prezzo: " + this.minPrezzo + "€ - " + this.maxPrezzo + "€\n" +
-                "Servizi: Delivery = " + this.delivery + ", Prenotazione online = " + this.prenotazioneOnline + "\n" +
+                "Servizi: Delivery = " + delivery + ", Prenotazione online = " + prenotazioneOnline + "\n" +
                 "Media voti: " + this.getValutazioneMedia() + " su " + this.recensioni.size() + " recensioni\n";
     }
 
