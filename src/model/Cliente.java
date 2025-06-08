@@ -61,6 +61,44 @@ public class Cliente extends Utente {
         this.recensioniMesse = new ArrayList<>();
     }
 
+    /**
+     * Costruttore base della classe cliente senza password cifrata, utilizzato per il recupero da file
+     * per settare la password si utilizza il metodo setPassword
+     *
+     * @param id          id associato al cliente
+     * @param nome        nome associato al cliente
+     * @param cognome     cognome associato al cliente
+     * @param username    username associato al cliente
+     * @param dataNascita data di nascita associata al cliente
+     * @param domicilio   domicilio associato al cliente
+     * @param b           booleano settato a true per indicare che si tratta di un costruttore senza password
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Cliente(int id, String nome, String cognome, String username, String dataNascita, String domicilio, boolean b) throws Exception {
+        super(id, nome, cognome, username, dataNascita, domicilio, b);
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
+    }
+
+
+    /**
+     * Costruttore senza data di nascita della classe cliente e password cifrata, utilizzato per il recupero da file
+     * per settare la password si utilizza il metodo setPassword
+     *
+     * @param id        id associato al cliente
+     * @param nome      nome associato al cliente
+     * @param cognome   cognome associato al cliente
+     * @param username  username associato al cliente
+     * @param domicilio domicilio associato al cliente
+     * @param b         booleano settato a true per indicare che si tratta di un costruttore senza password
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Cliente(int id, String nome, String cognome, String username, String domicilio, boolean b) throws Exception {
+        super(id, nome, cognome, username, domicilio, b);
+        this.preferiti = new ArrayList<>();
+        this.recensioniMesse = new ArrayList<>();
+    }
+
 
     /**
      * Costruttore senza id della classe cliente
@@ -201,4 +239,15 @@ public class Cliente extends Utente {
         return "Cliente";
     }
 
+    public String toString() {
+        return "Cliente{" +
+                "id=" + getId() +
+                ", nome='" + getNome() + '\'' +
+                ", cognome='" + getCognome() + '\'' +
+                ", username='" + getUsername() + '\'' +
+                ", domicilio='" + getDomicilio() + '\'' +
+                ", preferiti=" + preferiti +
+                ", recensioniMesse=" + recensioniMesse +
+                '}';
+    }
 }

@@ -75,7 +75,7 @@ public class Ristorante {
     }
 
     /**
-     * Costruttore per creare un ristorante con ID specificato.
+     * Costruttore per creare un ristorante senza ID specificato.
      *
      * @param nome               Nome del ristorante
      * @param nazione            Nazione del ristorante
@@ -117,11 +117,10 @@ public class Ristorante {
         setTipoCucina(tipoCucina);
         setDelivery(delivery);
         setPrenotazioneOnline(prenotazioneOnline);
-        setMaxPrezzo(maxPrezzo);     // ← invertito
-        setMinPrezzo(minPrezzo);     // ← invertito
+        setMaxPrezzo(maxPrezzo);
+        setMinPrezzo(minPrezzo);
         this.recensioni = new ArrayList<>();
     }
-
 
 
     /**
@@ -440,9 +439,9 @@ public class Ristorante {
     public String visualizzaRistorante() {
         String delivery = "sì";
         String prenotazione = "sì";
-        if(this.delivery == false)
+        if (this.delivery == false)
             delivery = "no";
-        if(this.prenotazioneOnline == false)
+        if (this.prenotazioneOnline == false)
             prenotazione = "no";
         return "Ristorante: " + this.nome + "\n" +
                 "Luogo: " + this.indirizzo + ", " + this.citta + ", " + this.nazione + "\n" +

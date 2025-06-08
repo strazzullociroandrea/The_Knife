@@ -54,6 +54,40 @@ public class Ristoratore extends Utente {
         this.ristorantiGestiti = new ArrayList<>();
     }
 
+    /**
+     * Costruttore della classe Ristoratore senza password cifrata, utilizzato per caricare da file
+     * per aggiungere la password utilizzare il metodo setPassword
+     *
+     * @param id          id associato al ristoratore
+     * @param nome        nome associato al ristoratore
+     * @param cognome     cognome associato al ristoratore
+     * @param username    username associato al ristoratore
+     * @param dataNascita data di nascita del ristoratore
+     * @param domicilio   domicilio del ristoratore
+     * @param b           booleano settato a true per indicare che si tratta di un costruttore senza password
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Ristoratore(int id, String nome, String cognome, String username, String dataNascita, String domicilio, boolean b) throws Exception {
+        super(id, nome, cognome, username, dataNascita, domicilio, b);
+        this.ristorantiGestiti = new ArrayList<>();
+    }
+
+    /**
+     * Costruttore della classe Ristoratore senza data di nascita e password cifrata, utilizzato per caricare da file
+     * per aggiungere la password utilizzare il metodo setPassword
+     *
+     * @param id        id associato al ristoratore
+     * @param nome      nome associato al ristoratore
+     * @param cognome   cognome associato al ristoratore
+     * @param username  username associato al ristoratore
+     * @param domicilio domicilio del ristoratore
+     * @param b           booleano settato a true per indicare che si tratta di un costruttore senza password
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Ristoratore(int id,String nome, String cognome, String username, String domicilio, boolean b) throws Exception {
+        super(id, nome, cognome, username, domicilio, b);
+        this.ristorantiGestiti = new ArrayList<>();
+    }
 
     /**
      * Costruttore della classe Ristoratore senza id
@@ -207,5 +241,18 @@ public class Ristoratore extends Utente {
     @Override
     public String getRuolo() {
         return "Ristoratore";
+    }
+
+    public String toString() {
+        return "Ristoratore{" +
+                "ristorantiGestiti=" + ristorantiGestiti +
+                ", id=" + getId() +
+                ", password='" + getPasswordCifrata() + '\'' +
+                ", nome='" + getNome() + '\'' +
+                ", cognome='" + getCognome() + '\'' +
+                ", username='" + getUsername() + '\'' +
+                ", dataNascita='" + getDataNascita() + '\'' +
+                ", domicilio='" + getDomicilio() + '\'' +
+                '}';
     }
 }

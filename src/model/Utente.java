@@ -84,6 +84,56 @@ public abstract class Utente {
     }
 
     /**
+     * Costruttore base della classe Utente senza password cifrata, utilizzato per il recupero da file
+     * per aggiungere la password utilizzare il metodo setPassword
+     *
+     * @param id          id associato all'utente
+     * @param nome        nome associato all'utente
+     * @param cognome     cognome associato all'utente
+     * @param username    username associato all'utente
+     * @param dataNascita data di nascita associata all'utente
+     * @param domicilio   domicilio associato all'utente
+     * @param b           booleano settato a true per indicare che si tratta di un costruttore senza password
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Utente(int id, String nome, String cognome, String username, String dataNascita, String domicilio, boolean b) throws Exception {
+        setId(id);
+        setNome(nome);
+        setCognome(cognome);
+        setUsername(username);
+        setDomicilio(domicilio);
+        setDataNascita(dataNascita);
+        //Gestione unicità dell'id
+        if (this.id >= idCounter) {
+            idCounter = this.id + 1;
+        }
+    }
+
+    /**
+     * Costruttore senza data di nascita della classe Utente e password cifrata, utilizzato per il recupero da file
+     * per aggiungere la password utilizzare il metodo setPassword
+     *
+     * @param id        id associato all'utente
+     * @param nome      nome associato all'utente
+     * @param cognome   cognome associato all'utente
+     * @param username  username associato all'utente
+     * @param domicilio domicilio associato all'utente
+     * @param b         booleano settato a true per indicare che si tratta di un costruttore senza password
+     * @throws Exception eccezione lanciata quando non si inseriscono dati validi
+     */
+    public Utente(int id, String nome, String cognome, String username, String domicilio, boolean b) throws Exception {
+        setId(id);
+        setNome(nome);
+        setCognome(cognome);
+        setUsername(username);
+        setDomicilio(domicilio);
+        //Gestione unicità dell'id
+        if (this.id >= idCounter) {
+            idCounter = this.id + 1;
+        }
+    }
+
+    /**
      * Costruttore senza data di nascita della classe Utente
      *
      * @param id        id associato all'utente
@@ -289,6 +339,20 @@ public abstract class Utente {
             throw new InvalidPasswordException();
         } else {
             this.passwordCifrata = PasswordUtil.hashPassword(password);
+        }
+    }
+
+    /**
+     * Metodo che associa la password all'utente senza cifrarla, utilizzata per il recupero da file
+     *
+     * @param password password associata all'utente
+     * @throws InvalidPasswordException eccezione lanciata quando la password ha meno di 6 caratteri
+     */
+    public void setPassword(String password) throws InvalidPasswordException {
+        if (password.length() < 6) {
+            throw new InvalidPasswordException();
+        } else {
+            this.passwordCifrata = password;
         }
     }
 
