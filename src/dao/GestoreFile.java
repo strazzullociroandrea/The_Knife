@@ -152,27 +152,21 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static List<Utente> caricaUtenti(String pathUtenti, String pathRistoranti) throws IOException {
-        //Creazione del file vuoto se non esistente
+        // Creazione dei file vuoti se non esistenti
+        creaFile(pathUtenti, "[]");
         creaFile(pathRistoranti, "[]");
-        try (Reader reader = new FileReader(pathUtenti)){
 
-            //Liste
+        try (Reader reader = new FileReader(pathUtenti)) {
+
             List<Ristorante> ristorantiDisponibili = caricaRistoranti(pathRistoranti);
             List<Utente> utenti = new ArrayList<>();
-
             JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            //Ciclo di salvataggio su variabile
             for (JsonElement elem : array) {
                 JsonObject obj = elem.getAsJsonObject();
 
-                //Se l'oggetto non possiede il parametro ruolo lo salto
-                if (!obj.has("ruolo")) {
-                    continue;
-                }
+                if (!obj.has("ruolo")) continue;
 
-                //Recupero dei dati dell'utente
                 int id = obj.get("id").getAsInt();
                 String passwordCifrata = obj.get("passwordCifrata").getAsString();
                 String nome = obj.get("nome").getAsString();
@@ -182,49 +176,29 @@ public class GestoreFile {
                 String domicilio = obj.get("domicilio").getAsString();
                 String ruolo = obj.get("ruolo").getAsString();
 
-                if(ruolo.equalsIgnoreCase("cliente")){
-                    //Creazione dell'istanza cliente corretta
-                    Cliente c;
-                    if(dataNascita.equals("Non data")){
-                        c = new Cliente(
-                                id,
-                                nome,
-                                cognome,
-                                username,
-                                domicilio,
-                                true
-                        );
-                    }else{
-                        c = new Cliente(
-                                id,
-                                nome,
-                                cognome,
-                                username,
-                                dataNascita,
-                                domicilio,
-                                true
-                        );
-                    }
+                if (ruolo.equalsIgnoreCase("cliente")) {
+                    Cliente c = dataNascita.equals("Non data")
+                            ? new Cliente(id, nome, cognome, username, domicilio, true)
+                            : new Cliente(id, nome, cognome, username, dataNascita, domicilio, true);
                     c.setPassword(passwordCifrata);
 
-                    //Recupero dei ristoranti preferiti
                     if (obj.has("preferiti")) {
                         List<Ristorante> preferiti = new ArrayList<>();
                         JsonArray preferitiArray = obj.getAsJsonArray("preferiti");
                         for (JsonElement pElem : preferitiArray) {
-                            JsonObject object = elem.getAsJsonObject();
+                            JsonObject ristoObj = pElem.getAsJsonObject();
 
-                            //Recupero dei dati del ristorante
-                            int idTmp = object.get("id").getAsInt();
-                            String nomeTmp = object.get("nome").getAsString();
-                            String nazioneTmp = object.get("nazione").getAsString();
-                            String cittaTmp = object.get("citta").getAsString();
-                            String indirizzoTmp = object.get("indirizzo").getAsString();
-                            String tipoCucinaTmp = object.get("tipoCucina").getAsString();
-                            boolean deliveryTmp =  object.get("delivery").getAsBoolean();
-                            boolean prenotazioneOnlineTmp =  object.get("prenotazioneOnline").getAsBoolean();
-                            double minPrezzoTmp = object.get("minPrezzo").getAsDouble();
-                            double maxPrezzoTmp = object.get("maxPrezzo").getAsDouble();
+                            int idTmp = ristoObj.get("id").getAsInt();
+                            String nomeTmp = ristoObj.get("nome").getAsString();
+                            String nazioneTmp = ristoObj.get("nazione").getAsString();
+                            String cittaTmp = ristoObj.get("citta").getAsString();
+                            String indirizzoTmp = ristoObj.get("indirizzo").getAsString();
+                            String tipoCucinaTmp = ristoObj.get("tipoCucina").getAsString();
+                            boolean deliveryTmp = ristoObj.get("delivery").getAsBoolean();
+                            boolean prenotazioneOnlineTmp = ristoObj.get("prenotazioneOnline").getAsBoolean();
+                            double minPrezzoTmp = ristoObj.get("minPrezzo").getAsDouble();
+                            double maxPrezzoTmp = ristoObj.get("maxPrezzo").getAsDouble();
+
                             Ristorante r = new Ristorante(
                                     idTmp,
                                     nomeTmp,
@@ -237,6 +211,7 @@ public class GestoreFile {
                                     minPrezzoTmp,
                                     maxPrezzoTmp
                             );
+
                             for (Ristorante disp : ristorantiDisponibili) {
                                 if (disp.getId() == r.getId()) {
                                     r = disp;
@@ -248,62 +223,31 @@ public class GestoreFile {
                         c.setPreferiti(preferiti);
                     }
 
-                    //Recupero delle recensioni messe ai ristoranti
-                    /*
-                    if (obj.has("recensioniMesse")) {
-                        List<Recensione> recensioni = new ArrayList<>();
-                        JsonArray recensioniArray = obj.getAsJsonArray("recensioniMesse");
-                        for (JsonElement rElem : recensioniArray) {
-                            Recensione rec = gson.fromJson(rElem, Recensione.class);
-                            boolean trovato = false;
-                            for (Ristorante ristorante : ristorantiDisponibili) {
-                                for (Recensione recReal : ristorante.getRecensioni()) {
-                                    if (recReal.equals(rec)) {
-                                        rec = recReal;
-                                        trovato = true;
-                                        break;
-                                    }
-                                }
-                                if (trovato) break;
-                            }
-                            if (!trovato) {
-                                System.out.println("[WARN] Recensione non trovata associata ad alcun ristorante: " + rec);
-                            }
-                            recensioni.add(rec);
-                        }
-                        cliente.setRecensioniMesse(recensioni);
-                    }
-                    */
-
                     utenti.add(c);
-                }else if(ruolo.equalsIgnoreCase("ristoratore")){
-                    //Creazione dell'istanza ristoratore corretta
-                    Ristoratore r;
-                    if(dataNascita.equals("Non data")){
-                        r = new Ristoratore(id, nome, cognome, username, domicilio, true);
-                    }else{
-                        r = new Ristoratore(id, nome, cognome, username, dataNascita, domicilio, true);
-                    }
+
+                } else if (ruolo.equalsIgnoreCase("ristoratore")) {
+                    Ristoratore r = dataNascita.equals("Non data")
+                            ? new Ristoratore(id, nome, cognome, username, domicilio, true)
+                            : new Ristoratore(id, nome, cognome, username, dataNascita, domicilio, true);
                     r.setPassword(passwordCifrata);
 
-                    //Recupero dei ristoranti gestiti
                     if (obj.has("ristorantiGestiti")) {
                         List<Ristorante> gestiti = new ArrayList<>();
                         JsonArray gestitiArray = obj.getAsJsonArray("ristorantiGestiti");
                         for (JsonElement pElem : gestitiArray) {
-                            JsonObject object = elem.getAsJsonObject();
+                            JsonObject ristoObj = pElem.getAsJsonObject();
 
-                            //Recupero dei dati del ristorante
-                            int idTmp = object.get("id").getAsInt();
-                            String nomeTmp = object.get("nome").getAsString();
-                            String nazioneTmp = object.get("nazione").getAsString();
-                            String cittaTmp = object.get("citta").getAsString();
-                            String indirizzoTmp = object.get("indirizzo").getAsString();
-                            String tipoCucinaTmp = object.get("tipoCucina").getAsString();
-                            boolean deliveryTmp =  object.get("delivery").getAsBoolean();
-                            boolean prenotazioneOnlineTmp =  object.get("prenotazioneOnline").getAsBoolean();
-                            double minPrezzoTmp = object.get("minPrezzo").getAsDouble();
-                            double maxPrezzoTmp = object.get("maxPrezzo").getAsDouble();
+                            int idTmp = ristoObj.get("id").getAsInt();
+                            String nomeTmp = ristoObj.get("nome").getAsString();
+                            String nazioneTmp = ristoObj.get("nazione").getAsString();
+                            String cittaTmp = ristoObj.get("citta").getAsString();
+                            String indirizzoTmp = ristoObj.get("indirizzo").getAsString();
+                            String tipoCucinaTmp = ristoObj.get("tipoCucina").getAsString();
+                            boolean deliveryTmp = ristoObj.get("delivery").getAsBoolean();
+                            boolean prenotazioneOnlineTmp = ristoObj.get("prenotazioneOnline").getAsBoolean();
+                            double minPrezzoTmp = ristoObj.get("minPrezzo").getAsDouble();
+                            double maxPrezzoTmp = ristoObj.get("maxPrezzo").getAsDouble();
+
                             Ristorante rist = new Ristorante(
                                     idTmp,
                                     nomeTmp,
@@ -316,22 +260,27 @@ public class GestoreFile {
                                     minPrezzoTmp,
                                     maxPrezzoTmp
                             );
+
                             for (Ristorante disp : ristorantiDisponibili) {
-                                if (disp.getId() == r.getId()) {
+                                if (disp.getId() == rist.getId()) {
                                     rist = disp;
                                     break;
                                 }
                             }
                             gestiti.add(rist);
                         }
+                        r.setRistorantiGestiti(gestiti);
                     }
+
                     utenti.add(r);
                 }
             }
 
             return utenti;
+
         } catch (Exception e) {
-            throw new IOException("Errore durante il caricamento degli utenti: " + e.getMessage());
+            throw new IOException("Errore durante il caricamento degli utenti: " + e.getMessage(), e);
         }
     }
+
 }
