@@ -34,7 +34,7 @@ public class GestoreFile {
             try (Writer writer = new FileWriter(file)) {
                 writer.write(contenutoIniziale);
             }catch(IOException e){
-                throw new IOException("Non è stato possibile creare il file da te richiesto");
+                throw new IOException("Non è stato possibile creare il file da te richiesto: " + e.getMessage());
             }
         }
     }
@@ -52,7 +52,7 @@ public class GestoreFile {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(ristoranti, writer);
         } catch (Exception e) {
-            throw new IOException("Errore durante la scrittura dei ristoranti", e);
+            throw new IOException("Errore durante la scrittura dei ristoranti: "  + e.getMessage());
         }
     }
 
@@ -64,8 +64,9 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static void salvaUtenti(List<Utente> utenti, String path) throws IOException {
+        //Creazione del file vuoto se non esistente
+        creaFile(path, "[]");
         try (Writer writer = new FileWriter(path, false)) {
-            creaFile(path, "[]");
             JsonArray array = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -84,7 +85,7 @@ public class GestoreFile {
             }
             gson.toJson(array, writer);
         } catch (Exception e) {
-            throw new IOException("Errore durante il salvataggio degli utenti", e);
+            throw new IOException("Errore durante il salvataggio degli utenti: " + e.getMessage());
         }
     }
 
@@ -96,9 +97,10 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static List<Ristorante> caricaRistoranti(String path) throws IOException {
+        //Creazione del file vuoto se non esistente
+        creaFile(path, "[]");
         try (Reader reader = new FileReader(path)) {
-            //Creazione del file vuoto se non esistente
-            creaFile(path, "[]");
+
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
 
@@ -137,7 +139,7 @@ public class GestoreFile {
             return lista;
 
         } catch (Exception e) {
-            throw new IOException("Errore caricamento ristoranti", e);
+            throw new IOException("Errore caricamento ristoranti: "  + e.getMessage());
         }
     }
 
@@ -150,9 +152,9 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static List<Utente> caricaUtenti(String pathUtenti, String pathRistoranti) throws IOException {
+        //Creazione del file vuoto se non esistente
+        creaFile(pathRistoranti, "[]");
         try (Reader reader = new FileReader(pathUtenti)){
-            //Creazione dei file vuoti se non esistente
-            creaFile(pathUtenti, "[]");
 
             //Liste
             List<Ristorante> ristorantiDisponibili = caricaRistoranti(pathRistoranti);
@@ -329,7 +331,7 @@ public class GestoreFile {
 
             return utenti;
         } catch (Exception e) {
-            throw new IOException("Errore durante il caricamento degli utenti", e);
+            throw new IOException("Errore durante il caricamento degli utenti: " + e.getMessage());
         }
     }
 }
