@@ -222,7 +222,25 @@ public class GestoreFile {
                         }
                         c.setPreferiti(preferiti);
                     }
+                    if (obj.has("recensioniMesse")) {
+                        List<Recensione> recensioni = new ArrayList<>();
+                        List<Ristorante> recensioniMesse = new ArrayList<>();
+                        JsonArray recensioniMesseArray = obj.getAsJsonArray("recensioniMesse");
+                        for (JsonElement pElem : recensioniMesseArray) {
+                            JsonObject recensioneMessa = pElem.getAsJsonObject();
 
+                            int idTmp = recensioneMessa.get("id").getAsInt();
+                            String descrizioneTmp = recensioneMessa.get("descrizione").getAsString();
+                            int stelleTmp = recensioneMessa.get("stelle").getAsInt();
+                            String rispostaTmp = recensioneMessa.has("risposta") ? recensioneMessa.get("risposta").getAsString() : "";
+                            if( rispostaTmp.isEmpty()) {
+                                 recensioni.add(new Recensione(descrizioneTmp, stelleTmp, idTmp));
+                            }else{
+                                recensioni.add(new Recensione(descrizioneTmp, stelleTmp, rispostaTmp, idTmp));
+                            }
+                        }
+                        c.setRecensioniMesse(recensioni);
+                    }
                     utenti.add(c);
 
                 } else if (ruolo.equalsIgnoreCase("ristoratore")) {
