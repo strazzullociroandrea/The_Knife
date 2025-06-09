@@ -164,7 +164,7 @@ public class ViewCliente {
         }
 
         //liste utenti e ristoranti aggiornate su cui vengono effettuate tutte le modifiche in esecuzione
-        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
+        List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
         List<Ristorante> listaristorantiTBS = GestoreFile.caricaRistoranti(PATHRISTORANTI);
         if (listaUtentiTBS == null || listaristorantiTBS == null) {
             System.out.println("Errore durante il caricamento dei dati");
@@ -252,7 +252,7 @@ public class ViewCliente {
                 case 6:
                     List<Recensione> recensioniUtente = new ArrayList<>();
 
-                    // Filtra solo le recensioni dell'utente relative a ristoranteCorrente
+                    // Filtra solo le recensioni dell'utente relative al ristorante corrente
                     for (Recensione r : ristoranteCorrente.getRecensioni()) {
                         if (u.getRecensioniMesse().contains(r)) {
                             recensioniUtente.add(r);
@@ -264,38 +264,45 @@ public class ViewCliente {
                         break;
                     }
 
-                    System.out.println("Le tue recensioni per questo ristorante:");
-                    for (int i = 0; i < recensioniUtente.size(); i++) {
-                        System.out.println((i + 1) + ". " + recensioniUtente.get(i));
+                    while (true) {
+                        System.out.println("\n--- Le tue recensioni per questo ristorante ---");
+                        for (int i = 0; i < recensioniUtente.size(); i++) {
+                            System.out.println((i + 1) + ". " + recensioniUtente.get(i));
+                        }
+                        System.out.println("0. Torna indietro");
+
+                        int sceltaRec = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare (0 per uscire):", s);
+
+                        if (sceltaRec == 0) {
+                            System.out.println("Modifica recensione annullata.");
+                            break;
+                        }
+
+                        if (sceltaRec < 1 || sceltaRec > recensioniUtente.size()) {
+                            System.out.println("Scelta non valida. Riprova.");
+                            continue;
+                        }
+
+                        Recensione daModificare = recensioniUtente.get(sceltaRec - 1);
+
+                        String nuovoTesto = leggiDescrizioneValida(s);
+                        int nuoveStelle = leggiStelleValide(s);
+
+                        u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
+
+                        // Salvataggio
+                        listaUtentiTBS.remove(u);
+                        listaUtentiTBS.add(u);
+                        listaristorantiTBS.remove(ristoranteCorrente);
+                        listaristorantiTBS.add(ristoranteCorrente);
+                        GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
+                        GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
+
+                        System.out.println("Recensione modificata con successo!");
                     }
-
-                    int sceltaRec = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare:", s);
-
-                    if (sceltaRec < 1 || sceltaRec > recensioniUtente.size()) {
-                        System.out.println("Scelta non valida.");
-                        break;
-                    }
-
-                    Recensione daModificare = recensioniUtente.get(sceltaRec - 1);
-
-                    String nuovoTesto = leggiDescrizioneValida(s);
-
-                    int nuoveStelle = leggiStelleValide(s);
-
-                    u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
-
-
-                    // salva modifiche
-                    listaUtentiTBS.remove(u);
-                    listaUtentiTBS.add(u);
-                    listaristorantiTBS.remove(ristoranteCorrente);
-                    listaristorantiTBS.add(ristoranteCorrente);
-                    GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
-                    GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
-                    System.out.println("Recensione modificata con successo!");
-
 
                     break;
+
 
                 case 7:
                     //recensioni del ristorante corrente
@@ -306,7 +313,7 @@ public class ViewCliente {
                         System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
 
                         // Carichiamo tutti gli utenti per confrontare le loro recensioni
-                        List<Utente> tuttiGliUtenti = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        List<Utente> tuttiGliUtenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
 
                         for (Recensione r : recensioni) {
                             String autore = "Utente sconosciuto";
@@ -435,7 +442,7 @@ public class ViewCliente {
 
 
                     case 3:
-                        GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        caricaUtenti(pathUtenti, PATHRISTORANTI);
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
                         System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
@@ -463,7 +470,7 @@ public class ViewCliente {
                             System.out.println("dato non modificato");
                         } else {
                             boolean usernameEsistente = false;
-                            for (Utente u1 : GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI)) {
+                            for (Utente u1 : caricaUtenti(pathUtenti, PATHRISTORANTI)) {
                                 if (modUserName.equals(u1.getUsername())) {
                                     System.out.println("Username già esistente: modifica annullata");
                                     usernameEsistente = true;
@@ -511,7 +518,7 @@ public class ViewCliente {
                             u.setDomicilio(modDomicilio);
                         }
                         //salvataggio dei dati modificati
-                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
                         if (listaUtentiTBS == null) {
                             System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
                         } else {
@@ -523,8 +530,7 @@ public class ViewCliente {
                         break;
 
                     case 5:
-                        GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
-                        GestoreFile.caricaRistoranti(PATHRISTORANTI);
+                        caricaUtenti(pathUtenti, PATHRISTORANTI);
                         List<Recensione> tutteRecensioni = u.getRecensioniMesse();
 
                         if (tutteRecensioni.isEmpty()) {
@@ -532,65 +538,65 @@ public class ViewCliente {
                             break;
                         }
 
-                        System.out.println("\n--- Le tue recensioni ---");
-
                         List<Ristorante> tuttiRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
 
-                        for (int i = 0; i < tutteRecensioni.size(); i++) {
-                            Recensione rec = tutteRecensioni.get(i);
-                            String nomeRistorante = "Ristorante sconosciuto";
+                        while (true) {
+                            System.out.println("\n--- Le tue recensioni ---");
+                            for (int i = 0; i < tutteRecensioni.size(); i++) {
+                                Recensione rec = tutteRecensioni.get(i);
+                                String nomeRistorante = "Ristorante sconosciuto";
 
-                            // For annidati per cercare la recensione nei ristoranti
-                            for (Ristorante r : tuttiRistoranti) {
-                                for (Recensione rRec : r.getRecensioni()) {
-                                    if (rRec.getId() == rec.getId()) {
-                                        nomeRistorante = r.getNome();
-                                        break;
+                                for (Ristorante r : tuttiRistoranti) {
+                                    for (Recensione rRec : r.getRecensioni()) {
+                                        if (rRec.getId() == rec.getId()) {
+                                            nomeRistorante = r.getNome();
+                                            break;
+                                        }
                                     }
+                                }
+
+                                System.out.println((i + 1) + ". [" + nomeRistorante + "] " + rec);
+                            }
+                            System.out.println("0. Torna al menu");
+
+                            int sceltaMod = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare (0 per annullare):", s);
+
+                            if (sceltaMod == 0) {
+                                System.out.println("Modifica annullata.");
+                                break;
+                            }
+
+                            if (sceltaMod < 1 || sceltaMod > tutteRecensioni.size()) {
+                                System.out.println("Scelta non valida. Riprova.");
+                                continue;
+                            }
+
+                            Recensione recDaModificare = tutteRecensioni.get(sceltaMod - 1);
+                            String nuovoTesto = leggiDescrizioneValida(s);
+                            int nuoveStelle = leggiStelleValide(s);
+
+                            u.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
+                            System.out.println("Recensione modificata con successo.");
+
+                            // Salvataggio
+                            List<Utente> listaUtentiTBS2 = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                            List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+
+                            listaUtentiTBS2.remove(u);
+                            listaUtentiTBS2.add(u);
+
+                            for (Ristorante r : listaRistorantiTBS2) {
+                                if (r.getRecensioni().contains(recDaModificare)) {
+                                    r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle); // supponendo esista
+                                    break;
                                 }
                             }
 
-                            System.out.println((i + 1) + ". [" + nomeRistorante + "] " + rec);
+                            GestoreFile.salvaUtenti(listaUtentiTBS2, pathUtenti);
+                            GestoreFile.salvaRistoranti(listaRistorantiTBS2, PATHRISTORANTI);
                         }
-
-
-                        int sceltaMod = ViewBase.convertiScannerIntero("Inserisci il numero della recensione da modificare (0 per annullare):", s);
-
-                        if (sceltaMod == 0) {
-                            System.out.println("Modifica annullata.");
-                            break;
-                        }
-
-                        if (sceltaMod < 1 || sceltaMod > tutteRecensioni.size()) {
-                            System.out.println("Scelta non valida.");
-                            break;
-                        }
-
-                        Recensione recDaModificare = tutteRecensioni.get(sceltaMod - 1);
-
-                        String nuovoTesto = leggiDescrizioneValida(s);
-                        int nuoveStelle = leggiStelleValide(s);
-
-                        u.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
-                        System.out.println("Recensione modificata con successo.");
-
-                        // Salvataggio
-                        List<Utente> listaUtentiTBS2 = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
-                        List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
-                        listaUtentiTBS2.remove(u);
-                        listaUtentiTBS2.add(u);
-
-                        for (Ristorante r : listaRistorantiTBS2) {
-                            if (r.getRecensioni().contains(recDaModificare)) {
-                                r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle); // supponendo esista
-                                break;
-                            }
-                        }
-
-                        GestoreFile.salvaUtenti(listaUtentiTBS2, pathUtenti);
-                        GestoreFile.salvaRistoranti(listaRistorantiTBS2, PATHRISTORANTI);
-
                         break;
+
 
 
                     case 6:

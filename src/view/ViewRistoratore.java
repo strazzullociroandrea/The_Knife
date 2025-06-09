@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static src.dao.GestoreFile.caricaUtenti;
 import static src.view.ViewBase.convertiScannerIntero;
 
 public class ViewRistoratore {
@@ -167,7 +168,7 @@ public class ViewRistoratore {
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
-    private static void navigazioneRistoranti(Ristoratore u, Scanner s, List<Ristorante> listaRistoranti) throws IOException, InterruptedException {
+    private static void navigazioneRistoranti(Ristoratore u, Scanner s, List<Ristorante> listaRistoranti, String pathUtenti, String pathRistoranti) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
             System.out.println("Nessun ristorante trovato.");
             return;
@@ -199,7 +200,8 @@ public class ViewRistoratore {
                     3. Rimuovi il ristorante
                     4. Visualizza recensioni ristorante
                     5. Visualizza riepilogo ristorante
-                    6. Esci dalla visualizzazione
+                    6. Modifica il ristorante 
+                    7. Esci dalla visualizzazione
                     """);
             int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
             switch (sceltaInterna) {
@@ -227,7 +229,130 @@ public class ViewRistoratore {
                     navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni);
                 }
                 case 5 -> u.visualizzaRiepilogo(ristoranteCorrente);
-                case 6 -> visualizza = false;
+
+                case 6 -> {
+                    String modNome = gestisciInput("inserisci il nuovo nome del ristorante. Premi invio per lasciarlo invariato", s, false);
+                    if (modNome.isBlank()) {
+                        System.out.println("dato non modificato");
+                    } else
+                        ristoranteCorrente.setNome(modNome);
+
+                    String modNazione = gestisciInput("inserisci la nuova nazione del ristorante. Premi invio per lasciarla invariata", s, false);
+                    if (modNazione.isBlank()) {
+                        System.out.println("dato non modificato");
+                    } else
+                        ristoranteCorrente.setNazione(modNazione);
+
+                    String modCitta = gestisciInput("inserisci la nuova città del ristorante. Premi invio per lasciarla invariata", s, false);
+                    if (modCitta.isBlank()) {
+                        System.out.println("dato non modificato");
+                    } else
+                        ristoranteCorrente.setCitta(modCitta);
+
+
+                    while (true) {
+                        int sceltaDelivery = ViewBase.convertiScannerIntero(
+                                "\nScegli un'opzione delivery:\n0. non modificare\n1. sì\n2. no\n", s);
+                        if (sceltaDelivery == 1) {
+                            ristoranteCorrente.setDelivery(true);
+                            break;
+                        } else if (sceltaDelivery == 2) {
+                            ristoranteCorrente.setDelivery(false);
+                            break;
+                        } else if (sceltaDelivery == 0) {
+                            System.out.println("dato non modificato");
+                            break;
+                        } else {
+                            System.out.println("Opzione non valida, riprova.");
+                        }
+                    }
+
+                    while (true) {
+                        int sceltaPrenotazione = ViewBase.convertiScannerIntero(
+                                "\nScegli un'opzione prenotazione:\n0. non modificare \n1. sì\n2. no\n", s);
+                        if (sceltaPrenotazione == 1) {
+                            ristoranteCorrente.setPrenotazioneOnline(true);
+                            break;
+                        } else if (sceltaPrenotazione == 2) {
+                            ristoranteCorrente.setPrenotazioneOnline(false);
+                            break;
+                        } else if (sceltaPrenotazione == 0) {
+                            System.out.println("dato non modificato");
+                            break;
+                        } else {
+                            System.out.println("Opzione non valida, riprova.");
+                        }
+                    }
+
+                    while (true) {
+                        int sceltaPrenOnline = ViewBase.convertiScannerIntero(
+                                "\nScegli un'opzione prenotazione online:\n0. non modificare\n1. sì\n2. no\n", s);
+                        if (sceltaPrenOnline == 1) {
+                            ristoranteCorrente.setPrenotazioneOnline(true);
+                            break;
+                        } else if (sceltaPrenOnline == 2) {
+                            ristoranteCorrente.setPrenotazioneOnline(false);
+                            break;
+                        } else if (sceltaPrenOnline == 0) {
+                            System.out.println("dato non modificato");
+                            break;
+                        } else {
+                            System.out.println("Opzione non valida, riprova.");
+                        }
+                    }
+
+                    System.out.println("Inserire il prezzo minimo per il tuo ristorante (oppure premi INVIO per non modificarlo):");
+                    String inputMin = s.nextLine().trim();
+                    if (!inputMin.isEmpty()) {
+                        try {
+                            double minPrezzo = Double.parseDouble(inputMin);
+                            if (minPrezzo < 0) {
+                                System.out.println("Il prezzo minimo non può essere negativo. Valore non modificato.");
+                            } else {
+                                ristoranteCorrente.setMinPrezzo(minPrezzo);
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Formato non valido. Prezzo minimo non modificato.");
+                        }
+                    } else {
+                        System.out.println("Prezzo minimo non modificato.");
+                    }
+
+
+
+                    System.out.println("Inserire il prezzo massimo per il tuo ristorante (oppure premi INVIO per non modificarlo):");
+                    String inputMax = s.nextLine().trim();
+                    if (!inputMax.isEmpty()) {
+                        try {
+                            double maxPrezzo = Double.parseDouble(inputMax);
+                            if (maxPrezzo < ristoranteCorrente.getMinPrezzo()) {
+                                System.out.println("Il prezzo massimo deve essere maggiore o uguale al minimo. Valore non modificato.");
+                            } else {
+                                ristoranteCorrente.setMaxPrezzo(maxPrezzo);
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Formato non valido. Prezzo massimo non modificato.");
+                        }
+                    } else {
+                        System.out.println("Prezzo massimo non modificato.");
+                    }
+
+                    //salvataggio dei dati modificati
+                    listaRistoranti = GestoreFile.caricaRistoranti(pathRistoranti);
+                    listaRistoranti.add(ristoranteCorrente);
+                    GestoreFile.salvaRistoranti(listaRistoranti, pathRistoranti);
+
+                    List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
+                    listaUtenti.remove(u); // buona norma
+                    listaUtenti.add(u);
+                    GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
+
+                    System.out.println("Ristorante modificato con successo.");
+
+
+                }
+
+                case 7 -> visualizza = false;
                 default -> System.out.println("Scelta non valida.");
             }
         }
@@ -263,10 +388,9 @@ public class ViewRistoratore {
                         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
                             System.out.println("Non gestisci ancora alcun ristorante.");
                         } else {
-                            navigazioneRistoranti(u, s, listaRistoranti);
+                            navigazioneRistoranti(u, s, listaRistoranti, pathUtenti, pathRistoranti);
                         }
                     }
-
 
 
                     case 2 -> {
