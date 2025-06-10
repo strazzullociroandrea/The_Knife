@@ -369,6 +369,30 @@ public abstract class Utente {
     }
 
     /**
+     * Metodo per verificare se due utenti sono uguali basandosi sull'ID
+     *
+     * @param obj oggetto da confrontare
+     * @return true se gli utenti hanno lo stesso ID, false altrimenti
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Utente utente = (Utente) obj;
+        return id == utente.id || username.equals(utente.username);
+    }
+
+    /**
+     * Metodo per generare l'hashcode dell'utente basato sull'ID
+     *
+     * @return hashcode dell'utente
+     */
+    @Override
+    public int hashCode() {
+        return 31 * id + (username != null ? username.hashCode() : 0);
+    }
+
+    /**
      * Metodo astratto per ottenere il ruolo dell'utente
      *
      * @return ruolo

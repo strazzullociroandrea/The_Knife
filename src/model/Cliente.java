@@ -170,9 +170,11 @@ public class Cliente extends Utente {
      * @param ristorante  ristorante su cui si vuole lasciare la recensione
      * @param stelle      numero di stelle della recensione
      * @param descrizione descrizione della recensione
+     * @throws Exception se si verifica un errore durante la creazione della recensione
      */
-    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione) {
-        Recensione recensione = new Recensione(descrizione, stelle);
+    public void aggiungiRecensione(Ristorante ristorante, int stelle, String descrizione) throws Exception {
+        // Crea recensione con l'ID del ristorante
+        Recensione recensione = new Recensione(descrizione, stelle, ristorante.getId());
         recensioniMesse.add(recensione);
         ristorante.recensisciRistorante(recensione);
     }

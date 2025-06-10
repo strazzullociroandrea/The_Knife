@@ -6,7 +6,9 @@ import src.model.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GestoreFile {
 
@@ -106,6 +108,9 @@ public class GestoreFile {
 
             //Lista
             List<Ristorante> lista = new ArrayList<>();
+            
+            // Teniamo traccia dell'ID massimo per aggiornare il contatore
+            int maxId = -1;
 
             //Ciclo di salvataggio su variabile
             for (JsonElement elem : array) {
@@ -123,6 +128,11 @@ public class GestoreFile {
                 double minPrezzo = obj.get("minPrezzo").getAsDouble();
                 double maxPrezzo = obj.get("maxPrezzo").getAsDouble();
 
+                // Aggiorniamo il massimo ID trovato
+                if (id > maxId) {
+                    maxId = id;
+                }
+
                 Ristorante ristorante  = new Ristorante(
                         id,
                         nome,
@@ -138,6 +148,12 @@ public class GestoreFile {
 
                 lista.add(ristorante);
             }
+            
+            // Aggiorniamo il contatore statico nella classe Ristorante per garantire ID univoci
+            if (maxId >= 0) {
+                Ristorante.aggiornaContatore(maxId);
+            }
+            
             return lista;
 
         } catch (Exception e) {
@@ -162,22 +178,29 @@ public class GestoreFile {
              Reader readerRistoranti = new FileReader(pathRistoranti)) {
 
             List<Ristorante> ristorantiDisponibili = caricaRistoranti(pathRistoranti);
-            List<Utente> utenti = new ArrayList<>();
+            Map<String, Utente> mappaUtenti = new HashMap<>(); // Mappa per tenere traccia degli utenti per username
             JsonArray arrayUtenti = JsonParser.parseReader(readerUtenti).getAsJsonArray();
 
+            // Prima passiamo e creiamo tutti gli utenti unici per username
             for (JsonElement elem : arrayUtenti) {
                 JsonObject obj = elem.getAsJsonObject();
 
                 if (!obj.has("ruolo")) continue;
 
+                String username = obj.get("username").getAsString();
+                String ruolo = obj.get("ruolo").getAsString();
+                
+                // Se l'utente esiste già nella mappa, passiamo al prossimo
+                if (mappaUtenti.containsKey(username)) {
+                    continue;
+                }
+
                 int id = obj.get("id").getAsInt();
                 String passwordCifrata = obj.get("passwordCifrata").getAsString();
                 String nome = obj.get("nome").getAsString();
                 String cognome = obj.get("cognome").getAsString();
-                String username = obj.get("username").getAsString();
                 String dataNascita = obj.has("dataNascita") ? obj.get("dataNascita").getAsString() : "Non data";
                 String domicilio = obj.get("domicilio").getAsString();
-                String ruolo = obj.get("ruolo").getAsString();
 
                 Utente utente;
                 if (ruolo.equalsIgnoreCase("cliente")) {
@@ -187,47 +210,150 @@ public class GestoreFile {
                     cliente.setPassword(passwordCifrata);
                     utente = cliente;
 
-                    if (obj.has("recensioniMesse")) {
-                        List<Recensione> recensioniMesse = new ArrayList<>();
-                        JsonArray recensioniArray = obj.getAsJsonArray("recensioniMesse");
-
-                        for (JsonElement pElem : recensioniArray) {
-                            JsonObject recensioneObj = pElem.getAsJsonObject();
-                            int idRistorante = recensioneObj.get("id").getAsInt();
-                            String descrizione = recensioneObj.get("descrizione").getAsString();
-                            int stelle = recensioneObj.get("stelle").getAsInt();
-                            String risposta = recensioneObj.has("risposta") ? recensioneObj.get("risposta").getAsString() : "";
-
-                            Recensione recensione = risposta.isEmpty()
-                                    ? new Recensione(descrizione, stelle, idRistorante)
-                                    : new Recensione(descrizione, stelle, risposta, idRistorante);
-
-                            recensioniMesse.add(recensione);
-
-                            // Associare la recensione al ristorante corrispondente
-                            for (Ristorante ristorante : ristorantiDisponibili) {
-                                if (ristorante.getId() == idRistorante) {
-                                    ristorante.recensisciRistorante(recensione);
-                                    break;
-                                }
-                            }
-                        }
-                        cliente.setRecensioniMesse(recensioniMesse);
-                    }
+                    // Salviamo l'utente nella mappa per username
+                    mappaUtenti.put(username, utente);
                 } else if (ruolo.equalsIgnoreCase("ristoratore")) {
                     Ristoratore ristoratore = dataNascita.equals("Non data")
                             ? new Ristoratore(id, nome, cognome, username, domicilio, true)
                             : new Ristoratore(id, nome, cognome, username, dataNascita, domicilio, true);
                     ristoratore.setPassword(passwordCifrata);
                     utente = ristoratore;
-                } else {
-                    continue;
+                    
+                    // Salviamo l'utente nella mappa per username
+                    mappaUtenti.put(username, utente);
                 }
-
-                utenti.add(utente);
             }
 
-            return utenti;
+            // Ora passiamo nuovamente sull'array per aggiungere i dati specifici (recensioni, ristoranti gestiti, ecc.)
+            for (JsonElement elem : arrayUtenti) {
+                JsonObject obj = elem.getAsJsonObject();
+
+                if (!obj.has("ruolo")) continue;
+
+                String username = obj.get("username").getAsString();
+                String ruolo = obj.get("ruolo").getAsString();
+                
+                // Otteniamo l'utente dalla mappa
+                Utente utente = mappaUtenti.get(username);
+                if (utente == null) continue;
+
+                if (ruolo.equalsIgnoreCase("cliente") && utente instanceof Cliente) {
+                    Cliente cliente = (Cliente) utente;
+
+                    // Aggiungiamo le recensioni se presenti
+                    if (obj.has("recensioniMesse")) {
+                        List<Recensione> recensioniMesse = new ArrayList<>();
+                        JsonArray recensioniArray = obj.getAsJsonArray("recensioniMesse");
+
+                        for (JsonElement pElem : recensioniArray) {
+                            JsonObject recensioneObj = pElem.getAsJsonObject();
+                            // CORREZIONE: Nel JSON, "id" si riferisce all'ID del ristorante, non all'ID della recensione
+                            int idRistorante = recensioneObj.get("id").getAsInt();
+                            String descrizione = recensioneObj.get("descrizione").getAsString();
+                            int stelle = recensioneObj.get("stelle").getAsInt();
+                            String risposta = recensioneObj.has("risposta") ? recensioneObj.get("risposta").getAsString() : "";
+
+                            // Creiamo la recensione con l'ID del ristorante
+                            Recensione recensione = risposta.isEmpty()
+                                    ? new Recensione(descrizione, stelle, idRistorante)
+                                    : new Recensione(descrizione, stelle, risposta, idRistorante);
+
+                            // Verifichiamo se la recensione è già presente (confronto su descrizione e ristorante)
+                            boolean recensioneDuplicata = false;
+                            for (Recensione r : cliente.getRecensioniMesse()) {
+                                if (r.getId() == idRistorante &&
+                                    r.getDescrizione().equals(descrizione)) {
+                                    recensioneDuplicata = true;
+                                    break;
+                                }
+                            }
+
+                            if (!recensioneDuplicata) {
+                                recensioniMesse.add(recensione);
+                                
+                                // Associare la recensione al ristorante corrispondente
+                                for (Ristorante ristorante : ristorantiDisponibili) {
+                                    if (ristorante.getId() == idRistorante) {
+                                        // CORREZIONE: Verifichiamo se la recensione è già presente nel ristorante
+                                        boolean recensioneGiaPresente = false;
+                                        for (Recensione r : ristorante.getRecensioni()) {
+                                            if (r.getDescrizione().equals(descrizione) && 
+                                                r.getStelle() == stelle) {
+                                                recensioneGiaPresente = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!recensioneGiaPresente) {
+                                            ristorante.recensisciRistorante(recensione);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Aggiungiamo le recensioni a quelle già presenti
+                        List<Recensione> recensioniEsistenti = cliente.getRecensioniMesse();
+                        if (recensioniEsistenti == null) {
+                            recensioniEsistenti = new ArrayList<>();
+                        }
+                        recensioniEsistenti.addAll(recensioniMesse);
+                        cliente.setRecensioniMesse(recensioniEsistenti);
+                    }
+                    
+                    // Aggiungiamo i preferiti se presenti
+                    if (obj.has("preferiti") && obj.getAsJsonArray("preferiti").size() > 0) {
+                        JsonArray preferitiArray = obj.getAsJsonArray("preferiti");
+                        for (JsonElement prefElem : preferitiArray) {
+                            JsonObject prefObj = prefElem.getAsJsonObject();
+                            int idRistorante = prefObj.get("id").getAsInt();
+                            
+                            // Cerchiamo il ristorante corrispondente
+                            for (Ristorante ristorante : ristorantiDisponibili) {
+                                if (ristorante.getId() == idRistorante) {
+                                    cliente.aggiungiPreferito(ristorante);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else if (ruolo.equalsIgnoreCase("ristoratore") && utente instanceof Ristoratore) {
+                    Ristoratore ristoratore = (Ristoratore) utente;
+                    
+                    // Aggiungiamo i ristoranti gestiti se presenti
+                    if (obj.has("ristorantiGestiti") && obj.getAsJsonArray("ristorantiGestiti").size() > 0) {
+                        JsonArray ristorantiArray = obj.getAsJsonArray("ristorantiGestiti");
+                        for (JsonElement ristElem : ristorantiArray) {
+                            JsonObject ristObj = ristElem.getAsJsonObject();
+                            int idRistorante = ristObj.get("id").getAsInt();
+                            
+                            // Cerchiamo il ristorante corrispondente
+                            for (Ristorante ristorante : ristorantiDisponibili) {
+                                if (ristorante.getId() == idRistorante) {
+                                    // Verifichiamo se il ristorante è già gestito
+                                    boolean ristoranteDuplicato = false;
+                                    for (Ristorante r : ristoratore.getRistorantiGestiti()) {
+                                        if (r.getId() == ristorante.getId()) {
+                                            ristoranteDuplicato = true;
+                                            break;
+                                        }
+                                    }
+                                    
+                                    if (!ristoranteDuplicato) {
+                                        ristoratore.aggiungiRistorante(ristorante);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Aggiorniamo nuovamente i ristoranti dopo aver fatto tutte le associazioni
+            salvaRistoranti(ristorantiDisponibili, pathRistoranti);
+
+            return new ArrayList<>(mappaUtenti.values());
 
         } catch (Exception e) {
             throw new IOException("Errore durante il caricamento degli utenti: " + e.getMessage(), e);

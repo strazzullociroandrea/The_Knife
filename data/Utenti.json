@@ -1,204 +1,83 @@
 [
   {
-    "preferiti": [],
-    "recensioniMesse": [],
+    "ristorantiGestiti": [
+      {
+        "id": 0,
+        "nome": "Prova",
+        "nazione": "Italia",
+        "citta": "Varese",
+        "indirizzo": "Via Dandolo",
+        "tipoCucina": "Italiana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 5.0,
+        "maxPrezzo": 100.0,
+        "recensioni": [
+          {
+            "descrizione": "Bello stato ma meno legittimo di Trastevere",
+            "stelle": 5,
+            "id": 0
+          },
+          {
+            "descrizione": "bello",
+            "stelle": 5,
+            "id": 0
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "nome": "SiamoDentro",
+        "nazione": "Israele",
+        "citta": "Anzio",
+        "indirizzo": "Via Brombeis",
+        "tipoCucina": "Italiana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 8.0,
+        "maxPrezzo": 10.0,
+        "recensioni": [
+          {
+            "descrizione": "Bellissimo",
+            "stelle": 5,
+            "id": 1
+          }
+        ]
+      }
+    ],
     "id": 0,
-    "passwordCifrata": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "nome": "prova1",
-    "cognome": "prova1",
-    "username": "èrpv",
-    "domicilio": "via gran paradiso 4 brugherio",
-    "ruolo": "cliente"
-  },
-  {
-    "ristorantiGestiti": [],
-    "id": 1,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "ivo441",
-    "domicilio": "via provinciale rasa 37, varese",
-    "ruolo": "ristoratore"
-  },
-  {
-    "ristorantiGestiti": [
-      {
-        "id": 0,
-        "nome": "Cardo",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via dei cardi ",
-        "tipoCucina": "italiana",
-        "delivery": false,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 10.0,
-        "recensioni": []
-      }
-    ],
-    "id": 1,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "ivo441",
-    "domicilio": "via provinciale rasa 37, varese",
-    "ruolo": "ristoratore"
-  },
-  {
-    "ristorantiGestiti": [
-      {
-        "id": 1,
-        "nome": "da Cardo",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via dolomiti",
-        "tipoCucina": "messicana",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 3.0,
-        "maxPrezzo": 20.0,
-        "recensioni": []
-      }
-    ],
-    "id": 1,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "ivo441",
-    "domicilio": "via provinciale rasa 37, varese",
-    "ruolo": "ristoratore"
-  },
-  {
-    "ristorantiGestiti": [
-      {
-        "id": 1,
-        "nome": "da Cardo",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via dolomiti",
-        "tipoCucina": "messicana",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 3.0,
-        "maxPrezzo": 20.0,
-        "recensioni": []
-      },
-      {
-        "id": 2,
-        "nome": "minestra scaldata",
-        "nazione": "italia",
-        "citta": "roma",
-        "indirizzo": "via giuseppe verdi",
-        "tipoCucina": "italiana",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 60.0,
-        "recensioni": []
-      }
-    ],
-    "id": 1,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "ivo441",
-    "domicilio": "via provinciale rasa 37, varese",
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matt05",
+    "domicilio": "Varese",
     "ruolo": "ristoratore"
   },
   {
     "preferiti": [],
-    "recensioniMesse": [],
-    "id": 2,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "iv0441",
-    "domicilio": "via provinciale rasa 37, varese",
-    "ruolo": "cliente"
-  },
-  {
-    "preferiti": [
-      {
-        "id": 0,
-        "nome": "Cardo",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via dei cardi ",
-        "tipoCucina": "italiana",
-        "delivery": false,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 10.0,
-        "recensioni": []
-      },
-      {
-        "id": 1,
-        "nome": "da Cardo",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via dolomiti",
-        "tipoCucina": "messicana",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 3.0,
-        "maxPrezzo": 20.0,
-        "recensioni": []
-      }
-    ],
     "recensioniMesse": [
       {
-        "descrizione": "molto carino",
+        "descrizione": "Bello stato ma meno legittimo di Trastevere",
         "stelle": 5,
         "id": 0
-      }
-    ],
-    "id": 2,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "iv0441",
-    "domicilio": "via provinciale rasa 37, varese",
-    "ruolo": "cliente"
-  },
-  {
-    "ristorantiGestiti": [
+      },
       {
-        "id": 3,
-        "nome": "gilardino",
-        "nazione": "r",
-        "citta": "r",
-        "indirizzo": "r",
-        "tipoCucina": "r",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 1.0,
-        "maxPrezzo": 1.0,
-        "recensioni": []
-      }
-    ],
-    "id": 1,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "ivo441",
-    "domicilio": "via provinciale rasa 37, varese",
-    "ruolo": "ristoratore"
-  },
-  {
-    "preferiti": [],
-    "recensioniMesse": [
+        "descrizione": "bello",
+        "stelle": 5,
+        "id": 0
+      },
       {
-        "descrizione": "d",
-        "stelle": 4,
+        "descrizione": "Bellissimo",
+        "stelle": 5,
         "id": 1
       }
     ],
-    "id": 2,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "Riccardo",
-    "cognome": "Rubini",
-    "username": "iv0441",
-    "domicilio": "via provinciale rasa 37, varese",
+    "id": 1,
+    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
+    "nome": "Matteo",
+    "cognome": "Mongelli",
+    "username": "Matteo05",
+    "domicilio": "Varese",
     "ruolo": "cliente"
   }
 ]

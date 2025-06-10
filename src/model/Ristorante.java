@@ -122,6 +122,17 @@ public class Ristorante {
         this.recensioni = new ArrayList<>();
     }
 
+    /**
+     * Aggiorna il contatore statico degli ID in base a un ID fornito.
+     * Utile quando si caricano ristoranti da file per garantire l'unicità degli ID.
+     *
+     * @param id ID da considerare per l'aggiornamento del contatore
+     */
+    public static void aggiornaContatore(int id) {
+        if (id >= idCounter) {
+            idCounter = id + 1;
+        }
+    }
 
     /**
      * Metodo per ottenere l'ID del ristorante.
@@ -447,7 +458,7 @@ public class Ristorante {
                 "Luogo: " + this.indirizzo + ", " + this.citta + ", " + this.nazione + "\n" +
                 "Cucina: " + this.tipoCucina + "\n" +
                 "Fascia di prezzo: " + this.minPrezzo + "€ - " + this.maxPrezzo + "€\n" +
-                "Servizi: Delivery = " + delivery + ", Prenotazione online = " + prenotazioneOnline + "\n" +
+                "Servizi: Delivery = " + delivery + ", Prenotazione online = " + prenotazione + "\n" +
                 "Media voti: " + this.getValutazioneMedia() + " su " + this.recensioni.size() + " recensioni\n";
     }
 

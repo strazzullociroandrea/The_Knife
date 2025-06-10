@@ -319,7 +319,6 @@ public class ViewRistoratore {
                     }
 
 
-
                     System.out.println("Inserire il prezzo massimo per il tuo ristorante (oppure premi INVIO per non modificarlo):");
                     String inputMax = s.nextLine().trim();
                     if (!inputMax.isEmpty()) {
@@ -338,13 +337,34 @@ public class ViewRistoratore {
                     }
 
                     //salvataggio dei dati modificati
-                    listaRistoranti = GestoreFile.caricaRistoranti(pathRistoranti);
-                    listaRistoranti.add(ristoranteCorrente);
-                    GestoreFile.salvaRistoranti(listaRistoranti, pathRistoranti);
+                    List<Ristorante> listaRistorantiSalvataggio = GestoreFile.caricaRistoranti(pathRistoranti);
+                    
+                    // Verifico se il ristorante esiste già per ID
+                    boolean ristoranteEsistente = false;
+                    for (int i = 0; i < listaRistorantiSalvataggio.size(); i++) {
+                        if (listaRistorantiSalvataggio.get(i).getId() == ristoranteCorrente.getId()) {
+                            // Sostituisco il ristorante esistente
+                            listaRistorantiSalvataggio.set(i, ristoranteCorrente);
+                            ristoranteEsistente = true;
+                            break;
+                        }
+                    }
+                    
+                    // Se il ristorante non esiste, lo aggiungo
+                    if (!ristoranteEsistente) {
+                        listaRistorantiSalvataggio.add(ristoranteCorrente);
+                    }
+                    
+                    GestoreFile.salvaRistoranti(listaRistorantiSalvataggio, pathRistoranti);
 
                     List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
-                    listaUtenti.remove(u); // buona norma
+                    
+                    // Rimuovo l'utente attuale dalla lista (usando equals)
+                    listaUtenti.removeIf(utente -> utente.equals(u));
+                    
+                    // Aggiungo l'utente aggiornato
                     listaUtenti.add(u);
+                    
                     GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
 
                     System.out.println("Ristorante modificato con successo.");
@@ -468,13 +488,38 @@ public class ViewRistoratore {
                             Ristorante nuovoRistorante = u.creaRistorante(nome, nazione, citta, indirizzo,
                                     delivery, prenotazione, tipoCucina, prenotazioneOnline, minPrezzo, maxPrezzo);
 
-                            List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(pathRistoranti);
-                            listaRistoranti.add(nuovoRistorante);
-                            GestoreFile.salvaRistoranti(listaRistoranti, pathRistoranti);
+                            // Carico tutti i ristoranti attuali
+                            List<Ristorante> listaRistorantiSalvataggio = GestoreFile.caricaRistoranti(pathRistoranti);
+                            
+                            // Verifico se il ristorante esiste già per ID
+                            boolean ristoranteEsistente = false;
+                            for (int i = 0; i < listaRistorantiSalvataggio.size(); i++) {
+                                if (listaRistorantiSalvataggio.get(i).getId() == nuovoRistorante.getId()) {
+                                    // Sostituisco il ristorante esistente
+                                    listaRistorantiSalvataggio.set(i, nuovoRistorante);
+                                    ristoranteEsistente = true;
+                                    break;
+                                }
+                            }
+                            
+                            // Se il ristorante non esiste, lo aggiungo
+                            if (!ristoranteEsistente) {
+                                listaRistorantiSalvataggio.add(nuovoRistorante);
+                            }
+                            
+                            // Salvo la lista aggiornata dei ristoranti
+                            GestoreFile.salvaRistoranti(listaRistorantiSalvataggio, pathRistoranti);
 
+                            // Aggiorno anche l'utente
                             List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
-                            listaUtenti.remove(u); // buona norma
+                            
+                            // Rimuovo l'utente attuale dalla lista (usando equals)
+                            listaUtenti.removeIf(utente -> utente.equals(u));
+                            
+                            // Aggiungo l'utente aggiornato
                             listaUtenti.add(u);
+                            
+                            // Salvo la lista aggiornata degli utenti
                             GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
 
                             System.out.println("Ristorante creato con successo.");
@@ -494,7 +539,7 @@ public class ViewRistoratore {
                         System.out.println("Username: " + (u.getUsername() != null ? u.getUsername() : "Non specificato"));
                         System.out.println("Data di nascita: " + (u.getDataNascita() != null ? u.getDataNascita() : "Non specificata"));
                         System.out.println("Domicilio: " + (u.getDomicilio() != null ? u.getDomicilio() : "Non specificato"));
-                        System.out.println("Tipo utente: " + (u instanceof Ristoratore ? "Cliente" : "Ristoratore"));
+                        System.out.println("Tipo utente: " + (u instanceof Ristoratore ? "Ristoratore" : "Cliente"));
                     }
 
 

@@ -59,8 +59,8 @@ public class ViewCliente {
      * metodo per verificare che un ristorante esista all'interno di una lista
      *
      * @param r il ristorante da verificare
-     * @paaram PATHRISTORANTI il path del file JSON contenente i ristoranti
      * @return
+     * @paaram PATHRISTORANTI il path del file JSON contenente i ristoranti
      */
 
     public boolean verificaRistorante(Ristorante r, String PATHRISTORANTI) {
@@ -113,6 +113,7 @@ public class ViewCliente {
 
     /**
      * metodo privato per ottenere una stringa descrizione, possibile attributo di un oggetto di tipo Recensione, in maniera corretta (<250 caratteri)
+     *
      * @param s lo scanner utilizzato per leggere l'input dell'utente
      * @return la stringa da massimo 250 caratteri che può rappresentare il testo della recensione
      */
@@ -130,6 +131,7 @@ public class ViewCliente {
 
     /**
      * metodo privato per ottenere un int stelle, possibile attributo di un oggetto di tipo Recensione, in maniera corretta (tra 0 e 5)
+     *
      * @param s lo scanner utilizzato per leggere l'input dell'utente
      * @return l'int che può rappresentare le stelle di una recensione (da 0 a 5)
      */
@@ -146,14 +148,13 @@ public class ViewCliente {
     }
 
 
-
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
      *
      * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
      * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
-     * @param pathUtenti il path del file JSON contenente gli utenti
-     * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
+     * @param pathUtenti      il path del file JSON contenente gli utenti
+     * @param PATHRISTORANTI  il path del file JSON contenente i ristoranti
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
@@ -176,6 +177,11 @@ public class ViewCliente {
         boolean visualizza = true;
 
         while (visualizza) {
+            if (listaRistoranti == null || listaRistoranti.isEmpty()) {
+                System.out.println("Non ci sono più ristoranti da visualizzare.");
+                break;
+            }
+
             Main.svuotaConsole();
             Ristorante ristoranteCorrente = listaRistoranti.get(indice);
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
@@ -200,7 +206,11 @@ public class ViewCliente {
                     System.out.println("Scrivi la tua recensione:");
                     String descrizione = leggiDescrizioneValida(s);
                     int stelle = leggiStelleValide(s);
-                    u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
+                    try {
+                        u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     System.out.println("Recensione aggiunta con successo!");
                     //salvataggio dati
                     listaUtentiTBS.remove(u);
@@ -356,8 +366,8 @@ public class ViewCliente {
     /**
      * metodo per acccedere alla view del cliente
      *
-     * @param u l'utente di tipo Cliente che interagisce con la view
-     * @param pathUtenti il path del file JSON contenente gli utenti
+     * @param u              l'utente di tipo Cliente che interagisce con la view
+     * @param pathUtenti     il path del file JSON contenente gli utenti
      * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
      */
 
@@ -376,7 +386,8 @@ public class ViewCliente {
                 System.out.println("3. Visualizza i tuoi dati personali");
                 System.out.println("4. Modifica dati personali");
                 System.out.println("5. Visualizza le recensioni lasciate");
-                System.out.println("6. Logout");
+                System.out.println("6. Visualizza i ristoranti preferiti");
+                System.out.println("7. Logout");
 
 
                 int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione:", s);
@@ -438,7 +449,6 @@ public class ViewCliente {
                         navigazioneRistoranti(u, s, filtrati, pathUtenti, PATHRISTORANTI);
 
                         break;
-
 
 
                     case 3:
@@ -598,14 +608,27 @@ public class ViewCliente {
                         break;
 
 
-
                     case 6:
+
+                        List<Ristorante> preferiti = u.visualizzaPreferiti();
+
+                        if (preferiti == null || preferiti.isEmpty()) {
+                            System.out.println("Non hai ancora aggiunto ristoranti ai preferiti.");
+                            break;
+                        } else {
+                            navigazioneRistoranti(u, s, preferiti, pathUtenti, PATHRISTORANTI);
+                        }
+                        break;
+
+
+                    case 7:
                         System.out.println("Verrai reinderizzato al menù iniziale!");
                         ViewBase.view(pathUtenti, PATHRISTORANTI);
                         return;
                 }
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             System.err.println(e.getMessage());
         }
 
