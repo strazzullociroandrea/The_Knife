@@ -123,7 +123,7 @@ public class GestoreFile {
                 double minPrezzo = obj.get("minPrezzo").getAsDouble();
                 double maxPrezzo = obj.get("maxPrezzo").getAsDouble();
 
-                lista.add(new Ristorante(
+                Ristorante ristorante  = new Ristorante(
                         id,
                         nome,
                         nazione,
@@ -134,7 +134,9 @@ public class GestoreFile {
                         prenotazioneOnline,
                         minPrezzo,
                         maxPrezzo
-                ));
+                );
+
+                lista.add(ristorante);
             }
             return lista;
 
@@ -156,13 +158,14 @@ public class GestoreFile {
         creaFile(pathUtenti, "[]");
         creaFile(pathRistoranti, "[]");
 
-        try (Reader reader = new FileReader(pathUtenti)) {
+        try (Reader readerUtenti = new FileReader(pathUtenti);
+             Reader readerRistoranti = new FileReader(pathRistoranti)) {
 
             List<Ristorante> ristorantiDisponibili = caricaRistoranti(pathRistoranti);
             List<Utente> utenti = new ArrayList<>();
-            JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
+            JsonArray arrayUtenti = JsonParser.parseReader(readerUtenti).getAsJsonArray();
 
-            for (JsonElement elem : array) {
+            for (JsonElement elem : arrayUtenti) {
                 JsonObject obj = elem.getAsJsonObject();
 
                 if (!obj.has("ruolo")) continue;
@@ -176,122 +179,52 @@ public class GestoreFile {
                 String domicilio = obj.get("domicilio").getAsString();
                 String ruolo = obj.get("ruolo").getAsString();
 
+                Utente utente;
                 if (ruolo.equalsIgnoreCase("cliente")) {
-                    Cliente c = dataNascita.equals("Non data")
+                    Cliente cliente = dataNascita.equals("Non data")
                             ? new Cliente(id, nome, cognome, username, domicilio, true)
                             : new Cliente(id, nome, cognome, username, dataNascita, domicilio, true);
-                    c.setPassword(passwordCifrata);
+                    cliente.setPassword(passwordCifrata);
+                    utente = cliente;
 
-                    if (obj.has("preferiti")) {
-                        List<Ristorante> preferiti = new ArrayList<>();
-                        JsonArray preferitiArray = obj.getAsJsonArray("preferiti");
-                        for (JsonElement pElem : preferitiArray) {
-                            JsonObject ristoObj = pElem.getAsJsonObject();
+                    if (obj.has("recensioniMesse")) {
+                        List<Recensione> recensioniMesse = new ArrayList<>();
+                        JsonArray recensioniArray = obj.getAsJsonArray("recensioniMesse");
 
-                            int idTmp = ristoObj.get("id").getAsInt();
-                            String nomeTmp = ristoObj.get("nome").getAsString();
-                            String nazioneTmp = ristoObj.get("nazione").getAsString();
-                            String cittaTmp = ristoObj.get("citta").getAsString();
-                            String indirizzoTmp = ristoObj.get("indirizzo").getAsString();
-                            String tipoCucinaTmp = ristoObj.get("tipoCucina").getAsString();
-                            boolean deliveryTmp = ristoObj.get("delivery").getAsBoolean();
-                            boolean prenotazioneOnlineTmp = ristoObj.get("prenotazioneOnline").getAsBoolean();
-                            double minPrezzoTmp = ristoObj.get("minPrezzo").getAsDouble();
-                            double maxPrezzoTmp = ristoObj.get("maxPrezzo").getAsDouble();
+                        for (JsonElement pElem : recensioniArray) {
+                            JsonObject recensioneObj = pElem.getAsJsonObject();
+                            int idRistorante = recensioneObj.get("id").getAsInt();
+                            String descrizione = recensioneObj.get("descrizione").getAsString();
+                            int stelle = recensioneObj.get("stelle").getAsInt();
+                            String risposta = recensioneObj.has("risposta") ? recensioneObj.get("risposta").getAsString() : "";
 
-                            Ristorante r = new Ristorante(
-                                    idTmp,
-                                    nomeTmp,
-                                    nazioneTmp,
-                                    cittaTmp,
-                                    indirizzoTmp,
-                                    tipoCucinaTmp,
-                                    deliveryTmp,
-                                    prenotazioneOnlineTmp,
-                                    minPrezzoTmp,
-                                    maxPrezzoTmp
-                            );
+                            Recensione recensione = risposta.isEmpty()
+                                    ? new Recensione(descrizione, stelle, idRistorante)
+                                    : new Recensione(descrizione, stelle, risposta, idRistorante);
 
-                            for (Ristorante disp : ristorantiDisponibili) {
-                                if (disp.getId() == r.getId()) {
-                                    r = disp;
+                            recensioniMesse.add(recensione);
+
+                            // Associare la recensione al ristorante corrispondente
+                            for (Ristorante ristorante : ristorantiDisponibili) {
+                                if (ristorante.getId() == idRistorante) {
+                                    ristorante.recensisciRistorante(recensione);
                                     break;
                                 }
                             }
-                            preferiti.add(r);
                         }
-                        c.setPreferiti(preferiti);
+                        cliente.setRecensioniMesse(recensioniMesse);
                     }
-                    if (obj.has("recensioniMesse")) {
-                        List<Recensione> recensioni = new ArrayList<>();
-                        List<Ristorante> recensioniMesse = new ArrayList<>();
-                        JsonArray recensioniMesseArray = obj.getAsJsonArray("recensioniMesse");
-                        for (JsonElement pElem : recensioniMesseArray) {
-                            JsonObject recensioneMessa = pElem.getAsJsonObject();
-
-                            int idTmp = recensioneMessa.get("id").getAsInt();
-                            String descrizioneTmp = recensioneMessa.get("descrizione").getAsString();
-                            int stelleTmp = recensioneMessa.get("stelle").getAsInt();
-                            String rispostaTmp = recensioneMessa.has("risposta") ? recensioneMessa.get("risposta").getAsString() : "";
-                            if( rispostaTmp.isEmpty()) {
-                                 recensioni.add(new Recensione(descrizioneTmp, stelleTmp, idTmp));
-                            }else{
-                                recensioni.add(new Recensione(descrizioneTmp, stelleTmp, rispostaTmp, idTmp));
-                            }
-                        }
-                        c.setRecensioniMesse(recensioni);
-                    }
-                    utenti.add(c);
-
                 } else if (ruolo.equalsIgnoreCase("ristoratore")) {
-                    Ristoratore r = dataNascita.equals("Non data")
+                    Ristoratore ristoratore = dataNascita.equals("Non data")
                             ? new Ristoratore(id, nome, cognome, username, domicilio, true)
                             : new Ristoratore(id, nome, cognome, username, dataNascita, domicilio, true);
-                    r.setPassword(passwordCifrata);
-
-                    if (obj.has("ristorantiGestiti")) {
-                        List<Ristorante> gestiti = new ArrayList<>();
-                        JsonArray gestitiArray = obj.getAsJsonArray("ristorantiGestiti");
-                        for (JsonElement pElem : gestitiArray) {
-                            JsonObject ristoObj = pElem.getAsJsonObject();
-
-                            int idTmp = ristoObj.get("id").getAsInt();
-                            String nomeTmp = ristoObj.get("nome").getAsString();
-                            String nazioneTmp = ristoObj.get("nazione").getAsString();
-                            String cittaTmp = ristoObj.get("citta").getAsString();
-                            String indirizzoTmp = ristoObj.get("indirizzo").getAsString();
-                            String tipoCucinaTmp = ristoObj.get("tipoCucina").getAsString();
-                            boolean deliveryTmp = ristoObj.get("delivery").getAsBoolean();
-                            boolean prenotazioneOnlineTmp = ristoObj.get("prenotazioneOnline").getAsBoolean();
-                            double minPrezzoTmp = ristoObj.get("minPrezzo").getAsDouble();
-                            double maxPrezzoTmp = ristoObj.get("maxPrezzo").getAsDouble();
-
-                            Ristorante rist = new Ristorante(
-                                    idTmp,
-                                    nomeTmp,
-                                    nazioneTmp,
-                                    cittaTmp,
-                                    indirizzoTmp,
-                                    tipoCucinaTmp,
-                                    deliveryTmp,
-                                    prenotazioneOnlineTmp,
-                                    minPrezzoTmp,
-                                    maxPrezzoTmp
-                            );
-
-                            for (Ristorante disp : ristorantiDisponibili) {
-                                if (disp.getId() == rist.getId()) {
-                                    rist = disp;
-                                    break;
-                                }
-                            }
-                            gestiti.add(rist);
-                        }
-                        r.setRistorantiGestiti(gestiti);
-                    }
-
-                    utenti.add(r);
+                    ristoratore.setPassword(passwordCifrata);
+                    utente = ristoratore;
+                } else {
+                    continue;
                 }
+
+                utenti.add(utente);
             }
 
             return utenti;
@@ -300,5 +233,6 @@ public class GestoreFile {
             throw new IOException("Errore durante il caricamento degli utenti: " + e.getMessage(), e);
         }
     }
+
 
 }
