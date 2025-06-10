@@ -9,5 +9,196 @@
     "username": "èrpv",
     "domicilio": "via gran paradiso 4 brugherio",
     "ruolo": "cliente"
+  },
+  {
+    "ristorantiGestiti": [],
+    "id": 1,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "ivo441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "ristoratore"
+  },
+  {
+    "ristorantiGestiti": [
+      {
+        "id": 0,
+        "nome": "Cardo",
+        "nazione": "italia",
+        "citta": "varese",
+        "indirizzo": "via dei cardi ",
+        "tipoCucina": "italiana",
+        "delivery": false,
+        "prenotazioneOnline": true,
+        "minPrezzo": 5.0,
+        "maxPrezzo": 10.0,
+        "recensioni": []
+      }
+    ],
+    "id": 1,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "ivo441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "ristoratore"
+  },
+  {
+    "ristorantiGestiti": [
+      {
+        "id": 1,
+        "nome": "da Cardo",
+        "nazione": "italia",
+        "citta": "varese",
+        "indirizzo": "via dolomiti",
+        "tipoCucina": "messicana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 3.0,
+        "maxPrezzo": 20.0,
+        "recensioni": []
+      }
+    ],
+    "id": 1,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "ivo441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "ristoratore"
+  },
+  {
+    "ristorantiGestiti": [
+      {
+        "id": 1,
+        "nome": "da Cardo",
+        "nazione": "italia",
+        "citta": "varese",
+        "indirizzo": "via dolomiti",
+        "tipoCucina": "messicana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 3.0,
+        "maxPrezzo": 20.0,
+        "recensioni": []
+      },
+      {
+        "id": 2,
+        "nome": "minestra scaldata",
+        "nazione": "italia",
+        "citta": "roma",
+        "indirizzo": "via giuseppe verdi",
+        "tipoCucina": "italiana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 5.0,
+        "maxPrezzo": 60.0,
+        "recensioni": []
+      }
+    ],
+    "id": 1,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "ivo441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "ristoratore"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [],
+    "id": 2,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "iv0441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "cliente"
+  },
+  {
+    "preferiti": [
+      {
+        "id": 0,
+        "nome": "Cardo",
+        "nazione": "italia",
+        "citta": "varese",
+        "indirizzo": "via dei cardi ",
+        "tipoCucina": "italiana",
+        "delivery": false,
+        "prenotazioneOnline": true,
+        "minPrezzo": 5.0,
+        "maxPrezzo": 10.0,
+        "recensioni": []
+      },
+      {
+        "id": 1,
+        "nome": "da Cardo",
+        "nazione": "italia",
+        "citta": "varese",
+        "indirizzo": "via dolomiti",
+        "tipoCucina": "messicana",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 3.0,
+        "maxPrezzo": 20.0,
+        "recensioni": []
+      }
+    ],
+    "recensioniMesse": [
+      {
+        "descrizione": "molto carino",
+        "stelle": 5,
+        "id": 0
+      }
+    ],
+    "id": 2,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "iv0441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "cliente"
+  },
+  {
+    "ristorantiGestiti": [
+      {
+        "id": 3,
+        "nome": "gilardino",
+        "nazione": "r",
+        "citta": "r",
+        "indirizzo": "r",
+        "tipoCucina": "r",
+        "delivery": true,
+        "prenotazioneOnline": true,
+        "minPrezzo": 1.0,
+        "maxPrezzo": 1.0,
+        "recensioni": []
+      }
+    ],
+    "id": 1,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "ivo441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "ristoratore"
+  },
+  {
+    "preferiti": [],
+    "recensioniMesse": [
+      {
+        "descrizione": "d",
+        "stelle": 4,
+        "id": 1
+      }
+    ],
+    "id": 2,
+    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
+    "nome": "Riccardo",
+    "cognome": "Rubini",
+    "username": "iv0441",
+    "domicilio": "via provinciale rasa 37, varese",
+    "ruolo": "cliente"
   }
 ]

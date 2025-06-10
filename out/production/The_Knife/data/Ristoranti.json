@@ -1,1 +1,54 @@
-[]
+[
+  {
+    "id": 0,
+    "nome": "Cardo",
+    "nazione": "italia",
+    "citta": "varese",
+    "indirizzo": "via dei cardi ",
+    "tipoCucina": "italiana",
+    "delivery": false,
+    "prenotazioneOnline": true,
+    "minPrezzo": 5.0,
+    "maxPrezzo": 10.0,
+    "recensioni": []
+  },
+  {
+    "id": 2,
+    "nome": "minestra scaldata",
+    "nazione": "italia",
+    "citta": "roma",
+    "indirizzo": "via giuseppe verdi",
+    "tipoCucina": "italiana",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 5.0,
+    "maxPrezzo": 60.0,
+    "recensioni": []
+  },
+  {
+    "id": 1,
+    "nome": "da Cardo",
+    "nazione": "italia",
+    "citta": "varese",
+    "indirizzo": "via dolomiti",
+    "tipoCucina": "messicana",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 3.0,
+    "maxPrezzo": 20.0,
+    "recensioni": []
+  },
+  {
+    "id": 3,
+    "nome": "gilardino",
+    "nazione": "r",
+    "citta": "r",
+    "indirizzo": "r",
+    "tipoCucina": "r",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 1.0,
+    "maxPrezzo": 1.0,
+    "recensioni": []
+  }
+]
