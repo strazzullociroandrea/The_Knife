@@ -20,6 +20,11 @@
         "descrizione": "bello",
         "stelle": 5,
         "id": 0
+      },
+      {
+        "descrizione": "molto buono",
+        "stelle": 4,
+        "id": 0
       }
     ]
   },
@@ -39,7 +44,49 @@
         "descrizione": "Bellissimo",
         "stelle": 5,
         "id": 1
+      },
+      {
+        "descrizione": "aaaaaaaaaaaaaaaaaaa",
+        "stelle": 4,
+        "id": 1
       }
     ]
+  },
+  {
+    "id": 2,
+    "nome": "ristorante 1 prova",
+    "nazione": "italia",
+    "citta": "varese",
+    "indirizzo": "via provinciale rasa 37 varese",
+    "tipoCucina": "italiana",
+    "delivery": false,
+    "prenotazioneOnline": true,
+    "minPrezzo": 5.0,
+    "maxPrezzo": 60.0,
+    "recensioni": [
+      {
+        "descrizione": "ciao recensione di prova",
+        "stelle": 4,
+        "id": 2
+      },
+      {
+        "descrizione": "seconda recensione di prova",
+        "stelle": 2,
+        "id": 2
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "nome": "pollo",
+    "nazione": "italia",
+    "citta": "malnate",
+    "indirizzo": "via del cavallo pazzo",
+    "tipoCucina": "italiana",
+    "delivery": true,
+    "prenotazioneOnline": true,
+    "minPrezzo": 3.0,
+    "maxPrezzo": 4.0,
+    "recensioni": []
   }
 ]

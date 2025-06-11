@@ -181,32 +181,20 @@ public class Ristoratore extends Utente {
      * @param risposta   risposta da dare alla recensione
      */
     public void rispondiRecensione(Recensione recensione, String risposta) {
-        if (risposta == null) {
-            try (Scanner s = new Scanner(System.in)) {
-                System.out.println("Inserire la risposta: ");
-                risposta = s.nextLine();
+        if (recensione.getRisposta() == null) {
                 recensione.setRisposta(risposta);
                 System.out.println("Risposta aggiornata ");
-            } catch (Exception e) {
-                System.err.println(e);
-            }
         } else {
             System.out.println("Risposta già presente: " + recensione.getRisposta());
-            System.out.println("Vuoi inserire una nuova risposta?(si/no)");
-
-            try (Scanner s = new Scanner(System.in)) {
-                String r = s.nextLine();
+            System.out.println("Vuoi sovrascrivere la nuova risposta?(si/no)");
+            Scanner s = new Scanner(System.in);
+            String r = s.nextLine();
                 if (r.equalsIgnoreCase("si") || r.equalsIgnoreCase("sì")) {
-                    System.out.println("Inserire la risposta: ");
-                    risposta = s.nextLine();
                     recensione.setRisposta(risposta);
                     System.out.println("Risposta aggiornata ");
                 } else if (r.equalsIgnoreCase("no")) {
                     System.out.println("Risposta non modificata: " + recensione.getRisposta());
                 }
-            } catch (Exception e) {
-                System.err.println(e);
-            }
         }
     }
 

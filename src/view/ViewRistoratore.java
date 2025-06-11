@@ -226,7 +226,11 @@ public class ViewRistoratore {
                 }
                 case 4 -> {
                     List<Recensione> listaRecensioni = ristoranteCorrente.getRecensioni();
-                    navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni);
+                    if(listaRecensioni.size()>0) {
+                        navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni);
+                    }else{
+                        System.out.println("non sono state inserite recensioni");
+                    }
                 }
                 case 5 -> u.visualizzaRiepilogo(ristoranteCorrente);
 
