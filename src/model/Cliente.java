@@ -139,20 +139,25 @@ public class Cliente extends Utente {
      * Metodo per aggiungere il ristorante nei preferiti
      *
      * @param ristorante ristorante da aggiungere ai preferiti
+     * @return true se il ristorante è stato aggiunto con successo, false se il ristorante è già nei preferiti
      */
-    public void aggiungiPreferito(Ristorante ristorante) {
+    public boolean aggiungiPreferito(Ristorante ristorante) {
         if (!preferiti.contains(ristorante)) {
             preferiti.add(ristorante);
+            return true;
         }
+        return false;
     }
 
     /**
      * Metodo per rimuovere il ristorante dai preferiti
      *
      * @param ristorante ristorante da rimuovere dai preferiti
+     * @return true
      */
-    public void rimuoviPreferito(Ristorante ristorante) {
+    public boolean rimuoviPreferito(Ristorante ristorante) {
         preferiti.remove(ristorante);
+        return true;
     }
 
     /**
