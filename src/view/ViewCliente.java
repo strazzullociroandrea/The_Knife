@@ -136,9 +136,9 @@ public class ViewCliente {
      *
      * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
      * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
+     * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      * @param pathUtenti      il path del file JSON contenente gli utenti
      * @param PATHRISTORANTI  il path del file JSON contenente i ristoranti
-     * @param listaRistoranti la lista di ristoranti che si vuole scorrere
      */
 
     private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti, String pathUtenti, String PATHRISTORANTI) throws IOException, InterruptedException {
@@ -490,22 +490,12 @@ public class ViewCliente {
                             break;
                         }
 
-                        List<Ristorante> tuttiRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
 
                         while (true) {
                             System.out.println("\n--- Le tue recensioni ---");
                             for (int i = 0; i < tutteRecensioni.size(); i++) {
                                 Recensione rec = tutteRecensioni.get(i);
-                                String nomeRistorante = "Ristorante sconosciuto";
-                                for (Ristorante r : tuttiRistoranti) {
-                                    for (Recensione rRec : r.getRecensioni()) {
-                                        if (rRec.getId() == rec.getId()) {
-                                            nomeRistorante = r.getNome();
-                                            break;
-                                        }
-                                    }
-                                }
-                                System.out.println((i + 1) + ". [" + nomeRistorante + "] " + rec);
+                                System.out.println((i + 1) + ". " + rec);
                             }
                             System.out.println("0. Torna al menu");
 

@@ -1,146 +1,45 @@
 [
   {
-    "preferiti": [],
-    "recensioniMesse": [
-      {
-        "descrizione": "Bello stato ma meno legittimo di Trastevere",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "bello",
-        "stelle": 5,
-        "id": 0
-      },
-      {
-        "descrizione": "Bellissimo",
-        "stelle": 5,
-        "id": 1
-      }
-    ],
-    "id": 1,
-    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
-    "nome": "Matteo",
-    "cognome": "Mongelli",
-    "username": "Matteo05",
-    "domicilio": "Varese",
-    "ruolo": "cliente"
-  },
-  {
     "ristorantiGestiti": [
       {
         "id": 0,
-        "nome": "Prova",
+        "nome": "RistoranteProva",
         "nazione": "Italia",
-        "citta": "Varese",
-        "indirizzo": "Via Dandolo",
+        "citta": "Brugherio",
+        "indirizzo": "Via Monte Rosa, 19",
         "tipoCucina": "Italiana",
         "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 100.0,
-        "recensioni": [
-          {
-            "descrizione": "Bello stato ma meno legittimo di Trastevere",
-            "stelle": 5,
-            "id": 0
-          },
-          {
-            "descrizione": "bello",
-            "stelle": 5,
-            "id": 0
-          },
-          {
-            "descrizione": "molto buono",
-            "stelle": 4,
-            "id": 0
-          }
-        ]
-      },
-      {
-        "id": 1,
-        "nome": "SiamoDentro",
-        "nazione": "Israele",
-        "citta": "Anzio",
-        "indirizzo": "Via Brombeis",
-        "tipoCucina": "Italiana",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 8.0,
-        "maxPrezzo": 10.0,
-        "recensioni": [
-          {
-            "descrizione": "Bellissimo",
-            "stelle": 5,
-            "id": 1
-          },
-          {
-            "descrizione": "aaaaaaaaaaaaaaaaaaa",
-            "stelle": 4,
-            "id": 1
-          }
-        ]
+        "prenotazioneOnline": false,
+        "minPrezzo": 50.0,
+        "maxPrezzo": 1000.0,
+        "recensioni": []
       }
     ],
-    "id": 0,
-    "passwordCifrata": "4bfb024314c2886a9979b342a1802f674e8c6007848023f24c3612dbc748dde9",
-    "nome": "Matteo",
-    "cognome": "Mongelli",
-    "username": "Matt05",
-    "domicilio": "Varese",
+    "id": 1,
+    "passwordCifrata": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "nome": "ristoratore1",
+    "cognome": "ristoratore1",
+    "username": "ristoratore1",
+    "domicilio": "via gran paradiso 4 monza",
     "ruolo": "ristoratore"
   },
   {
     "preferiti": [
       {
-        "id": 2,
-        "nome": "ristorante 1 prova",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via provinciale rasa 37 varese",
-        "tipoCucina": "italiana",
-        "delivery": false,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 60.0,
-        "recensioni": [
-          {
-            "descrizione": "ciao recensione di prova",
-            "stelle": 4,
-            "id": 2
-          },
-          {
-            "descrizione": "seconda recensione di prova",
-            "stelle": 2,
-            "id": 2
-          }
-        ]
-      },
-      {
         "id": 0,
-        "nome": "Prova",
+        "nome": "RistoranteProva",
         "nazione": "Italia",
-        "citta": "Varese",
-        "indirizzo": "Via Dandolo",
+        "citta": "Brugherio",
+        "indirizzo": "Via Monte Rosa, 19",
         "tipoCucina": "Italiana",
         "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 100.0,
+        "prenotazioneOnline": false,
+        "minPrezzo": 50.0,
+        "maxPrezzo": 1000.0,
         "recensioni": [
           {
-            "descrizione": "Bello stato ma meno legittimo di Trastevere",
+            "descrizione": "Ristorante ben rifornito",
             "stelle": 5,
-            "id": 0
-          },
-          {
-            "descrizione": "bello",
-            "stelle": 5,
-            "id": 0
-          },
-          {
-            "descrizione": "molto buono",
-            "stelle": 4,
             "id": 0
           }
         ]
@@ -148,82 +47,18 @@
     ],
     "recensioniMesse": [
       {
-        "descrizione": "molto buono",
-        "stelle": 4,
+        "descrizione": "Ristorante ben rifornito",
+        "stelle": 5,
         "id": 0
-      },
-      {
-        "descrizione": "aaaaaaaaaaaaaaaaaaa",
-        "stelle": 4,
-        "id": 1
-      },
-      {
-        "descrizione": "ciao recensione di prova",
-        "stelle": 4,
-        "id": 2
-      },
-      {
-        "descrizione": "seconda recensione di prova",
-        "stelle": 2,
-        "id": 2
       }
     ],
-    "id": 3,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "riccardo",
-    "cognome": "rubini",
-    "username": "iv0441",
-    "domicilio": "via provinciale rasa 37 varese",
-    "dataNascita": "13/05/2004",
+    "id": 0,
+    "passwordCifrata": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "nome": "ciro",
+    "cognome": "ciro",
+    "username": "marameo",
+    "domicilio": "via gran paradiso 4 brugherio",
+    "dataNascita": "03/04/2005",
     "ruolo": "cliente"
-  },
-  {
-    "ristorantiGestiti": [
-      {
-        "id": 2,
-        "nome": "ristorante 1 prova",
-        "nazione": "italia",
-        "citta": "varese",
-        "indirizzo": "via provinciale rasa 37 varese",
-        "tipoCucina": "italiana",
-        "delivery": false,
-        "prenotazioneOnline": true,
-        "minPrezzo": 5.0,
-        "maxPrezzo": 60.0,
-        "recensioni": [
-          {
-            "descrizione": "ciao recensione di prova",
-            "stelle": 4,
-            "id": 2
-          },
-          {
-            "descrizione": "seconda recensione di prova",
-            "stelle": 2,
-            "id": 2
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "nome": "pollo",
-        "nazione": "italia",
-        "citta": "malnate",
-        "indirizzo": "via del cavallo pazzo",
-        "tipoCucina": "italiana",
-        "delivery": true,
-        "prenotazioneOnline": true,
-        "minPrezzo": 3.0,
-        "maxPrezzo": 4.0,
-        "recensioni": []
-      }
-    ],
-    "id": 2,
-    "passwordCifrata": "5ea15531b8a5bed90bdcecd8379560d2416571a99c174f7995d975379549cc1a",
-    "nome": "riccardo",
-    "cognome": "rubini",
-    "username": "ivo441",
-    "domicilio": "via provinciale rasa 37 varese",
-    "dataNascita": "13/05/2004",
-    "ruolo": "ristoratore"
   }
 ]

@@ -73,7 +73,7 @@ public class ViewRistoratore {
      * metodo per visualizzare, interagire e scorrere dinamicamente le recensioni
      *
      * @param u               utente (ristoratore) che può interagire con le recensioni
-     * @param r
+     * @param r             ristorante su cui si vogliono visualizzare le recensioni
      * @param listaRecensioni lista delle recensioni che si vuole scorrere
      * @param PATHRISTORANTI path del file JSON contenente i ristoranti
      */
@@ -190,6 +190,8 @@ public class ViewRistoratore {
      * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
      * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
      * @param listaRistoranti la lista di ristoranti che si vuole scorrere
+     * @param  pathUtenti     il path del file JSON contenente gli utenti
+     * @param pathRistoranti  il path del file JSON contenente i ristoranti
      */
     private static void navigazioneRistoranti(Ristoratore u, Scanner s, List<Ristorante> listaRistoranti, String pathUtenti, String pathRistoranti) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
@@ -212,7 +214,7 @@ public class ViewRistoratore {
             if (u.getRistorantiGestiti() == null || !u.getRistorantiGestiti().contains(ristoranteCorrente)) {
                 System.out.println("Non gestisci questo ristorante, rimosso dalla lista.");
                 listaRistoranti.remove(ristoranteCorrente);
-                continue; // passa al prossimo ciclo senza incrementare l'indice
+                continue;
             }
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
             System.out.println(ristoranteCorrente.visualizzaRistorante());
@@ -390,7 +392,6 @@ public class ViewRistoratore {
                     }
 
                     if (modificato) {
-                        //salvataggio dei dati modificati
                         List<Ristorante> listaRistorantiSalvataggio = GestoreFile.caricaRistoranti(pathRistoranti);
 
                         boolean ristoranteEsistente = false;

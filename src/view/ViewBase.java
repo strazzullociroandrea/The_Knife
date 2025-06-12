@@ -229,7 +229,8 @@ public class ViewBase {
     /**
      * Metodo per cercare i ristoranti vicini al luogo desiderato
      *
-     * @param luogo luogo di ricerca nel formato "indirizzo, città, nazione"
+     * @param elenco lista di ristoranti da cui cercare
+     * @param luogo  luogo di ricerca nel formato "indirizzo, città, nazione"
      * @return lista di ristoranti vicini a 10 km o null se c'è qualche errore
      * @throws Exception eccezione in caso di errore
      */
