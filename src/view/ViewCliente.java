@@ -433,6 +433,8 @@ public class ViewCliente {
                         break;
 
                     case 4:
+                        String vecchioUsername = u.getUsername();
+
                         String modNome = gestisciInput("inserisci il tuo nuovo nome. Premi invio per lasciarlo invariato", s, false);
                         if (!modNome.isBlank()) u.setNome(modNome);
 
@@ -460,31 +462,26 @@ public class ViewCliente {
                                 System.out.println("Password troppo corta.");
                                 continue;
                             }
-                            String pwCifrata = PasswordUtil.hashPassword(modPassword);
-                            if (pwCifrata.equals(u.getPasswordCifrata())) {
-                                System.out.println("Password uguale alla precedente.");
-                            } else {
-                                u.setPasswordCifrata(pwCifrata);
-                                System.out.println("Password aggiornata.");
-                                passwordValida = true;
-                            }
+                            u.setPasswordCifrata(modPassword);
+                            System.out.println("Password aggiornata.");
+                            passwordValida = true;
+
                         }
 
                         String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio. Premi invio per lasciarlo invariato", s, false);
                         if (!modDomicilio.isBlank()) u.setDomicilio(modDomicilio);
 
                         List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
-                        if (listaUtentiTBS != null) {
-                            for (int i = 0; i < listaUtentiTBS.size(); i++) {
-                                if (listaUtentiTBS.get(i).getUsername().equals(u.getUsername())) {
-                                    listaUtentiTBS.remove(i);
-                                    break;
-                                }
+                        for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                            if (listaUtentiTBS.get(i).getUsername().equals(vecchioUsername)) {
+                                listaUtentiTBS.remove(i);
+                                break;
                             }
-                            listaUtentiTBS.add(u);
-                            GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         }
+                        listaUtentiTBS.add(u);
+                        GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         break;
+
 
                     case 5:
                         List<Recensione> tutteRecensioni = u.getRecensioniMesse();

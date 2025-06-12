@@ -583,6 +583,7 @@ public class ViewRistoratore {
 
                     case 4 -> {
                         boolean modificheEffettuate = false;
+                        String vecchioUsername = u.getUsername();
 
                         String modNome = gestisciInput("Inserisci il tuo nuovo nome. Premi invio per lasciarlo invariato", s, false);
                         if (!modNome.isBlank()) {
@@ -629,15 +630,10 @@ public class ViewRistoratore {
                             } else if (modPassword.length() < 7) {
                                 System.out.println("La password deve contenere almeno 7 caratteri.");
                             } else {
-                                String pwCifrata = PasswordUtil.hashPassword(modPassword);
-                                if (pwCifrata.equals(u.getPasswordCifrata())) {
-                                    System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
-                                } else {
-                                    u.setPasswordCifrata(pwCifrata);
-                                    System.out.println("Password modificata con successo.");
-                                    modificheEffettuate = true;
-                                    passwordValida = true;
-                                }
+                                u.setPasswordCifrata(modPassword);
+                                System.out.println("Password modificata con successo.");
+                                modificheEffettuate = true;
+                                passwordValida = true;
                             }
                         }
 
@@ -655,7 +651,7 @@ public class ViewRistoratore {
                                 System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
                             } else {
                                 for (int i = 0; i < listaUtentiTBS.size(); i++) {
-                                    if (listaUtentiTBS.get(i).equals(u)) {
+                                    if (listaUtentiTBS.get(i).getUsername().equals(vecchioUsername)) {
                                         listaUtentiTBS.remove(i);
                                         break;
                                     }
@@ -668,6 +664,7 @@ public class ViewRistoratore {
                             System.out.println("Nessuna modifica effettuata, salvataggio saltato.");
                         }
                     }
+
 
                     case 5 -> {
                         System.out.println("Verrai reindirizzato al menù iniziale!");
