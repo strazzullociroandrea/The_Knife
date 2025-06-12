@@ -38,7 +38,6 @@ public class ViewRistoratore {
      * @param s lo scanner utilizzato per leggere l'input dell'utente
      * @return la stringa da massimo 250 caratteri che può rappresentare il testo della recensione
      */
-
     private static String leggiRispostaValida(Scanner s) {
         while (true) {
             String input = gestisciInput("Scrivi la risposta (max 250 caratteri):", s, true);
@@ -68,17 +67,17 @@ public class ViewRistoratore {
         }
     }
 
-
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente le recensioni
      *
      * @param u               utente (ristoratore) che può interagire con le recensioni
      * @param r             ristorante su cui si vogliono visualizzare le recensioni
      * @param listaRecensioni lista delle recensioni che si vuole scorrere
+     * @param pathUtenti     path del file JSON contenente gli utenti
      * @param PATHRISTORANTI path del file JSON contenente i ristoranti
      * @param s               scanner per l'input dell'utente
      */
-    private static void navigazioneRecensioni(Ristoratore u, Ristorante r, List<Recensione> listaRecensioni, String PATHRISTORANTI, Scanner s) {
+    private static void navigazioneRecensioni(Ristoratore u, Ristorante r, List<Recensione> listaRecensioni,String pathUtenti,  String PATHRISTORANTI, Scanner s) {
         try{
             if (u.getRistorantiGestiti() == null || !u.getRistorantiGestiti().contains(r)) {
                 System.out.println("Non gestisci questo ristorante.");
@@ -99,7 +98,8 @@ public class ViewRistoratore {
                 Recensione recensioneCorrente = listaRecensioni.get(indiceR);
 
                 boolean appartieneAlRistorante = false;
-                for (Recensione rec : r.getRecensioni()) {
+                for (int i = 0; i < r.getRecensioni().size(); i++) {
+                    Recensione rec = r.getRecensioni().get(i);
                     if (rec.getId() == recensioneCorrente.getId()) {
                         appartieneAlRistorante = true;
                         break;
@@ -132,58 +132,89 @@ public class ViewRistoratore {
                 int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
 
                 switch (sceltaInterna) {
-                    case 1 -> {
+                    case 1:
                         if (indiceR < listaRecensioni.size() - 1) {
                             indiceR++;
                         } else {
                             System.out.println("Hai raggiunto l'ultima recensione.");
-                            System.out.println("Premi INVIO per continuare...");
-                            s.nextLine();
                         }
-                    }
-                    case 2 -> {
+                        break;
+                    case 2:
                         if (indiceR > 0) {
                             indiceR--;
                         } else {
                             System.out.println("Sei già alla prima recensione.");
-                            System.out.println("Premi INVIO per continuare...");
-                            s.nextLine();
                         }
-                    }
-                    case 3 -> {
+                        break;
+                    case 3:
+                        // Inserimento risposta
                         System.out.println("Inserisci la tua risposta. Attenzione: se già presente verrà sovrascritta:");
                         String risposta = leggiRispostaValida(s);
                         recensioneCorrente.setRisposta(risposta);
+
+                        // Aggiorna anche la risposta nella lista ristoranti dal file
                         List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+
                         for (int i = 0; i < listaRistoranti.size(); i++) {
                             Ristorante rest = listaRistoranti.get(i);
                             if (rest.getId() == r.getId()) {
-                                List<Recensione> recensioni = rest.getRecensioni();
-                                for (int j = 0; j < recensioni.size(); j++) {
-                                    if (recensioni.get(j).getId() == recensioneCorrente.getId()) {
-                                        recensioni.set(j, recensioneCorrente);
+                                List<Recensione> recs = rest.getRecensioni();
+                                for (int j = 0; j < recs.size(); j++) {
+                                    Recensione rec = recs.get(j);
+                                    if (rec.getId() == recensioneCorrente.getId()) {
+                                        rec.setRisposta(risposta);
                                         break;
                                     }
                                 }
-                                listaRistoranti.set(i, rest);
                                 break;
                             }
                         }
+
+                        // Aggiorna anche la risposta nella recensione salvata nei clienti
+                        List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        for (int i = 0; i < listaUtenti.size(); i++) {
+                            Utente ut = listaUtenti.get(i);
+                            if (ut instanceof Cliente) {
+                                Cliente cliente = (Cliente) ut;
+                                List<Recensione> recCliente = cliente.getRecensioniMesse();
+                                for (int j = 0; j < recCliente.size(); j++) {
+                                    Recensione rec = recCliente.get(j);
+                                    if (rec.getId() == recensioneCorrente.getId()) {
+                                        rec.setRisposta(risposta);
+                                    }
+                                }
+                                // Aggiorna anche nei preferiti del cliente
+                                List<Ristorante> preferiti = cliente.visualizzaPreferiti();
+                                for (int pi = 0; pi < preferiti.size(); pi++) {
+                                    Ristorante pref = preferiti.get(pi);
+                                    if (pref.getId() == r.getId()) {
+                                        List<Recensione> recsPref = pref.getRecensioni();
+                                        for (int ri = 0; ri < recsPref.size(); ri++) {
+                                            Recensione rec = recsPref.get(ri);
+                                            if (rec.getId() == recensioneCorrente.getId()) {
+                                                rec.setRisposta(risposta);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // Salvataggio immediato degli aggiornamenti
+                        GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
                         GestoreFile.salvaRistoranti(listaRistoranti, PATHRISTORANTI);
                         System.out.println("Risposta salvata correttamente.");
-                    }
-                    case 4 -> visualizzaR = false;
-                    default ->
+                        break;
+                    case 4:
+                        visualizzaR = false;
+                        break;
+                    default:
                         System.out.println("Scelta non valida.");
-
                 }
             }
         } catch (Exception e) {
             System.err.println("Errore nella navigazione delle recensioni: " + e.getMessage());
         }
     }
-
-
 
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
@@ -231,36 +262,68 @@ public class ViewRistoratore {
                 """);
             int sceltaInterna = ViewBase.convertiScannerIntero("Scelta:", s);
             switch (sceltaInterna) {
-                case 1 -> {
+                case 1:
                     if (indice < listaRistoranti.size() - 1) {
                         indice++;
                     } else {
                         System.out.println("Hai raggiunto l'ultimo ristorante.");
                     }
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     if (indice > 0) {
                         indice--;
                     } else {
                         System.out.println("Sei già al primo ristorante.");
                     }
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     u.eliminaRistorante(ristoranteCorrente);
                     listaRistoranti.remove(ristoranteCorrente);
                     System.out.println("Ristorante rimosso con successo.");
-                }
-                case 4 -> {
+                    // Salvataggio immediato dopo la rimozione
+                    GestoreFile.salvaRistoranti(listaRistoranti, pathRistoranti);
+                    // Aggiorna anche la lista nei ristoratori
+                    List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
+                    for (int i = 0; i < listaUtenti.size(); i++) {
+                        Utente ut = listaUtenti.get(i);
+                        if (ut instanceof Ristoratore) {
+                            Ristoratore ristoratore = (Ristoratore) ut;
+                            List<Ristorante> nuoviGestiti = new ArrayList<Ristorante>();
+                            List<Ristorante> vecchiGestiti = ristoratore.getRistorantiGestiti();
+                            for (int j = 0; j < vecchiGestiti.size(); j++) {
+                                Ristorante rGestito = vecchiGestiti.get(j);
+                                for (int k = 0; k < listaRistoranti.size(); k++) {
+                                    Ristorante rSalvato = listaRistoranti.get(k);
+                                    if (rGestito.getId() == rSalvato.getId()) {
+                                        nuoviGestiti.add(rSalvato);
+                                        break;
+                                    }
+                                }
+                            }
+                            ristoratore.setRistorantiGestiti(nuoviGestiti);
+                        }
+                    }
+                    for (int i = 0; i < listaUtenti.size(); i++) {
+                        if (listaUtenti.get(i).equals(u)) {
+                            listaUtenti.remove(i);
+                            break;
+                        }
+                    }
+                    listaUtenti.add(u);
+                    GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
+                    break;
+                case 4:
                     List<Recensione> listaRecensioni = ristoranteCorrente.getRecensioni();
                     if (listaRecensioni.size() > 0) {
-                        navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni, pathRistoranti, s);
+                        navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni, pathUtenti, pathRistoranti, s);
                     } else {
                         System.out.println("non sono state inserite recensioni");
                     }
-                }
-                case 5 -> u.visualizzaRiepilogo(ristoranteCorrente);
-
-                case 6 -> {
+                    break;
+                case 5:
+                    u.visualizzaRiepilogo(ristoranteCorrente);
+                    break;
+                case 6:
                     boolean modificato = false;
 
                     String modNome = gestisciInput("inserisci il nuovo nome del ristorante. Premi invio per lasciarlo invariato", s, false);
@@ -410,31 +473,49 @@ public class ViewRistoratore {
 
                         GestoreFile.salvaRistoranti(listaRistorantiSalvataggio, pathRistoranti);
 
-                        List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
-
-                        for (int i = 0; i < listaUtenti.size(); i++) {
-                            if (listaUtenti.get(i).equals(u)) {
-                                listaUtenti.remove(i);
-                                break; 
+                        List<Utente> utenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
+                        // Sincronizza i ristoranti gestiti anche negli utenti prima di salvare
+                        for (int i = 0; i < utenti.size(); i++) {
+                            Utente ut = utenti.get(i);
+                            if (ut instanceof Ristoratore) {
+                                Ristoratore ristoratore = (Ristoratore) ut;
+                                List<Ristorante> nuoviGestiti = new ArrayList<>();
+                                List<Ristorante> vecchiGestiti = ristoratore.getRistorantiGestiti();
+                                for (int j = 0; j < vecchiGestiti.size(); j++) {
+                                    Ristorante rGestito = vecchiGestiti.get(j);
+                                    for (int k = 0; k < listaRistorantiSalvataggio.size(); k++) {
+                                        Ristorante rSalvato = listaRistorantiSalvataggio.get(k);
+                                        if (rGestito.getId() == rSalvato.getId()) {
+                                            nuoviGestiti.add(rSalvato);
+                                            break;
+                                        }
+                                    }
+                                }
+                                ristoratore.setRistorantiGestiti(nuoviGestiti);
                             }
                         }
-
-                        listaUtenti.add(u);
-
-                        GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
+                        for (int i = 0; i < utenti.size(); i++) {
+                            if (utenti.get(i).equals(u)) {
+                                utenti.remove(i);
+                                break;
+                            }
+                        }
+                        utenti.add(u);
+                        GestoreFile.salvaUtenti(utenti, pathUtenti);
 
                         System.out.println("Ristorante modificato con successo.");
                     } else {
                         System.out.println("Nessuna modifica effettuata, salvataggio saltato.");
                     }
-                }
-
-                case 7 -> visualizza = false;
-                default -> System.out.println("Scelta non valida.");
+                    break;
+                case 7:
+                    visualizza = false;
+                    break;
+                default:
+                    System.out.println("Scelta non valida.");
             }
         }
     }
-
 
     /**
      * metodo per accedere alla view del risotrante
@@ -459,16 +540,16 @@ public class ViewRistoratore {
                 int scelta = ViewBase.convertiScannerIntero("Scegli un'opzione", s);
 
                 switch (scelta) {
-                    case 1 -> {
+                    case 1:
                         List<Ristorante> listaRistoranti = u.getRistorantiGestiti();
                         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
                             System.out.println("Non gestisci ancora alcun ristorante.");
                         } else {
                             navigazioneRistoranti(u, s, listaRistoranti, pathUtenti, pathRistoranti);
                         }
-                    }
+                        break;
 
-                    case 2 -> {
+                    case 2:
                         try {
                             System.out.println("Creazione del ristorante...");
 
@@ -553,8 +634,33 @@ public class ViewRistoratore {
                                 listaRistorantiSalvataggio.add(nuovoRistorante);
                             }
                             GestoreFile.salvaRistoranti(listaRistorantiSalvataggio, pathRistoranti);
+
                             List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
-                            listaUtenti.removeIf(utente -> utente.equals(u));
+                            for (int i = 0; i < listaUtenti.size(); i++) {
+                                Utente ut = listaUtenti.get(i);
+                                if (ut instanceof Ristoratore) {
+                                    Ristoratore ristoratore = (Ristoratore) ut;
+                                    List<Ristorante> nuoviGestiti = new ArrayList<Ristorante>();
+                                    List<Ristorante> vecchiGestiti = ristoratore.getRistorantiGestiti();
+                                    for (int j = 0; j < vecchiGestiti.size(); j++) {
+                                        Ristorante rGestito = vecchiGestiti.get(j);
+                                        for (int k = 0; k < listaRistorantiSalvataggio.size(); k++) {
+                                            Ristorante rSalvato = listaRistorantiSalvataggio.get(k);
+                                            if (rGestito.getId() == rSalvato.getId()) {
+                                                nuoviGestiti.add(rSalvato);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    ristoratore.setRistorantiGestiti(nuoviGestiti);
+                                }
+                            }
+                            for (int i = 0; i < listaUtenti.size(); i++) {
+                                if (listaUtenti.get(i).equals(u)) {
+                                    listaUtenti.remove(i);
+                                    break;
+                                }
+                            }
                             listaUtenti.add(u);
                             GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
 
@@ -563,8 +669,8 @@ public class ViewRistoratore {
                         } catch (Exception e) {
                             System.out.println("Errore durante la creazione del ristorante:");
                         }
-                    }
-                    case 3 -> {
+                        break;
+                    case 3:
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
                         System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
@@ -572,9 +678,9 @@ public class ViewRistoratore {
                         System.out.println("Data di nascita: " + (u.getDataNascita() != null ? u.getDataNascita() : "Non specificata"));
                         System.out.println("Domicilio: " + (u.getDomicilio() != null ? u.getDomicilio() : "Non specificato"));
                         System.out.println("Tipo utente: Ristoratore");
-                    }
+                        break;
 
-                    case 4 -> {
+                    case 4:
                         boolean modificheEffettuate = false;
                         String vecchioUsername = u.getUsername();
 
@@ -597,7 +703,9 @@ public class ViewRistoratore {
                         String modUserName = gestisciInput("Inserisci il tuo nuovo username. Premi invio per lasciarlo invariato", s, false);
                         if (!modUserName.isBlank()) {
                             boolean usernameEsistente = false;
-                            for (Utente u1 : GestoreFile.caricaUtenti(pathUtenti, pathRistoranti)) {
+                            List<Utente> listaUtentiTmp = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
+                            for (int i = 0; i < listaUtentiTmp.size(); i++) {
+                                Utente u1 = listaUtentiTmp.get(i);
                                 if (modUserName.equals(u1.getUsername()) && !u1.equals(u)) {
                                     System.out.println("Username già esistente: modifica annullata");
                                     usernameEsistente = true;
@@ -656,18 +764,16 @@ public class ViewRistoratore {
                         } else {
                             System.out.println("Nessuna modifica effettuata, salvataggio saltato.");
                         }
-                    }
-                    case 5 -> {
+                        break;
+                    case 5:
                         System.out.println("Verrai reindirizzato al menù iniziale!");
                         continua = false;
                         ViewBase.view(pathUtenti, pathRistoranti);
-                    }
-
-                    default -> System.out.println("Inserire una scelta valida.");
+                        break;
+                    default:
+                        System.out.println("Inserire una scelta valida.");
                 }
             }
         }
     }
-
-
 }

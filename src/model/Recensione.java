@@ -159,6 +159,7 @@ public class Recensione {
         return id;
     }
 
+
     /**
      * Metodo per ottenere l'attributo descrizione di una recensione
      *

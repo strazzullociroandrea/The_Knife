@@ -6,19 +6,14 @@ import src.model.Cliente;
 import src.model.Recensione;
 import src.model.Ristorante;
 import src.model.Utente;
-import src.model.exception.RecensioneOutOfBoundException;
-import src.model.exception.StelleOutOfBoundException;
-import src.model.util.PasswordUtil;
 import src.model.util.ReverseGeocoding;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import static src.dao.GestoreFile.caricaUtenti;
-
 
 /**
  * Classe ViewCliente che rappresenta l'interfaccia grafica presentata al cliente
@@ -28,28 +23,20 @@ import static src.dao.GestoreFile.caricaUtenti;
  * @Author Riccardo Giovanni Rubini
  * @Author Matteo Mongelli
  */
-
-/**
- * classe che rappresenta l'interfaccia grafica del cliente e contiene metodi utili ad essa
- */
 public class ViewCliente {
-
-    //metodi
 
     /**
      * metodo per verificare che un ristorante esista all'interno di una lista
-     *
-     * @param r il ristorante da verificare
-     * @return
-     * @paaram PATHRISTORANTI il path del file JSON contenente i ristoranti
      */
-
     public boolean verificaRistorante(Ristorante r, String PATHRISTORANTI) {
         boolean esiste = false;
         try {
-            for (Ristorante tmp : GestoreFile.caricaRistoranti(PATHRISTORANTI))
+            List<Ristorante> ristoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
+            for (int i = 0; i < ristoranti.size(); i++) {
+                Ristorante tmp = ristoranti.get(i);
                 if (tmp.equals(r))
                     esiste = true;
+            }
         } catch (IOException e) {
             throw new RuntimeException("Ristorante non trovato");
         }
@@ -58,13 +45,7 @@ public class ViewCliente {
 
     /**
      * Metodo privato per gestire l'input da parte dell'utente, richiedendo di inserire un informazione fino a quando non è diversa da stringa vuota
-     *
-     * @param msg     messaggio da visualizzare
-     * @param scanner scanner da utilizzare per l'input
-     * @param blank   boolean per decidere se richiedere nuovamente l'inserimento dei dati tramite scanner se l'input è vuoto (true per richiederlo, false per non richiederlo)
-     * @return stringa inserita dall'utente
      */
-
     private static String gestisciInput(String msg, Scanner scanner, boolean blank) {
         String input = "";
         do {
@@ -76,10 +57,6 @@ public class ViewCliente {
 
     /**
      * metodo privato per impedire che l'utente inserisca, quando richiesto, dati che non siano numeri
-     *
-     * @param s         l'oggetto di tipo Scanner usato dal metodo
-     * @param messaggio la stringa che contiene il messaggio da riferire all'utente per guidare l'inserimento dei dati
-     * @return un double
      */
     private static double leggiDouble(Scanner s, String messaggio) {
         while (true) {
@@ -94,19 +71,15 @@ public class ViewCliente {
 
     /**
      * metodo privato per ottenere una stringa descrizione, possibile attributo di un oggetto di tipo Recensione, in maniera corretta (<250 caratteri)
-     *
-     * @param s lo scanner utilizzato per leggere l'input dell'utente
-     * @return la stringa da massimo 250 caratteri che può rappresentare il testo della recensione
      */
-
     private static String leggiDescrizioneValida(Scanner s) {
         while (true) {
             String input = gestisciInput("Scrivi la descrizione (max 250 caratteri):", s, true);
             if (input.length() <= 250) {
                 return input;
-            }else if(input.isEmpty()) {
-                 return "";
-            }else{
+            } else if (input.isEmpty()) {
+                return "";
+            } else {
                 System.out.println("Errore: la descrizione deve essere lunga al massimo 250 caratteri.");
             }
         }
@@ -114,11 +87,7 @@ public class ViewCliente {
 
     /**
      * metodo privato per ottenere un int stelle, possibile attributo di un oggetto di tipo Recensione, in maniera corretta (tra 0 e 5)
-     *
-     * @param s lo scanner utilizzato per leggere l'input dell'utente
-     * @return l'int che può rappresentare le stelle di una recensione (da 0 a 5)
      */
-
     private static int leggiStelleValide(Scanner s) {
         while (true) {
             int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (0-5)", s);
@@ -130,17 +99,9 @@ public class ViewCliente {
         }
     }
 
-
     /**
      * metodo per visualizzare, interagire e scorrere dinamicamente i ristoranti
-     *
-     * @param u               l'utente che interagisce col ristorante e che può lasciare una recensione
-     * @param s               lo scanner che permette all'utente di lasciare una recensione se lo richiede (stelle e testo)
-     * @param listaRistoranti la lista di ristoranti che si vuole scorrere
-     * @param pathUtenti      il path del file JSON contenente gli utenti
-     * @param PATHRISTORANTI  il path del file JSON contenente i ristoranti
      */
-
     private static void navigazioneRistoranti(Cliente u, Scanner s, List<Ristorante> listaRistoranti, String pathUtenti, String PATHRISTORANTI) throws IOException, InterruptedException {
         if (listaRistoranti == null || listaRistoranti.isEmpty()) {
             System.out.println("Nessun ristorante trovato");
@@ -184,15 +145,79 @@ public class ViewCliente {
 
             switch (sceltaInterna) {
                 case 1:
+                    // AGGIUNTA RECENSIONE: aggiorna anche in tutti i riferimenti
                     System.out.println("Scrivi la tua recensione:");
                     String descrizione = leggiDescrizioneValida(s);
                     int stelle = leggiStelleValide(s);
+                    Recensione nuovaRecensione = null;
                     try {
                         u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
+                        List<Recensione> recMesse = u.getRecensioniMesse();
+                        if (recMesse.size() > 0) {
+                            nuovaRecensione = recMesse.get(recMesse.size() - 1);
+                        }
                     } catch (Exception e) {
                         System.out.println("Errore durante l'aggiunta della recensione: " + e.getMessage());
                         break;
                     }
+                    if (nuovaRecensione != null) {
+                        // Aggiorna nel ristorante effettivo (ogni copia reale)
+                        for (int i = 0; i < listaristorantiTBS.size(); i++) {
+                            Ristorante r = listaristorantiTBS.get(i);
+                            if (r.getId() == ristoranteCorrente.getId()) {
+                                List<Recensione> recs = r.getRecensioni();
+                                boolean giaPresente = false;
+                                for (int j = 0; j < recs.size(); j++) {
+                                    if (recs.get(j).getId() == nuovaRecensione.getId()) {
+                                        giaPresente = true;
+                                    }
+                                }
+                                if (!giaPresente) {
+                                    recs.add(nuovaRecensione);
+                                }
+                            }
+                        }
+                        // Aggiorna in tutti i preferiti dei clienti
+                        for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                            Utente ut = listaUtentiTBS.get(i);
+                            if (ut instanceof Cliente) {
+                                Cliente cliente = (Cliente) ut;
+                                List<Ristorante> preferiti = cliente.visualizzaPreferiti();
+                                for (int j = 0; j < preferiti.size(); j++) {
+                                    Ristorante pref = preferiti.get(j);
+                                    if (pref.getId() == ristoranteCorrente.getId()) {
+                                        List<Recensione> recsPref = pref.getRecensioni();
+                                        boolean giaPresente = false;
+                                        for (int k = 0; k < recsPref.size(); k++) {
+                                            if (recsPref.get(k).getId() == nuovaRecensione.getId()) {
+                                                giaPresente = true;
+                                            }
+                                        }
+                                        if (!giaPresente) {
+                                            recsPref.add(nuovaRecensione);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Salvataggio immediato
+                    for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                        if (listaUtentiTBS.get(i).getUsername().equals(u.getUsername())) {
+                            listaUtentiTBS.remove(i);
+                            break;
+                        }
+                    }
+                    listaUtentiTBS.add(u);
+                    GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
+                    for (int i = 0; i < listaristorantiTBS.size(); i++) {
+                        if (listaristorantiTBS.get(i).getId() == ristoranteCorrente.getId()) {
+                            listaristorantiTBS.remove(i);
+                            break;
+                        }
+                    }
+                    listaristorantiTBS.add(ristoranteCorrente);
+                    GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
                     System.out.println("Recensione aggiunta con successo!");
                     break;
 
@@ -215,6 +240,15 @@ public class ViewCliente {
                 case 4:
                     if (u.aggiungiPreferito(ristoranteCorrente)) {
                         System.out.println("Ristorante aggiunto ai preferiti.");
+                        // Salvataggio immediato
+                        for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                            if (listaUtentiTBS.get(i).getUsername().equals(u.getUsername())) {
+                                listaUtentiTBS.remove(i);
+                                break;
+                            }
+                        }
+                        listaUtentiTBS.add(u);
+                        GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                     } else {
                         System.out.println("Il ristorante è già nei preferiti.");
                     }
@@ -223,14 +257,25 @@ public class ViewCliente {
                 case 5:
                     if (u.rimuoviPreferito(ristoranteCorrente)) {
                         System.out.println("Ristorante rimosso dai preferiti.");
+                        for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                            if (listaUtentiTBS.get(i).getUsername().equals(u.getUsername())) {
+                                listaUtentiTBS.remove(i);
+                                break;
+                            }
+                        }
+                        listaUtentiTBS.add(u);
+                        GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                     } else {
                         System.out.println("Il ristorante non era nei preferiti.");
                     }
                     break;
 
                 case 6:
-                    List<Recensione> recensioniUtente = new ArrayList<>();
-                    for (Recensione r : ristoranteCorrente.getRecensioni()) {
+                    // Modifica recensione, aggiorna anche nel ristorante e nei preferiti di tutti i clienti
+                    List<Recensione> recensioniUtente = new ArrayList<Recensione>();
+                    List<Recensione> recRistorante = ristoranteCorrente.getRecensioni();
+                    for (int i = 0; i < recRistorante.size(); i++) {
+                        Recensione r = recRistorante.get(i);
                         if (u.getRecensioniMesse().contains(r)) {
                             recensioniUtente.add(r);
                         }
@@ -266,7 +311,59 @@ public class ViewCliente {
                         int nuoveStelle = ViewBase.convertiScannerIntero("Stelle:", s);
                         if (nuoveStelle <= 0 || nuoveStelle > 5) nuoveStelle = daModificare.getStelle();
 
+                        // Modifica in recensioniMesse
                         u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
+
+                        // Modifica nel ristorante effettivo
+                        for (int i = 0; i < listaristorantiTBS.size(); i++) {
+                            Ristorante r = listaristorantiTBS.get(i);
+                            if (r.getId() == ristoranteCorrente.getId()) {
+                                List<Recensione> recRist = r.getRecensioni();
+                                for (int j = 0; j < recRist.size(); j++) {
+                                    if (recRist.get(j).getId() == daModificare.getId()) {
+                                        r.modificaRecensione(recRist.get(j), nuovoTesto, nuoveStelle);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        // Modifica in tutti i preferiti di tutti i clienti
+                        for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                            Utente ut = listaUtentiTBS.get(i);
+                            if (ut instanceof Cliente) {
+                                Cliente cliente = (Cliente) ut;
+                                List<Ristorante> preferiti = cliente.visualizzaPreferiti();
+                                for (int j = 0; j < preferiti.size(); j++) {
+                                    Ristorante pref = preferiti.get(j);
+                                    if (pref.getId() == ristoranteCorrente.getId()) {
+                                        List<Recensione> recsPref = pref.getRecensioni();
+                                        for (int k = 0; k < recsPref.size(); k++) {
+                                            if (recsPref.get(k).getId() == daModificare.getId()) {
+                                                pref.modificaRecensione(recsPref.get(k), nuovoTesto, nuoveStelle);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // Salvataggio immediato
+                        for (int i = 0; i < listaUtentiTBS.size(); i++) {
+                            if (listaUtentiTBS.get(i).getUsername().equals(u.getUsername())) {
+                                listaUtentiTBS.remove(i);
+                                break;
+                            }
+                        }
+                        listaUtentiTBS.add(u);
+                        GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
+                        for (int i = 0; i < listaristorantiTBS.size(); i++) {
+                            if (listaristorantiTBS.get(i).getId() == ristoranteCorrente.getId()) {
+                                listaristorantiTBS.remove(i);
+                                break;
+                            }
+                        }
+                        listaristorantiTBS.add(ristoranteCorrente);
+                        GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
 
                         System.out.println("Recensione modificata con successo!");
                     }
@@ -278,15 +375,17 @@ public class ViewCliente {
                         System.out.println("Nessuna recensione per questo ristorante.");
                     } else {
                         System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
-
                         List<Utente> tuttiGliUtenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
-
-                        for (Recensione r : recensioni) {
+                        for (int i = 0; i < recensioni.size(); i++) {
+                            Recensione r = recensioni.get(i);
                             String autore = "Utente sconosciuto";
-
-                            for (Utente u1 : tuttiGliUtenti) {
-                                if (u1 instanceof Cliente cliente) {
-                                    for (Recensione rUtente : cliente.getRecensioniMesse()) {
+                            for (int j = 0; j < tuttiGliUtenti.size(); j++) {
+                                Utente u1 = tuttiGliUtenti.get(j);
+                                if (u1 instanceof Cliente) {
+                                    Cliente cliente = (Cliente) u1;
+                                    List<Recensione> recUtente = cliente.getRecensioniMesse();
+                                    for (int k = 0; k < recUtente.size(); k++) {
+                                        Recensione rUtente = recUtente.get(k);
                                         if (rUtente.getId() == r.getId()) {
                                             autore = cliente.getUsername();
                                             break;
@@ -295,7 +394,6 @@ public class ViewCliente {
                                 }
                                 if (!autore.equals("Utente sconosciuto")) break;
                             }
-
                             System.out.println("Utente: " + autore);
                             System.out.println("Stelle: " + r.getStelle());
                             System.out.println("Descrizione: " + r.getDescrizione());
@@ -311,38 +409,12 @@ public class ViewCliente {
                 default:
                     System.out.println("Scelta non valida.");
             }
-
-            for (int i = 0; i < listaUtentiTBS.size(); i++) {
-                if (listaUtentiTBS.get(i).getUsername().equals(u.getUsername())) {
-                    listaUtentiTBS.remove(i);
-                    break;
-                }
-            }
-            listaUtentiTBS.add(u);
-            GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
-
-            for (int i = 0; i < listaristorantiTBS.size(); i++) {
-                if (listaristorantiTBS.get(i).getId() == ristoranteCorrente.getId()) {
-                    listaristorantiTBS.remove(i);
-                    break;
-                }
-            }
-
-            listaristorantiTBS.add(ristoranteCorrente);
-            GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
         }
     }
 
-
-
     /**
      * metodo per acccedere alla view del cliente
-     *
-     * @param u              l'utente di tipo Cliente che interagisce con la view
-     * @param pathUtenti     il path del file JSON contenente gli utenti
-     * @param PATHRISTORANTI il path del file JSON contenente i ristoranti
      */
-
     public static void view(Cliente u, String pathUtenti, String PATHRISTORANTI) throws IOException {
         try (Scanner s = new Scanner(System.in)) {
             boolean continua = true;
@@ -370,7 +442,6 @@ public class ViewCliente {
                         }
                         navigazioneRistoranti(u, s, listaRistoranti, pathUtenti, PATHRISTORANTI);
                         break;
-
                     case 2:
                         System.out.println("Inserisci i parametri di ricerca:");
                         String locazione;
@@ -421,7 +492,6 @@ public class ViewCliente {
 
                         navigazioneRistoranti(u, s, filtrati, pathUtenti, PATHRISTORANTI);
                         break;
-
                     case 3:
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
@@ -431,7 +501,6 @@ public class ViewCliente {
                         System.out.println("Domicilio: " + (u.getDomicilio() != null ? u.getDomicilio() : "Non specificato"));
                         System.out.println("Tipo utente: Cliente");
                         break;
-
                     case 4:
                         String vecchioUsername = u.getUsername();
 
@@ -444,7 +513,9 @@ public class ViewCliente {
                         String modUserName = gestisciInput("inserisci il tuo nuovo username. Premi invio per lasciarlo invariato", s, false);
                         if (!modUserName.isBlank()) {
                             boolean usernameEsistente = false;
-                            for (Utente u1 : caricaUtenti(pathUtenti, PATHRISTORANTI)) {
+                            List<Utente> utenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                            for (int i = 0; i < utenti.size(); i++) {
+                                Utente u1 = utenti.get(i);
                                 if (modUserName.equals(u1.getUsername())) {
                                     System.out.println("Username già esistente.");
                                     usernameEsistente = true;
@@ -465,7 +536,6 @@ public class ViewCliente {
                             u.setPasswordCifrata(modPassword);
                             System.out.println("Password aggiornata.");
                             passwordValida = true;
-
                         }
 
                         String modDomicilio = gestisciInput("inserisci il tuo nuovo domicilio. Premi invio per lasciarlo invariato", s, false);
@@ -481,15 +551,12 @@ public class ViewCliente {
                         listaUtentiTBS.add(u);
                         GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         break;
-
-
                     case 5:
                         List<Recensione> tutteRecensioni = u.getRecensioniMesse();
                         if (tutteRecensioni == null || tutteRecensioni.isEmpty()) {
                             System.out.println("Non hai lasciato recensioni.");
                             break;
                         }
-
 
                         while (true) {
                             System.out.println("\n--- Le tue recensioni ---");
@@ -524,19 +591,22 @@ public class ViewCliente {
                             }
                             listaUtentiTBS2.add(u);
 
-                            for (Ristorante r : listaRistorantiTBS2) {
-                                if (r.getRecensioni().contains(recDaModificare)) {
-                                    r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
-                                    break;
+                            for (int i = 0; i < listaRistorantiTBS2.size(); i++) {
+                                Ristorante r = listaRistorantiTBS2.get(i);
+                                List<Recensione> recRist = r.getRecensioni();
+                                for (int j = 0; j < recRist.size(); j++) {
+                                    if (recRist.get(j).equals(recDaModificare)) {
+                                        r.modificaRecensione(recRist.get(j), nuovoTesto, nuoveStelle);
+                                        break;
+                                    }
                                 }
                             }
-
+                            // Salvataggio immediato
                             GestoreFile.salvaUtenti(listaUtentiTBS2, pathUtenti);
                             GestoreFile.salvaRistoranti(listaRistorantiTBS2, PATHRISTORANTI);
                             System.out.println("Recensione aggiornata.");
                         }
                         break;
-
                     case 6:
                         List<Ristorante> preferiti = u.visualizzaPreferiti();
                         if (preferiti == null || preferiti.isEmpty()) {
@@ -545,12 +615,10 @@ public class ViewCliente {
                         }
                         navigazioneRistoranti(u, s, preferiti, pathUtenti, PATHRISTORANTI);
                         break;
-
                     case 7:
                         System.out.println("Verrai reindirizzato al menù iniziale.");
                         ViewBase.view(pathUtenti, PATHRISTORANTI);
                         return;
-
                     default:
                         System.out.println("Scelta non valida.");
                         break;
@@ -560,5 +628,4 @@ public class ViewCliente {
             System.err.println("Errore: " + e.getMessage());
         }
     }
-
 }

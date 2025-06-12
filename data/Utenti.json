@@ -3,43 +3,52 @@
     "ristorantiGestiti": [
       {
         "id": 0,
-        "nome": "RistoranteProva",
-        "nazione": "Italia",
-        "citta": "Brugherio",
-        "indirizzo": "Via Monte Rosa, 19",
-        "tipoCucina": "Italiana",
-        "delivery": true,
+        "nome": "prova",
+        "nazione": "italia",
+        "citta": "brugherio",
+        "indirizzo": "via san maurizio 30",
+        "tipoCucina": "cinese",
+        "delivery": false,
         "prenotazioneOnline": false,
-        "minPrezzo": 50.0,
-        "maxPrezzo": 1000.0,
-        "recensioni": []
+        "minPrezzo": 40.0,
+        "maxPrezzo": 50.0,
+        "recensioni": [
+          {
+            "descrizione": "ciao",
+            "stelle": 5,
+            "risposta": "ciaoooo!",
+            "id": 0
+          }
+        ]
       }
     ],
     "id": 1,
     "passwordCifrata": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "nome": "ristoratore1",
-    "cognome": "ristoratore1",
-    "username": "ristoratore1",
-    "domicilio": "via gran paradiso 4 monza",
+    "nome": "risto",
+    "cognome": "risto",
+    "username": "risto",
+    "domicilio": "via monte rosa 18",
+    "dataNascita": "03/03/3002",
     "ruolo": "ristoratore"
   },
   {
     "preferiti": [
       {
         "id": 0,
-        "nome": "RistoranteProva",
-        "nazione": "Italia",
-        "citta": "Brugherio",
-        "indirizzo": "Via Monte Rosa, 19",
-        "tipoCucina": "Italiana",
-        "delivery": true,
+        "nome": "prova",
+        "nazione": "italia",
+        "citta": "brugherio",
+        "indirizzo": "via san maurizio 30",
+        "tipoCucina": "cinese",
+        "delivery": false,
         "prenotazioneOnline": false,
-        "minPrezzo": 50.0,
-        "maxPrezzo": 1000.0,
+        "minPrezzo": 40.0,
+        "maxPrezzo": 50.0,
         "recensioni": [
           {
-            "descrizione": "Ristorante ben rifornito",
+            "descrizione": "ciao",
             "stelle": 5,
+            "risposta": "ciaoooo!",
             "id": 0
           }
         ]
@@ -47,18 +56,19 @@
     ],
     "recensioniMesse": [
       {
-        "descrizione": "Ristorante ben rifornito",
+        "descrizione": "ciao",
         "stelle": 5,
+        "risposta": "ciaoooo!",
         "id": 0
       }
     ],
     "id": 0,
-    "passwordCifrata": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-    "nome": "ciro",
-    "cognome": "ciro",
-    "username": "marameo",
+    "passwordCifrata": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "nome": "ciroal",
+    "cognome": "cliente1",
+    "username": "cliente",
     "domicilio": "via gran paradiso 4 brugherio",
-    "dataNascita": "03/04/2005",
+    "dataNascita": "20/03/2005",
     "ruolo": "cliente"
   }
 ]

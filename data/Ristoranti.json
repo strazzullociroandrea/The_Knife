@@ -1,19 +1,20 @@
 [
   {
     "id": 0,
-    "nome": "RistoranteProva",
-    "nazione": "Italia",
-    "citta": "Brugherio",
-    "indirizzo": "Via Monte Rosa, 19",
-    "tipoCucina": "Italiana",
-    "delivery": true,
+    "nome": "prova",
+    "nazione": "italia",
+    "citta": "brugherio",
+    "indirizzo": "via san maurizio 30",
+    "tipoCucina": "cinese",
+    "delivery": false,
     "prenotazioneOnline": false,
-    "minPrezzo": 50.0,
-    "maxPrezzo": 1000.0,
+    "minPrezzo": 40.0,
+    "maxPrezzo": 50.0,
     "recensioni": [
       {
-        "descrizione": "Ristorante ben rifornito",
+        "descrizione": "ciao",
         "stelle": 5,
+        "risposta": "ciaoooo!",
         "id": 0
       }
     ]
