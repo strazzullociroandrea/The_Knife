@@ -152,38 +152,29 @@ public class ViewRistoratore {
                     case 3 -> {
                         System.out.println("Inserisci la tua risposta. Attenzione: se già presente verrà sovrascritta:");
                         String risposta = leggiRispostaValida(s);
-                        u.rispondiRecensione(recensioneCorrente, risposta);
-                        System.out.println("Risposta aggiunta/modificata con successo.");
-
-                        // Salvataggio aggiornamento recensione nel ristorante e file
+                        recensioneCorrente.setRisposta(risposta);
                         List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
-
-                        for (Ristorante rest : listaRistoranti) {
-                            if (rest.getId() == r.getId()) {  // Assumendo che Ristorante abbia getId()
-                                // Cerca la recensione da aggiornare nel ristorante caricato
-                                List<Recensione> recensioniRest = rest.getRecensioni();
-                                for (int i = 0; i < recensioniRest.size(); i++) {
-                                    if (recensioniRest.get(i).getId() == recensioneCorrente.getId()) {
-                                        recensioniRest.set(i, recensioneCorrente);
+                        for (int i = 0; i < listaRistoranti.size(); i++) {
+                            Ristorante rest = listaRistoranti.get(i);
+                            if (rest.getId() == r.getId()) {
+                                List<Recensione> recensioni = rest.getRecensioni();
+                                for (int j = 0; j < recensioni.size(); j++) {
+                                    if (recensioni.get(j).getId() == recensioneCorrente.getId()) {
+                                        recensioni.set(j, recensioneCorrente);
                                         break;
                                     }
                                 }
+                                listaRistoranti.set(i, rest);
                                 break;
                             }
                         }
-
                         GestoreFile.salvaRistoranti(listaRistoranti, PATHRISTORANTI);
-
-                        System.out.println("Dati salvati con successo.");
-                        System.out.println("Premi INVIO per continuare...");
-                        s.nextLine();
+                        System.out.println("Risposta salvata correttamente.");
                     }
                     case 4 -> visualizzaR = false;
-                    default -> {
+                    default ->
                         System.out.println("Scelta non valida.");
-                        System.out.println("Premi INVIO per continuare...");
-                        s.nextLine();
-                    }
+
                 }
             }
         } catch (Exception e) {
@@ -664,8 +655,6 @@ public class ViewRistoratore {
                             System.out.println("Nessuna modifica effettuata, salvataggio saltato.");
                         }
                     }
-
-
                     case 5 -> {
                         System.out.println("Verrai reindirizzato al menù iniziale!");
                         continua = false;
