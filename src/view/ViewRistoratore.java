@@ -76,9 +76,10 @@ public class ViewRistoratore {
      * @param r             ristorante su cui si vogliono visualizzare le recensioni
      * @param listaRecensioni lista delle recensioni che si vuole scorrere
      * @param PATHRISTORANTI path del file JSON contenente i ristoranti
+     * @param s               scanner per l'input dell'utente
      */
-    private static void navigazioneRecensioni(Ristoratore u, Ristorante r, List<Recensione> listaRecensioni, String PATHRISTORANTI) {
-        try (Scanner s = new Scanner(System.in)) {
+    private static void navigazioneRecensioni(Ristoratore u, Ristorante r, List<Recensione> listaRecensioni, String PATHRISTORANTI, Scanner s) {
+        try{
             if (u.getRistorantiGestiti() == null || !u.getRistorantiGestiti().contains(r)) {
                 System.out.println("Non gestisci questo ristorante.");
                 return;
@@ -252,7 +253,7 @@ public class ViewRistoratore {
                 case 4 -> {
                     List<Recensione> listaRecensioni = ristoranteCorrente.getRecensioni();
                     if (listaRecensioni.size() > 0) {
-                        navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni, pathRistoranti);
+                        navigazioneRecensioni(u, ristoranteCorrente, listaRecensioni, pathRistoranti, s);
                     } else {
                         System.out.println("non sono state inserite recensioni");
                     }
