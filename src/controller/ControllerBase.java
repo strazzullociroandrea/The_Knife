@@ -1,11 +1,15 @@
 package src.controller;
 
 import src.dao.GestoreFile;
+import src.model.Cliente;
+import src.model.Ristoratore;
 import src.model.Utente;
 import src.model.Ristorante;
 import src.model.util.PasswordUtil;
 import src.model.util.ReverseGeocoding;
 import src.view.ViewBase;
+import src.view.ViewCliente;
+import src.view.ViewRistoratore;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -67,6 +71,11 @@ public class ControllerBase {
             ViewBase.mostraMessaggio("Login riuscito. Benvenuto, " + utente.getNome() + "!");
             Thread.sleep(100);
             Main.svuotaConsole();
+            if (utente instanceof Cliente) {
+                ViewCliente cliente = new ViewCliente((Cliente) utente, this.pathUtenti, this.pathRistoranti);
+            } else if (utente instanceof Ristoratore) {
+                ViewCliente ristoratore = new ViewCliente((Ristoratore) utente, this.pathUtenti, this.pathRistoranti);
+            }
         } else {
             ViewBase.mostraMessaggio("Credenziali errate. Riprova.");
         }
@@ -143,13 +152,35 @@ public class ControllerBase {
         do {
             tipologia = ViewBase.leggiStringa("Sei un cliente o un ristoratore? (c/r): ", true);
             if (!tipologia.equalsIgnoreCase("c") && !tipologia.equalsIgnoreCase("r")) {
-                ViewBase.mostraMessaggio("Inserisci 'c' o 'r'.");
+                ViewBase.mostraMessaggio("Tipologia non valida. Inserisci 'c' o 'r'.");
                 tipologia = "";
             }
         } while (tipologia.isEmpty());
 
+        ViewBase.mostraMessaggio("Registrazione avvenuta con successo.");
+
         Thread.sleep(100);
         Main.svuotaConsole();
+        Utente utente;
+        if (tipologia.equalsIgnoreCase("c")) {
+            if (dataNascita.isEmpty()) {
+                utente = new Cliente(password, nome, cognome, username, domicilio);
+            } else {
+                utente = new Cliente(password, nome, cognome, username, dataNascita, domicilio);
+            }
+            this.utenti.add(utente);
+            GestoreFile.salvaUtenti(this.utenti, this.pathUtenti);
+            new ViewCliente((Cliente) utente, this.pathUtenti, this.pathRistoranti);
+        } else if (tipologia.equalsIgnoreCase("r")) {
+            if (dataNascita.isEmpty()) {
+                utente = new Ristoratore(password, nome, cognome, username, domicilio);
+            } else {
+                utente = new Ristoratore(password, nome, cognome, username, dataNascita, domicilio);
+            }
+            this.utenti.add(utente);
+            GestoreFile.salvaUtenti(this.utenti, this.pathUtenti);
+            new ViewRistoratore((Ristoratore) utente, this.pathUtenti, this.pathRistoranti);
+        }
     }
 
     private void visualizzaRistorantiVicini(String luogo) throws Exception {
@@ -276,7 +307,7 @@ public class ControllerBase {
                 ristoranti, luogo, tipoCucina, minPrezzo, maxPrezzo,
                 conDelivery, deliveryPresente.equalsIgnoreCase("con"), conPrenotazione, prenotazionePresente.equalsIgnoreCase("con"), minStelle
         );
-        if( risultati.isEmpty()) {
+        if (risultati.isEmpty()) {
             ViewBase.mostraMessaggio("Nessun ristorante trovato con i filtri specificati.");
             return;
         }
