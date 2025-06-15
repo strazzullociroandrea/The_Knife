@@ -1,15 +1,9 @@
 package src.controller;
 
 import src.dao.GestoreFile;
-import src.model.Cliente;
-import src.model.Ristoratore;
-import src.model.Utente;
-import src.model.Ristorante;
-import src.model.util.PasswordUtil;
-import src.model.util.ReverseGeocoding;
-import src.view.ViewBase;
-import src.view.ViewCliente;
-import src.view.ViewRistoratore;
+import src.model.*;
+import src.model.util.*;
+import src.view.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -72,9 +66,9 @@ public class ControllerBase {
             Thread.sleep(100);
             Main.svuotaConsole();
             if (utente instanceof Cliente) {
-                ViewCliente cliente = new ViewCliente((Cliente) utente, this.pathUtenti, this.pathRistoranti);
+                new ViewCliente((Cliente) utente, this.pathUtenti, this.pathRistoranti);
             } else if (utente instanceof Ristoratore) {
-                ViewCliente ristoratore = new ViewCliente((Ristoratore) utente, this.pathUtenti, this.pathRistoranti);
+                new ViewRistoratore((Ristoratore) utente, this.pathUtenti, this.pathRistoranti);
             }
         } else {
             ViewBase.mostraMessaggio("Credenziali errate. Riprova.");
