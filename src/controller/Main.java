@@ -47,7 +47,7 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            ViewBase.view(PATHUTENTI, PATHRISTORANTI);
+            ControllerBase cb = new ControllerBase(PATHRISTORANTI, PATHUTENTI);
         } catch (Exception e) {
             System.err.println("Errore durante il caricamento degli utenti: " + e.getMessage());
             System.out.println("Progetto terminato con errore!");

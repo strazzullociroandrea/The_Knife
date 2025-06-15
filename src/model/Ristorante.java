@@ -713,7 +713,7 @@ public class Ristorante {
             tmp = Ristorante.perPrenotazioneOnline(tmp, prenotazione, locazione);
         }
         // Filtro per media stelle
-        if (minStelle > 0) {
+        if (minStelle >= 0 && minStelle <= 5) {
             tmp = Ristorante.perMediaStelle(tmp, minStelle, locazione);
         }
         return tmp;
