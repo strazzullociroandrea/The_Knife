@@ -207,16 +207,16 @@ public class ViewCliente {
                     String descrizione = leggiDescrizioneValida(s);
                     int stelle = leggiStelleValide(s);
                     try {
+                        listaUtentiTBS.remove(u);
+                        listaristorantiTBS.remove(ristoranteCorrente);
                         u.aggiungiRecensione(ristoranteCorrente, stelle, descrizione);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     System.out.println("Recensione aggiunta con successo!");
                     //salvataggio dati
-                    listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
                     GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
-                    listaristorantiTBS.remove(ristoranteCorrente);
                     listaristorantiTBS.add(ristoranteCorrente);
                     GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
                     break;
@@ -241,9 +241,9 @@ public class ViewCliente {
 
                 case 4:
                     System.out.println("Ristorante aggiunto ai preferiti");
+                    listaUtentiTBS.remove(u);
                     u.aggiungiPreferito(ristoranteCorrente);
                     //salvataggio dati
-                    listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
                     GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
 
@@ -251,9 +251,9 @@ public class ViewCliente {
 
                 case 5:
                     System.out.println("Ristorante rimosso dai preferiti");
+                    listaUtentiTBS.remove(u);
                     u.rimuoviPreferito(ristoranteCorrente);
                     //salvataggio dati
-                    listaUtentiTBS.remove(u);
                     listaUtentiTBS.add(u);
                     GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
 
@@ -298,12 +298,13 @@ public class ViewCliente {
                         String nuovoTesto = leggiDescrizioneValida(s);
                         int nuoveStelle = leggiStelleValide(s);
 
+                        listaUtentiTBS.remove(u);
+                        listaristorantiTBS.remove(ristoranteCorrente);
+                        ristoranteCorrente.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
                         u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
 
                         // Salvataggio
-                        listaUtentiTBS.remove(u);
                         listaUtentiTBS.add(u);
-                        listaristorantiTBS.remove(ristoranteCorrente);
                         listaristorantiTBS.add(ristoranteCorrente);
                         GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         GestoreFile.salvaRistoranti(listaristorantiTBS, PATHRISTORANTI);
@@ -463,6 +464,8 @@ public class ViewCliente {
                         break;
 
                     case 4:
+                        List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        listaUtentiTBS.remove(u);
                         String modNome = gestisciInput("inserisci il tuo nuovo nome. Premi invio per lasciarlo invariato", s, false);
                         if (modNome.isBlank()) {
                             System.out.println("dato non modificato");
@@ -528,12 +531,10 @@ public class ViewCliente {
                             u.setDomicilio(modDomicilio);
                         }
                         //salvataggio dei dati modificati
-                        List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
                         if (listaUtentiTBS == null) {
                             System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
                         } else {
                             //salvataggio dati
-                            listaUtentiTBS.remove(u);
                             listaUtentiTBS.add(u);
                             GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         }
@@ -580,19 +581,18 @@ public class ViewCliente {
                                 System.out.println("Scelta non valida. Riprova.");
                                 continue;
                             }
+                            List<Utente> listaUtentiTBS2 = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                            List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
 
                             Recensione recDaModificare = tutteRecensioni.get(sceltaMod - 1);
                             String nuovoTesto = leggiDescrizioneValida(s);
                             int nuoveStelle = leggiStelleValide(s);
 
+                            listaUtentiTBS2.remove(u);
                             u.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
                             System.out.println("Recensione modificata con successo.");
 
                             // Salvataggio
-                            List<Utente> listaUtentiTBS2 = caricaUtenti(pathUtenti, PATHRISTORANTI);
-                            List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
-
-                            listaUtentiTBS2.remove(u);
                             listaUtentiTBS2.add(u);
 
                             for (Ristorante r : listaRistorantiTBS2) {
