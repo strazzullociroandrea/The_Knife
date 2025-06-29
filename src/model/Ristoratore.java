@@ -243,5 +243,11 @@ public class Ristoratore extends Utente {
                 ", domicilio='" + getDomicilio() + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
 }
 

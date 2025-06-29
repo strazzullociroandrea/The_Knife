@@ -398,4 +398,5 @@ public abstract class Utente {
      * @return ruolo
      */
     abstract public String getRuolo();
+
 }

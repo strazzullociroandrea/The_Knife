@@ -200,5 +200,20 @@ public class Recensione {
                 ", id=" + id +
                 '}';
     }
+
+    /**
+     * Metodo per confrontare due recensioni
+     * @param obj l'oggetto da confrontare con la recensione corrente
+     * @return true se gli oggetti sono uguali (stesso id), false altrimenti
+     */
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Recensione that = (Recensione) obj;
+        return this.id == that.id;
+    }
 }
 

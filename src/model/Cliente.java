@@ -252,4 +252,16 @@ public class Cliente extends Utente {
                 ", recensioniMesse=" + recensioniMesse +
                 '}';
     }
+
+    /**
+     * Metodo per confrontare due clienti
+     *
+     * @param obj oggetto da confrontare
+     * @return restituisce true se i due clienti hanno lo stesso id, false altrimenti
+     */
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }
