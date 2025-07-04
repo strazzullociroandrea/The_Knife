@@ -323,17 +323,19 @@ public class ViewCliente {
                     } else {
                         System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
 
-                        // Carichiamo tutti gli utenti per confrontare le loro recensioni
+                        // Caricamento di tutti gli utenti per confrontare le loro recensioni
+
                         List<Utente> tuttiGliUtenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
 
                         for (Recensione r : recensioni) {
                             String autore = "Utente sconosciuto";
 
-                            // Cerchiamo quale utente ha questa recensione tra le sue
+                            // Cerchiamo quale utente ha questa recensione tra le sue, confrontando l'ID della recensione
                             for (Utente u1 : tuttiGliUtenti) {
                                 if (u1 instanceof Cliente cliente) {
                                     for (Recensione rUtente : cliente.getRecensioniMesse()) {
                                         if (rUtente.getId() == r.getId()) {
+                                            //prendiamo lo username aggiornato dall'oggetto Cliente
                                             autore = cliente.getUsername();
                                             break;
                                         }
@@ -465,7 +467,19 @@ public class ViewCliente {
 
                     case 4:
                         List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
-                        listaUtentiTBS.remove(u);
+                        // Salva l'username originale prima di eventuali modifiche
+                        String usernameOriginale = u.getUsername();
+                        // Rimuove l'utente dalla lista usando l'username originale
+                        Utente utenteDaRimuovere = null;
+                        for (Utente ut : listaUtentiTBS) {
+                            if (ut.getUsername().equals(usernameOriginale)) {
+                                utenteDaRimuovere = ut;
+                                break;
+                            }
+                        }
+                        if (utenteDaRimuovere != null) {
+                            listaUtentiTBS.remove(utenteDaRimuovere);
+                        }
                         String modNome = gestisciInput("inserisci il tuo nuovo nome. Premi invio per lasciarlo invariato", s, false);
                         if (modNome.isBlank()) {
                             System.out.println("dato non modificato");
@@ -517,7 +531,7 @@ public class ViewCliente {
                             if (pwCifrata.equals(u.getPasswordCifrata())) {
                                 System.out.println("La nuova password è uguale a quella attuale. Inserisci una password diversa.");
                             } else {
-                                u.setPasswordCifrata(pwCifrata);
+                                u.setPasswordCifrata(modPassword);
                                 System.out.println("Password modificata con successo.");
                                 passwordValida = true;
                             }
