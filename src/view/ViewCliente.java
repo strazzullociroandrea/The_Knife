@@ -5,15 +5,12 @@ import src.dao.GestoreFile;
 import src.model.Cliente;
 import src.model.Recensione;
 import src.model.Ristorante;
-import src.model.Utente;
-import src.model.exception.RecensioneOutOfBoundException;
-import src.model.exception.StelleOutOfBoundException;
+import src.model.Utente; 
 import src.model.util.PasswordUtil;
 import src.model.util.ReverseGeocoding;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,32 +25,11 @@ import static src.dao.GestoreFile.caricaUtenti;
  * @Author Riccardo Giovanni Rubini
  * @Author Matteo Mongelli
  */
-
-/**
- * classe che rappresenta l'interfaccia grafica del cliente e contiene metodi utili ad essa
- */
+ 
 public class ViewCliente {
 
     //metodi
-
-    /*
-        public void prenotaTavolo(String ristorante) {
-            try {
-                for (Ristorante r : GestoreFile.caricaRistoranti(PATHRISTORANTI)) {
-                    if (ristorante.equals(r.getNome())) {
-                        r.;
-                    }
-                }
-
-
-            }
-        } catch(
-        IOException e;)
-
-        {
-            throw new RuntimeException(e);
-        }
-    */
+ 
 
     /**
      * metodo per verificare che un ristorante esista all'interno di una lista
@@ -164,7 +140,6 @@ public class ViewCliente {
             return;
         }
 
-        //liste utenti e ristoranti aggiornate su cui vengono effettuate tutte le modifiche in esecuzione
         List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
         List<Ristorante> listaristorantiTBS = GestoreFile.caricaRistoranti(PATHRISTORANTI);
         if (listaUtentiTBS == null || listaristorantiTBS == null) {
@@ -214,7 +189,6 @@ public class ViewCliente {
                         throw new RuntimeException(e);
                     }
                     System.out.println("Recensione aggiunta con successo!");
-                    //salvataggio dati
                     listaUtentiTBS.add(u);
                     GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                     listaristorantiTBS.add(ristoranteCorrente);
@@ -243,7 +217,6 @@ public class ViewCliente {
                     System.out.println("Ristorante aggiunto ai preferiti");
                     listaUtentiTBS.remove(u);
                     u.aggiungiPreferito(ristoranteCorrente);
-                    //salvataggio dati
                     listaUtentiTBS.add(u);
                     GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
 
@@ -253,7 +226,6 @@ public class ViewCliente {
                     System.out.println("Ristorante rimosso dai preferiti");
                     listaUtentiTBS.remove(u);
                     u.rimuoviPreferito(ristoranteCorrente);
-                    //salvataggio dati
                     listaUtentiTBS.add(u);
                     GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
 
@@ -262,7 +234,6 @@ public class ViewCliente {
                 case 6:
                     List<Recensione> recensioniUtente = new ArrayList<>();
 
-                    // Filtra solo le recensioni dell'utente relative al ristorante corrente
                     for (Recensione r : ristoranteCorrente.getRecensioni()) {
                         if (u.getRecensioniMesse().contains(r)) {
                             recensioniUtente.add(r);
@@ -302,8 +273,7 @@ public class ViewCliente {
                         listaristorantiTBS.remove(ristoranteCorrente);
                         ristoranteCorrente.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
                         u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
-
-                        // Salvataggio
+ 
                         listaUtentiTBS.add(u);
                         listaristorantiTBS.add(ristoranteCorrente);
                         GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
@@ -316,26 +286,21 @@ public class ViewCliente {
 
 
                 case 7:
-                    //recensioni del ristorante corrente
                     List<Recensione> recensioni = ristoranteCorrente.getRecensioni();
                     if (recensioni.isEmpty()) {
                         System.out.println("Nessuna recensione per questo ristorante.");
                     } else {
                         System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
 
-                        // Caricamento di tutti gli utenti per confrontare le loro recensioni
-
                         List<Utente> tuttiGliUtenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
 
                         for (Recensione r : recensioni) {
                             String autore = "Utente sconosciuto";
 
-                            // Cerchiamo quale utente ha questa recensione tra le sue, confrontando l'ID della recensione
                             for (Utente u1 : tuttiGliUtenti) {
                                 if (u1 instanceof Cliente cliente) {
                                     for (Recensione rUtente : cliente.getRecensioniMesse()) {
                                         if (rUtente.getId() == r.getId()) {
-                                            //prendiamo lo username aggiornato dall'oggetto Cliente
                                             autore = cliente.getUsername();
                                             break;
                                         }
@@ -344,7 +309,6 @@ public class ViewCliente {
                                 if (!autore.equals("Utente sconosciuto")) break;
                             }
 
-                            // Stampa dettagli della recensione
                             System.out.println("Utente: " + autore);
                             System.out.println("Stelle: " + r.getStelle());
                             System.out.println("Descrizione: " + r.getDescrizione());
@@ -380,9 +344,7 @@ public class ViewCliente {
 
             while (continua) {
                 Main.svuotaConsole();
-                //caricamento lista aggiornata dei ristoranti
                 List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
-                //menù di navigazione iniziale
                 System.out.println("\n--- Menù Cliente ---");
                 System.out.println("1. Visualizza tutti i ristoranti");
                 System.out.println("2. Cerca ristoranti filtrando per parametri");
@@ -467,9 +429,7 @@ public class ViewCliente {
 
                     case 4:
                         List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
-                        // Salva l'username originale prima di eventuali modifiche
                         String usernameOriginale = u.getUsername();
-                        // Rimuove l'utente dalla lista usando l'username originale
                         Utente utenteDaRimuovere = null;
                         for (Utente ut : listaUtentiTBS) {
                             if (ut.getUsername().equals(usernameOriginale)) {
@@ -544,11 +504,9 @@ public class ViewCliente {
                         } else {
                             u.setDomicilio(modDomicilio);
                         }
-                        //salvataggio dei dati modificati
                         if (listaUtentiTBS == null) {
                             System.out.println("Impossibile salvare i dati: lista utenti non disponibile");
                         } else {
-                            //salvataggio dati
                             listaUtentiTBS.add(u);
                             GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
                         }
@@ -611,7 +569,7 @@ public class ViewCliente {
 
                             for (Ristorante r : listaRistorantiTBS2) {
                                 if (r.getRecensioni().contains(recDaModificare)) {
-                                    r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle); // supponendo esista
+                                    r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle); 
                                     break;
                                 }
                             }

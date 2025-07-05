@@ -5,7 +5,6 @@ import src.model.exception.InvalidPasswordException;
 import src.model.exception.InvalidUsernameException;
 import src.model.util.PasswordUtil;
 
-import javax.naming.InvalidNameException;
 
 /**
  * Classe Utente

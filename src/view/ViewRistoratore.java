@@ -11,10 +11,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static src.dao.GestoreFile.caricaUtenti;
-import static src.view.ViewBase.convertiScannerIntero;
-
+ 
+/**
+ * Classe ViewRistoratore che rappresenta l'interfaccia grafica per il gestore dei ristoranti
+ *
+ * @version 1.0
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
+ */
 public class ViewRistoratore {
 
     /**
@@ -149,12 +154,10 @@ public class ViewRistoratore {
                         }
                         break;
                     case 3:
-                        // Inserimento risposta
                         System.out.println("Inserisci la tua risposta. Attenzione: se già presente verrà sovrascritta:");
                         String risposta = leggiRispostaValida(s);
                         recensioneCorrente.setRisposta(risposta);
 
-                        // Aggiorna anche la risposta nella lista ristoranti dal file
                         List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
 
                         for (int i = 0; i < listaRistoranti.size(); i++) {
@@ -172,7 +175,6 @@ public class ViewRistoratore {
                             }
                         }
 
-                        // Aggiorna anche la risposta nella recensione salvata nei clienti
                         List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         for (int i = 0; i < listaUtenti.size(); i++) {
                             Utente ut = listaUtenti.get(i);
@@ -185,7 +187,6 @@ public class ViewRistoratore {
                                         rec.setRisposta(risposta);
                                     }
                                 }
-                                // Aggiorna anche nei preferiti del cliente
                                 List<Ristorante> preferiti = cliente.visualizzaPreferiti();
                                 for (int pi = 0; pi < preferiti.size(); pi++) {
                                     Ristorante pref = preferiti.get(pi);
@@ -201,7 +202,6 @@ public class ViewRistoratore {
                                 }
                             }
                         }
-                        // Salvataggio immediato degli aggiornamenti
                         GestoreFile.salvaUtenti(listaUtenti, pathUtenti);
                         GestoreFile.salvaRistoranti(listaRistoranti, PATHRISTORANTI);
                         System.out.println("Risposta salvata correttamente.");
@@ -282,9 +282,7 @@ public class ViewRistoratore {
                     u.eliminaRistorante(ristoranteCorrente);
                     listaRistoranti.remove(ristoranteCorrente);
                     System.out.println("Ristorante rimosso con successo.");
-                    // Salvataggio immediato dopo la rimozione
                     GestoreFile.salvaRistoranti(listaRistoranti, pathRistoranti);
-                    // Aggiorna anche la lista nei ristoratori
                     List<Utente> listaUtenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
                     for (int i = 0; i < listaUtenti.size(); i++) {
                         Utente ut = listaUtenti.get(i);
@@ -476,7 +474,7 @@ public class ViewRistoratore {
                         GestoreFile.salvaRistoranti(listaRistorantiSalvataggio, pathRistoranti);
 
                         List<Utente> utenti = GestoreFile.caricaUtenti(pathUtenti, pathRistoranti);
-                        // Sincronizza i ristoranti gestiti anche negli utenti prima di salvare
+
                         for (int i = 0; i < utenti.size(); i++) {
                             Utente ut = utenti.get(i);
                             if (ut instanceof Ristoratore) {

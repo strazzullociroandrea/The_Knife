@@ -3,7 +3,6 @@ package src.view;
 import src.controller.Main;
 import src.dao.GestoreFile;
 import src.model.*;
-import src.model.Ristorante;
 import src.model.util.ReverseGeocoding;
 
 import java.io.IOException;
@@ -263,7 +262,7 @@ public class ViewBase {
             List<Ristorante> ristoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
             System.out.println("Ristoranti caricati con successo!");
             System.out.println("Carico l'interfaccia grafica di base, inzio programma...");
-            Main.svuotaConsole();//Svuoto la console dai log di configurazione
+            Main.svuotaConsole();
             System.out.println("Benvenuto in TheKnife!");
             System.out.println("Ecco il menu principale:");
             boolean continua = true;
@@ -313,7 +312,6 @@ public class ViewBase {
                                                 System.out.println(rec);
                                             }
                                             String continuaRicerca;
-                                            //Aspetta fino a quando non è stato inserito un valore valido
                                             do {
                                                 System.out.println("Digita 'c' per continuare la ricerca o 'q' per tornare al menù ");
                                                 continuaRicerca = s.nextLine();
@@ -415,9 +413,7 @@ public class ViewBase {
                         } while (continuaInterno);
                     }
                     case 2 -> {
-                        //login dell'utente
                         u = login(s, pathUtenti, PATHRISTORANTI);
-                        //In base alla tipologia di u visualizzo la relativa interfaccia
                         if (u instanceof Cliente) {
                             continua = false;
                             ViewCliente.view((Cliente) u, pathUtenti, PATHRISTORANTI);
@@ -429,14 +425,11 @@ public class ViewBase {
                         }
                     }
                     case 3 -> {
-                        //Registro utente
                         List<Utente> utenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
                         u = registrati((utenti == null ? new ArrayList<Utente>() : utenti), s);
-                        //salvo il file aggiornato di utenti
                         if (u != null) {
                             utenti.add(u);
                             GestoreFile.salvaUtenti(utenti, pathUtenti);
-                            //In base alla tipologia di u visualizzo la relativa interfaccia
                             if (u instanceof Cliente) {
                                 continua = false;
                                 ViewCliente.view((Cliente) u, pathUtenti, PATHRISTORANTI);
@@ -448,12 +441,12 @@ public class ViewBase {
                             }
                         }
                     }
-                    case 4 -> {//Se scelta == 4 allora interrompo l'esecuzione dell'applicazione
+                    case 4 -> {
                         System.out.println("Grazie per aver utilizzato TheKnife!");
                         System.out.println("Arrivederci!");
                         continua = false;
                     }
-                    default ->//qualsiasi numero inserito diverso da 1,2,3,4 richiede la scelta
+                    default ->
                             System.err.println("Attenzione, scelta non valida, riprova!");
                 }
             }

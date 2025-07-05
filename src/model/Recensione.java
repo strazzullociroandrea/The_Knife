@@ -183,7 +183,7 @@ public class Recensione {
      * @return restituisce la risposta testuale associata alla recensione
      */
     public String getRisposta() {
-        return risposta;
+        return risposta == null ? "Non data" : risposta;
     }
 
     /**

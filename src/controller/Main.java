@@ -5,7 +5,14 @@ import src.dao.GestoreFile;
 import src.view.ViewBase;
 
 import java.io.IOException;
-
+/**
+ * Classe Main per l'avvio del progetto "The Knife".
+ *
+ * @version 1.0
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
+ */
 
 public class Main {
     /**

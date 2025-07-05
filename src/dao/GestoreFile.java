@@ -8,7 +8,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Classe GestoreFile per gestire la lettura e scrittura di dati su file
+ *
+ * @version 1.0
+ * @Author Strazzullo Ciro Andrea
+ * @Author Riccardo Giovanni Rubini
+ * @Author Matteo Mongelli
+ */
 public class GestoreFile {
 
     /**
@@ -65,13 +72,10 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static void salvaUtenti(List<Utente> utenti, String path) throws IOException {
-        //Creazione del file vuoto se non esistente
         creaFile(path, "[]");
         try (Writer writer = new FileWriter(path, false)) {
             JsonArray array = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            //Aggiunta del ruolo in base al tipo di istanza dell'oggetto cliente
             for (Utente u : utenti) {
                 JsonElement jsonElement = gson.toJsonTree(u);
                 if (jsonElement.isJsonObject()) {
@@ -98,23 +102,18 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static List<Ristorante> caricaRistoranti(String path) throws IOException {
-        //Creazione del file vuoto se non esistente
         creaFile(path, "[]");
         try (Reader reader = new FileReader(path)) {
 
             JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
 
-            //Lista
             List<Ristorante> lista = new ArrayList<>();
 
-            // Teniamo traccia dell'ID massimo per aggiornare il contatore
             int maxId = -1;
 
-            //Ciclo di salvataggio su variabile
             for (JsonElement elem : array) {
                 JsonObject obj = elem.getAsJsonObject();
 
-                //Recupero dei dati del ristorante
                 int id = obj.get("id").getAsInt();
                 String nome = obj.get("nome").getAsString();
                 String nazione = obj.get("nazione").getAsString();
@@ -126,7 +125,6 @@ public class GestoreFile {
                 double minPrezzo = obj.get("minPrezzo").getAsDouble();
                 double maxPrezzo = obj.get("maxPrezzo").getAsDouble();
 
-                // Aggiorniamo il massimo ID trovato
                 if (id > maxId) {
                     maxId = id;
                 }
@@ -144,7 +142,6 @@ public class GestoreFile {
                         maxPrezzo
                 );
 
-                // CARICAMENTO RECENSIONI DAL JSON
                 if (obj.has("recensioni")) {
                     JsonArray recensioniArray = obj.getAsJsonArray("recensioni");
                     for (JsonElement recElem : recensioniArray) {
@@ -171,7 +168,6 @@ public class GestoreFile {
                 lista.add(ristorante);
             }
 
-            // Aggiorniamo il contatore statico nella classe Ristorante per garantire ID univoci
             if (maxId >= 0) {
                 Ristorante.aggiornaContatore(maxId);
             }
@@ -192,22 +188,18 @@ public class GestoreFile {
      * @throws IOException eccezione lanciata in caso di errore
      */
     public static List<Utente> caricaUtenti(String pathUtenti, String pathRistoranti) throws IOException {
-        // Creazione dei file vuoti se non esistenti
         creaFile(pathUtenti, "[]");
         creaFile(pathRistoranti, "[]");
 
         try (Reader readerUtenti = new FileReader(pathUtenti)) {
 
-            // Carichiamo i ristoranti con le loro recensioni già caricate
             List<Ristorante> ristorantiDisponibili = caricaRistoranti(pathRistoranti);
             Map<String, Utente> mappaUtenti = new HashMap<>();
             Map<Integer, Ristorante> mappaRistoranti = new HashMap<>();
             Map<Integer, Recensione> mappaRecensioni = new HashMap<>();
 
-            // Popoliamo la mappa dei ristoranti e delle recensioni per accesso rapido
             for (Ristorante r : ristorantiDisponibili) {
                 mappaRistoranti.put(r.getId(), r);
-                // Aggiungiamo tutte le recensioni del ristorante alla mappa globale
                 for (Recensione rec : r.getRecensioni()) {
                     mappaRecensioni.put(rec.getId(), rec);
                 }
@@ -215,7 +207,6 @@ public class GestoreFile {
 
             JsonArray arrayUtenti = JsonParser.parseReader(readerUtenti).getAsJsonArray();
 
-            // Prima passiamo e creiamo tutti gli utenti unici per username
             for (JsonElement elem : arrayUtenti) {
                 JsonObject obj = elem.getAsJsonObject();
 
@@ -224,7 +215,6 @@ public class GestoreFile {
                 String username = obj.get("username").getAsString();
                 String ruolo = obj.get("ruolo").getAsString();
 
-                // Se l'utente esiste già nella mappa, passiamo al prossimo
                 if (mappaUtenti.containsKey(username)) {
                     continue;
                 }
@@ -254,7 +244,6 @@ public class GestoreFile {
                 }
             }
 
-            // Ora passiamo nuovamente sull'array per aggiungere i dati specifici (recensioni, ristoranti gestiti, ecc.)
             for (JsonElement elem : arrayUtenti) {
                 JsonObject obj = elem.getAsJsonObject();
 
@@ -263,32 +252,27 @@ public class GestoreFile {
                 String username = obj.get("username").getAsString();
                 String ruolo = obj.get("ruolo").getAsString();
 
-                // Otteniamo l'utente dalla mappa
                 Utente utente = mappaUtenti.get(username);
                 if (utente == null) continue;
 
                 if (ruolo.equalsIgnoreCase("cliente") && utente instanceof Cliente) {
                     Cliente cliente = (Cliente) utente;
 
-                    // Aggiungiamo le recensioni se presenti
                     if (obj.has("recensioniMesse")) {
                         JsonArray recensioniArray = obj.getAsJsonArray("recensioniMesse");
 
                         for (JsonElement pElem : recensioniArray) {
                             JsonObject recensioneObj = pElem.getAsJsonObject();
 
-                            // Nel JSON delle recensioni utente, cerchiamo di associarle a quelle già caricate dai ristoranti
                             int idRecensione = recensioneObj.has("id") ? recensioneObj.get("id").getAsInt() : -1;
                             String descrizione = recensioneObj.get("descrizione").getAsString();
                             int stelle = recensioneObj.get("stelle").getAsInt();
 
-                            // Cerchiamo la recensione corrispondente tra quelle già caricate dai ristoranti
                             Recensione recensioneTrovata = null;
                             if (idRecensione != -1) {
                                 recensioneTrovata = mappaRecensioni.get(idRecensione);
                             }
 
-                            // Se non la troviamo per ID, cerchiamo per descrizione e stelle
                             if (recensioneTrovata == null) {
                                 for (Recensione r : mappaRecensioni.values()) {
                                     if (r.getDescrizione().equals(descrizione) && r.getStelle() == stelle) {
@@ -298,9 +282,7 @@ public class GestoreFile {
                                 }
                             }
 
-                            // Se abbiamo trovato la recensione, la aggiungiamo al cliente
                             if (recensioneTrovata != null) {
-                                // Verifichiamo che non sia già presente
                                 boolean giaPresente = false;
                                 for (Recensione r : cliente.getRecensioniMesse()) {
                                     if (r.getId() == recensioneTrovata.getId()) {
@@ -315,17 +297,14 @@ public class GestoreFile {
                         }
                     }
 
-                    // Aggiungiamo i preferiti se presenti
                     if (obj.has("preferiti") && obj.getAsJsonArray("preferiti").size() > 0) {
                         JsonArray preferitiArray = obj.getAsJsonArray("preferiti");
                         for (JsonElement prefElem : preferitiArray) {
                             JsonObject prefObj = prefElem.getAsJsonObject();
                             int idRistorante = prefObj.get("id").getAsInt();
 
-                            // Cerchiamo il ristorante corrispondente usando la mappa
                             Ristorante ristorante = mappaRistoranti.get(idRistorante);
                             if (ristorante != null) {
-                                // Verifichiamo se il ristorante è già nei preferiti
                                 boolean giaPreferito = false;
                                 for (Ristorante r : cliente.visualizzaPreferiti()) {
                                     if (r.getId() == ristorante.getId()) {
@@ -342,17 +321,14 @@ public class GestoreFile {
                 } else if (ruolo.equalsIgnoreCase("ristoratore") && utente instanceof Ristoratore) {
                     Ristoratore ristoratore = (Ristoratore) utente;
 
-                    // Aggiungiamo i ristoranti gestiti se presenti
                     if (obj.has("ristorantiGestiti") && obj.getAsJsonArray("ristorantiGestiti").size() > 0) {
                         JsonArray ristorantiArray = obj.getAsJsonArray("ristorantiGestiti");
                         for (JsonElement ristElem : ristorantiArray) {
                             JsonObject ristObj = ristElem.getAsJsonObject();
                             int idRistorante = ristObj.get("id").getAsInt();
 
-                            // Cerchiamo il ristorante corrispondente usando la mappa
                             Ristorante ristorante = mappaRistoranti.get(idRistorante);
                             if (ristorante != null) {
-                                // Verifichiamo se il ristorante è già gestito
                                 boolean giaGestito = false;
                                 for (Ristorante r : ristoratore.getRistorantiGestiti()) {
                                     if (r.getId() == ristorante.getId()) {
