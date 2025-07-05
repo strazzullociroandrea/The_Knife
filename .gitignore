@@ -23,4 +23,10 @@
 hs_err_pid*
 replay_pid*
 
-klk
+klke
+
+out/
+
+.idea/
+
+data/
