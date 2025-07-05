@@ -5,10 +5,10 @@
  * . Gestione delle viste corrette
  * . Gestione della pulizia della console
  * 
- * @see theknife.controller.TheKnife
- * @see theknife.view
- * @see theknife.model
- * @see theknife.dao.GestoreFile
+ * @see src.theknife.controller.TheKnife
+ * @see src.theknife.view
+ * @see src.theknife.model
+ * @see src.theknife.dao.GestoreFile
  * 
  * @version 1.0
  * @Author Strazzullo Ciro Andrea, 763603, VA

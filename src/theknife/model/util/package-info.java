@@ -6,10 +6,10 @@
  * . Gestione della sicurezza delle password
  * . Servizi di geocoding inverso
  * 
- * @see theknife.model.util.PasswordUtil
- * @see theknife.model.util.ReverseGeocoding
- * @see theknife.model.Ristorante
- * @see theknife.model.Utente
+ * @see src.theknife.model.util.PasswordUtil
+ * @see src.theknife.model.util.ReverseGeocoding
+ * @see src.theknife.model.Ristorante
+ * @see src.theknife.model.Utente
  * 
  * @version 1.0
  * @Author Strazzullo Ciro Andrea, 763603, VA

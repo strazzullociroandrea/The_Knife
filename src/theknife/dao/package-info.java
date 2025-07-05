@@ -9,10 +9,10 @@
  * . Gestione degli errori di I/O
  * 
  * 
- * @see theknife.dao.GestoreFile
- * @see theknife.model.Utente
- * @see theknife.model.Ristorante
- * @see theknife.model.Recensione
+ * @see src.theknife.dao.GestoreFile
+ * @see src.theknife.model.Utente
+ * @see src.theknife.model.Ristorante
+ * @see src.theknife.model.Recensione
  * 
  * @version 1.0
  * 

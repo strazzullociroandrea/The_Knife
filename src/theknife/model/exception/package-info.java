@@ -9,13 +9,13 @@
  * . Eccezioni per la validazione delle recensioni
  * . Eccezioni per la gestione delle risposte
  * 
- * @see theknife.model.exception.InvalidUsernameException
- * @see theknife.model.exception.InvalidPasswordException
- * @see theknife.model.exception.InvalidNomeException
- * @see theknife.model.exception.CreaRistoranteException
- * @see theknife.model.exception.RecensioneOutOfBoundException
- * @see theknife.model.exception.RispostaOutOfBoundException
- * @see theknife.model.exception.StelleOutOfBoundException
+ * @see src.theknife.model.exception.InvalidUsernameException
+ * @see src.theknife.model.exception.InvalidPasswordException
+ * @see src.theknife.model.exception.InvalidNomeException
+ * @see src.theknife.model.exception.CreaRistoranteException
+ * @see src.theknife.model.exception.RecensioneOutOfBoundException
+ * @see src.theknife.model.exception.RispostaOutOfBoundException
+ * @see src.theknife.model.exception.StelleOutOfBoundException
  * 
  * @version 1.0
  * @Author Strazzullo Ciro Andrea, 763603, VA
