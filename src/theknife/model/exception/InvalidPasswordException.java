@@ -1,11 +1,11 @@
-package src.model.exception;
+package src.theknife.model.exception;
 
 /**
  * classe eccezione che gestisce i casi in cui la password venga inserita con meno di 6 caratteri
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class InvalidPasswordException extends RuntimeException {
     /**

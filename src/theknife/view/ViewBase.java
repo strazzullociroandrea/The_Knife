@@ -1,9 +1,9 @@
-package src.view;
+package src.theknife.view;
 
-import src.controller.Main;
-import src.dao.GestoreFile;
-import src.model.*;
-import src.model.util.ReverseGeocoding;
+import src.theknife.controller.TheKnife;
+import src.theknife.model.*;
+import src.theknife.model.util.ReverseGeocoding;
+import src.theknife.dao.GestoreFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -17,9 +17,9 @@ import java.util.Scanner;
  * Classe ViewBase che rappresenta l'interfaccia grafica di base dell'applicazione.
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class ViewBase {
 
@@ -262,7 +262,7 @@ public class ViewBase {
             List<Ristorante> ristoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
             System.out.println("Ristoranti caricati con successo!");
             System.out.println("Carico l'interfaccia grafica di base, inzio programma...");
-            Main.svuotaConsole();
+            TheKnife.svuotaConsole();
             System.out.println("Benvenuto in TheKnife!");
             System.out.println("Ecco il menu principale:");
             boolean continua = true;
@@ -316,7 +316,7 @@ public class ViewBase {
                                                 System.out.println("Digita 'c' per continuare la ricerca o 'q' per tornare al menù ");
                                                 continuaRicerca = s.nextLine();
                                             } while ((!continuaRicerca.equalsIgnoreCase("c") && !continuaRicerca.equalsIgnoreCase("q")));
-                                            Main.svuotaConsole();
+                                            TheKnife.svuotaConsole();
                                             if (continuaRicerca.equalsIgnoreCase("q")) {
                                                 System.out.println("Tornando al menù ...");
                                                 break;
@@ -384,7 +384,7 @@ public class ViewBase {
                                                 sceltaInterna = s.nextLine();
                                             } while (!sceltaInterna.equalsIgnoreCase("c") && !sceltaInterna.equalsIgnoreCase("q"));
 
-                                            Main.svuotaConsole();
+                                            TheKnife.svuotaConsole();
 
                                             if (sceltaInterna.equalsIgnoreCase("q")) {
                                                 System.out.println("Torno al menu principale...");
@@ -396,7 +396,7 @@ public class ViewBase {
                                 case 3 -> {
                                     System.out.println("Tornando al menù principale...");
                                     continuaInterno = false;
-                                    Main.svuotaConsole();
+                                    TheKnife.svuotaConsole();
                                 }
                                 case 4 -> {
                                     do {

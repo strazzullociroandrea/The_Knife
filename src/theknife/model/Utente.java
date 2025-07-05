@@ -1,18 +1,18 @@
-package src.model;
+package src.theknife.model;
 
-import src.model.exception.InvalidNomeException;
-import src.model.exception.InvalidPasswordException;
-import src.model.exception.InvalidUsernameException;
-import src.model.util.PasswordUtil;
+import src.theknife.model.exception.InvalidNomeException;
+import src.theknife.model.exception.InvalidPasswordException;
+import src.theknife.model.exception.InvalidUsernameException;
+import src.theknife.model.util.PasswordUtil;
 
 
 /**
- * Classe Utente
+ * Classe Utente che rappresenta un utente generico della piattaforma TheKnife.
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public abstract class Utente {
 

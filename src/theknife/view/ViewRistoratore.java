@@ -1,11 +1,10 @@
 
-package src.view;
+package src.theknife.view;
 
-import src.controller.Main;
-import src.dao.GestoreFile;
-import src.model.*;
-import src.model.util.PasswordUtil;
-import src.model.util.ReverseGeocoding;
+import src.theknife.controller.TheKnife;
+import src.theknife.model.*;
+import src.theknife.model.util.ReverseGeocoding;
+import src.theknife.dao.GestoreFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +15,9 @@ import java.util.Scanner;
  * Classe ViewRistoratore che rappresenta l'interfaccia grafica per il gestore dei ristoranti
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class ViewRistoratore {
 
@@ -100,7 +99,7 @@ public class ViewRistoratore {
             boolean visualizzaR = true;
 
             while (visualizzaR) {
-                Main.svuotaConsole();
+                TheKnife.svuotaConsole();
 
                 Recensione recensioneCorrente = listaRecensioni.get(indiceR);
 
@@ -235,7 +234,7 @@ public class ViewRistoratore {
         int indice = 0;
         boolean visualizza = true;
         while (visualizza) {
-            Main.svuotaConsole();
+            TheKnife.svuotaConsole();
 
             if (listaRistoranti.isEmpty()) {
                 System.out.println("Non ci sono più ristoranti da visualizzare.");

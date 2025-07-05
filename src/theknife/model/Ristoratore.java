@@ -1,18 +1,18 @@
-package src.model;
+package src.theknife.model;
 
-import src.model.exception.CreaRistoranteException;
+import src.theknife.model.exception.CreaRistoranteException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Classe Ristoratore
+ * Classe Ristoratore che rappresenta un ristoratore presente nella piattaforma TheKnife.
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class Ristoratore extends Utente {
 

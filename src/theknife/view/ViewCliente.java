@@ -1,29 +1,27 @@
-package src.view;
+package src.theknife.view;
 
-import src.controller.Main;
-import src.dao.GestoreFile;
-import src.model.Cliente;
-import src.model.Recensione;
-import src.model.Ristorante;
-import src.model.Utente; 
-import src.model.util.PasswordUtil;
-import src.model.util.ReverseGeocoding;
+import src.theknife.controller.TheKnife;
+import src.theknife.model.Cliente;
+import src.theknife.model.Recensione;
+import src.theknife.model.Ristorante;
+import src.theknife.model.Utente; 
+import src.theknife.model.util.PasswordUtil;
+import src.theknife.model.util.ReverseGeocoding;
+import src.theknife.dao.GestoreFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static src.dao.GestoreFile.caricaUtenti;
-
 
 /**
  * Classe ViewCliente che rappresenta l'interfaccia grafica presentata al cliente
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
  
 public class ViewCliente {
@@ -140,7 +138,7 @@ public class ViewCliente {
             return;
         }
 
-        List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
+        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
         List<Ristorante> listaristorantiTBS = GestoreFile.caricaRistoranti(PATHRISTORANTI);
         if (listaUtentiTBS == null || listaristorantiTBS == null) {
             System.out.println("Errore durante il caricamento dei dati");
@@ -157,7 +155,7 @@ public class ViewCliente {
                 break;
             }
 
-            Main.svuotaConsole();
+            TheKnife.svuotaConsole();
             Ristorante ristoranteCorrente = listaRistoranti.get(indice);
             System.out.println("\n--- Ristorante " + (indice + 1) + " di " + listaRistoranti.size() + " ---");
             System.out.println(ristoranteCorrente.visualizzaRistorante());
@@ -292,7 +290,7 @@ public class ViewCliente {
                     } else {
                         System.out.println("Recensioni per \"" + ristoranteCorrente.getNome() + "\":\n");
 
-                        List<Utente> tuttiGliUtenti = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        List<Utente> tuttiGliUtenti = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
 
                         for (Recensione r : recensioni) {
                             String autore = "Utente sconosciuto";
@@ -343,7 +341,7 @@ public class ViewCliente {
             boolean continua = true;
 
             while (continua) {
-                Main.svuotaConsole();
+                TheKnife.svuotaConsole();
                 List<Ristorante> listaRistoranti = GestoreFile.caricaRistoranti(PATHRISTORANTI);
                 System.out.println("\n--- Menù Cliente ---");
                 System.out.println("1. Visualizza tutti i ristoranti");
@@ -417,7 +415,7 @@ public class ViewCliente {
 
 
                     case 3:
-                        caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         System.out.println("\n--- Dati utente ---");
                         System.out.println("Nome: " + (u.getNome() != null ? u.getNome() : "Non specificato"));
                         System.out.println("Cognome: " + (u.getCognome() != null ? u.getCognome() : "Non specificato"));
@@ -428,7 +426,7 @@ public class ViewCliente {
                         break;
 
                     case 4:
-                        List<Utente> listaUtentiTBS = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        List<Utente> listaUtentiTBS = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         String usernameOriginale = u.getUsername();
                         Utente utenteDaRimuovere = null;
                         for (Utente ut : listaUtentiTBS) {
@@ -457,7 +455,7 @@ public class ViewCliente {
                             System.out.println("dato non modificato");
                         } else {
                             boolean usernameEsistente = false;
-                            for (Utente u1 : caricaUtenti(pathUtenti, PATHRISTORANTI)) {
+                            for (Utente u1 : GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI)) {
                                 if (modUserName.equals(u1.getUsername())) {
                                     System.out.println("Username già esistente: modifica annullata");
                                     usernameEsistente = true;
@@ -513,7 +511,7 @@ public class ViewCliente {
                         break;
 
                     case 5:
-                        caricaUtenti(pathUtenti, PATHRISTORANTI);
+                        GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                         List<Recensione> tutteRecensioni = u.getRecensioniMesse();
 
                         if (tutteRecensioni.isEmpty()) {
@@ -553,7 +551,7 @@ public class ViewCliente {
                                 System.out.println("Scelta non valida. Riprova.");
                                 continue;
                             }
-                            List<Utente> listaUtentiTBS2 = caricaUtenti(pathUtenti, PATHRISTORANTI);
+                            List<Utente> listaUtentiTBS2 = GestoreFile.caricaUtenti(pathUtenti, PATHRISTORANTI);
                             List<Ristorante> listaRistorantiTBS2 = GestoreFile.caricaRistoranti(PATHRISTORANTI);
 
                             Recensione recDaModificare = tutteRecensioni.get(sceltaMod - 1);

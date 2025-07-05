@@ -1,4 +1,4 @@
-package src.model.util;
+package src.theknife.model.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -7,9 +7,9 @@ import java.security.NoSuchAlgorithmException;
  * Classe per la gestione dell'hashing della password
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class PasswordUtil {
     /**

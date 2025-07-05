@@ -7,13 +7,15 @@ Progetto realizzato da:
     * Rubini Riccardo Giovanni
 
 Requisiti:
-L'applicazione è stata sviluppata utilizzando java versione 17 e successive, e sistemi operativi Windows e MacOS. Un utilizzo diverso della versione di Java
+L'applicazione è stata sviluppata utilizzando java versione 17 e successive, e sistemi operativi Windows 11 e MacOS v18. Un utilizzo diverso della versione di Java
 o del sistema operativo potrebbe portare a malfunzionamenti dell'applicazione.
 
 Attenzione! l'applicazione necessita di una connessione ad internet per funzionare
+
+
 Avviare l'applicazione:
 Per avviare l'applicazione si hanno due modi:
-     * Doppio click sul file TheKnife.jar o da terminale con il comando:
+     * Doppio click sul file TheKnife.jar contenuto nella directory bin o da terminale con il comando:
        java -jar TheKnife.jar
      * Da un Ide (Intellij, Eclipse, ...) e avviare il main della classe Main.
-       In questo caso è necessario avere le librerie esterne (JAR) nella cartella lib, altrimenti l'applicazione non funzionerà.
+       In questo caso è necessario avere importato le librerie esterne (JAR) nella cartella lib, altrimenti l'applicazione non funzionerà.

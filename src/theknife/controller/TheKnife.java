@@ -1,20 +1,20 @@
-package src.controller;
+package src.theknife.controller;
 
 
-import src.dao.GestoreFile;
-import src.view.ViewBase;
+import src.theknife.dao.GestoreFile;
+import src.theknife.view.ViewBase;
 
 import java.io.IOException;
 /**
  * Classe Main per l'avvio del progetto "The Knife".
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 
-public class Main {
+public class TheKnife {
     /**
      * Path del file JSON contenente gli utenti
      */

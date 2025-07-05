@@ -1,11 +1,11 @@
-package src.model.exception;
+package src.theknife.model.exception;
 
 /**
  * classe eccezione che gestisce i casi in cui nome e cognome siano stringhe vuote
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class InvalidNomeException extends RuntimeException {
     /**

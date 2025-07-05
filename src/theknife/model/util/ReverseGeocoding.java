@@ -1,4 +1,4 @@
-package src.model.util;
+package src.theknife.model.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import com.google.gson.JsonObject;
  * Classe per la gestione del reverse geocoding, da longitudine e latitudine a indirizzo e viceversa
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class ReverseGeocoding {
     /**

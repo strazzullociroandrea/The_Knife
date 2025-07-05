@@ -1,16 +1,16 @@
-package src.model;
+package src.theknife.model;
 
-import src.model.exception.RecensioneOutOfBoundException;
-import src.model.exception.RispostaOutOfBoundException;
-import src.model.exception.StelleOutOfBoundException;
+import src.theknife.model.exception.RecensioneOutOfBoundException;
+import src.theknife.model.exception.RispostaOutOfBoundException;
+import src.theknife.model.exception.StelleOutOfBoundException;
 
 /**
  * Classe per la gestione delle recensioni che gli utenti possono dare ai ristoranti
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class Recensione {
 

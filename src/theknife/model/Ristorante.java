@@ -1,9 +1,9 @@
-package src.model;
+package src.theknife.model;
 
 
-import src.model.exception.RecensioneOutOfBoundException;
-import src.model.exception.StelleOutOfBoundException;
-import src.model.util.ReverseGeocoding;
+import src.theknife.model.exception.RecensioneOutOfBoundException;
+import src.theknife.model.exception.StelleOutOfBoundException;
+import src.theknife.model.util.ReverseGeocoding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.List;
  * Classe Ristorante che rappresenta un ristorante presente nella piattaforma TheKnife.
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class Ristorante {
 

@@ -1,7 +1,7 @@
-package src.dao;
+package src.theknife.dao;
 
 import com.google.gson.*;
-import src.model.*;
+import src.theknife.model.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import java.util.Map;
  * Classe GestoreFile per gestire la lettura e scrittura di dati su file
  *
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class GestoreFile {
 

@@ -65,7 +65,7 @@ public static List<Ristorante> caricaRistoranti(String path) throws IOException 
 
 ## 5. Librerie usate
 
-Per questo progetto è stata scelta la libreria** ****Gson** nella versione** ****2.10.1**, integrata nel progetto tramite la sezione** *Project Structure* di IntelliJ IDEA.
+Per questo progetto è stata scelta la libreria** ****Gson** nella versione** ****2.10.1**
 
 **Gson**, sviluppata da Google, è una libreria pensata per facilitare l'utilizzo del formato** **JSON** in Java, basandosi su due concetti fondamentali:
 
@@ -140,7 +140,7 @@ console.log("Cognome: " + json["cognome"]);
 
 Un ****pattern** (o** **design pattern**) è un modo per organizzare il codice all’interno di un programma. Aiuta a risparmiare tempo nella scrittura, lettura e manutenzione del codice, perché suddivide il programma in parti ben distinte, ognuna con un compito preciso.
 
-Durante gli anni sono stati sviluppati diversi pattern tra cui:
+Durante gli anni sono stati sviluppati diversi pattern, seppur non in modo completo, tra cui:
 
 * M.V.C (**Model View Controller**) che prevede una struttura ben definita
   * Directory model: in questa cartella sono presenti le classi che rappresentano gli oggetti
@@ -163,7 +163,7 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 * Strazzullo Ciro Andrea
 * Mongelli Matteo
 * Rubini Riccardo Giovanni
-* Girardelllo Nicolò Valer (abbandato il progetto)
+* Girardelllo Nicolò Valer (abbandonato il progetto)
 
 ## 10. Passi
 
@@ -177,7 +177,7 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 
 ## 11. Note
 * Il progetto è stato sviluppato in Java 17 e successive versioni
-* Il progetto è stato sviluppato e testato su Windows e MacOS
+* Il progetto è stato sviluppato e testato su Windows11 e MacOS v18
 
 **Un utilizzo diverso della versione di Java o del sistema operativo potrebbe portare a malfunzionamenti dell'applicazione.**
 **Per un utilizzo ottimale si consiglia di eseguire il programma tramite il terminale del proprio sistema operativo.**

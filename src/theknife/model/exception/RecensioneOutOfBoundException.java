@@ -1,11 +1,11 @@
-package src.model.exception;
+package src.theknife.model.exception;
 
 /**
  * Classe eccezione personalizzata realizzata per gestire i casi in cui vengano effettuate recensioni vuote o più lunghe di 250 caratteri
  * @version 1.0
- * @Author Strazzullo Ciro Andrea
- * @Author Riccardo Giovanni Rubini
- * @Author Matteo Mongelli
+ * @Author Strazzullo Ciro Andrea, 763603, VA
+ * @Author Riccardo Giovanni Rubini, 761126, VA
+ * @Author Matteo Mongelli, 760960, VA 
  */
 public class RecensioneOutOfBoundException extends RuntimeException {
     /**
