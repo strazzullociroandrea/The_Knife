@@ -196,7 +196,7 @@ public class Recensione {
         return "Recensione{" +
                 "descrizione='" + descrizione + '\'' +
                 ", stelle=" + stelle +
-                ", risposta='" + risposta + '\'' +
+                ", risposta='" + this.getRisposta() + '\'' +
                 ", id=" + id +
                 '}';
     }

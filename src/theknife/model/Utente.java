@@ -5,6 +5,8 @@ import src.theknife.model.exception.InvalidPasswordException;
 import src.theknife.model.exception.InvalidUsernameException;
 import src.theknife.model.util.PasswordUtil;
 
+import java.util.Objects;
+
 
 /**
  * Classe Utente che rappresenta un utente generico della piattaforma TheKnife.
@@ -379,16 +381,6 @@ public abstract class Utente {
         if (obj == null || getClass() != obj.getClass()) return false;
         Utente utente = (Utente) obj;
         return id == utente.id || username.equals(utente.username);
-    }
-
-    /**
-     * Metodo per generare l'hashcode dell'utente basato sull'ID
-     *
-     * @return hashcode dell'utente
-     */
-    @Override
-    public int hashCode() {
-        return 31 * id + (username != null ? username.hashCode() : 0);
     }
 
     /**

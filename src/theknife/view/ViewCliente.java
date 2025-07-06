@@ -4,7 +4,7 @@ import src.theknife.controller.TheKnife;
 import src.theknife.model.Cliente;
 import src.theknife.model.Recensione;
 import src.theknife.model.Ristorante;
-import src.theknife.model.Utente; 
+import src.theknife.model.Utente;
 import src.theknife.model.util.PasswordUtil;
 import src.theknife.model.util.ReverseGeocoding;
 import src.theknife.dao.GestoreFile;
@@ -21,13 +21,13 @@ import java.util.Scanner;
  * @version 1.0
  * @Author Strazzullo Ciro Andrea, 763603, VA
  * @Author Riccardo Giovanni Rubini, 761126, VA
- * @Author Matteo Mongelli, 760960, VA 
+ * @Author Matteo Mongelli, 760960, VA
  */
- 
+
 public class ViewCliente {
 
     //metodi
- 
+
 
     /**
      * metodo per verificare che un ristorante esista all'interno di una lista
@@ -112,11 +112,11 @@ public class ViewCliente {
 
     private static int leggiStelleValide(Scanner s) {
         while (true) {
-            int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (0-5):", s);
-            if (stelle >= 0 && stelle <= 5) {
+            int stelle = ViewBase.convertiScannerIntero("Inserisci il numero di stelle (1-5):", s);
+            if (stelle >= 1 && stelle <= 5) {
                 return stelle;
             } else {
-                System.out.println("Errore: inserisci un numero tra 0 e 5.");
+                System.out.println("Errore: inserisci un numero tra 1 e 5.");
             }
         }
     }
@@ -271,7 +271,7 @@ public class ViewCliente {
                         listaristorantiTBS.remove(ristoranteCorrente);
                         ristoranteCorrente.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
                         u.modificaRecensione(daModificare, nuovoTesto, nuoveStelle);
- 
+
                         listaUtentiTBS.add(u);
                         listaristorantiTBS.add(ristoranteCorrente);
                         GestoreFile.salvaUtenti(listaUtentiTBS, pathUtenti);
@@ -310,6 +310,7 @@ public class ViewCliente {
                             System.out.println("Utente: " + autore);
                             System.out.println("Stelle: " + r.getStelle());
                             System.out.println("Descrizione: " + r.getDescrizione());
+                            System.out.println("Risposta: " + r.getRisposta());
                             System.out.println("-----");
                         }
                     }
@@ -357,10 +358,6 @@ public class ViewCliente {
 
                 switch (scelta) {
                     case 1:
-                        if (listaRistoranti.isEmpty()) {
-                            System.out.println("Nessun ristorante trovato.");
-                        }
-
                         navigazioneRistoranti(u, s, listaRistoranti, pathUtenti, PATHRISTORANTI);
 
                         break;
@@ -567,7 +564,7 @@ public class ViewCliente {
 
                             for (Ristorante r : listaRistorantiTBS2) {
                                 if (r.getRecensioni().contains(recDaModificare)) {
-                                    r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle); 
+                                    r.modificaRecensione(recDaModificare, nuovoTesto, nuoveStelle);
                                     break;
                                 }
                             }

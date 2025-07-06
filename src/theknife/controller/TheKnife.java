@@ -39,6 +39,7 @@ public class TheKnife {
             } else {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
+            Thread.sleep(1000);
         } catch (Exception e) {
             for (int i = 0; i < 50; i++)
                 System.out.println();

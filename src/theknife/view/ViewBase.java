@@ -297,8 +297,8 @@ public class ViewBase {
                                             Menù Ristoranti guest :
                                             1. Visualizza ristoranti vicini al luogo specificato con i relativi dettagli
                                             2. Visualizza ristoranti secondo un filtro e i relativi dettagli
-                                            3. Torna al menù principale
-                                            4. Modifica luogo
+                                            3. Modifica luogo
+                                            4. Torna al menù principale
                                             La tua scelta:  
                                     """, s);
                             switch (sceltaIn) {
@@ -393,12 +393,12 @@ public class ViewBase {
                                         }
                                     }
                                 }
-                                case 3 -> {
+                                case 4 -> {
                                     System.out.println("Tornando al menù principale...");
                                     continuaInterno = false;
                                     TheKnife.svuotaConsole();
                                 }
-                                case 4 -> {
+                                case 3 -> {
                                     do {
                                         luogo = gestisciInput("Inserisci il luogo di ricerca:", s);
                                         double[] latLon = ReverseGeocoding.getLatitudineLongitudine(luogo);

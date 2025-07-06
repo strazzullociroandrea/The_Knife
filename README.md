@@ -180,8 +180,14 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 * Il progetto è stato sviluppato e testato su Windows11 e MacOS v18
 
 **Un utilizzo diverso della versione di Java o del sistema operativo potrebbe portare a malfunzionamenti dell'applicazione.**
+
 **Per un utilizzo ottimale si consiglia di eseguire il programma tramite il terminale del proprio sistema operativo.**
+
 **Attenzione! l'applicazione necessita di una connessione ad internet per funzionare**
+
+**Attenzione: durante l’esecuzione dell’applicazione potrebbe comparire il seguente messaggio di errore: "TERM environment variable not set."**
+**Tuttavia, questo errore non compromette il corretto funzionamento dell’applicazione. Si tratta di un avviso legato agli IDE (come IntelliJ, Eclipse, ecc.), che non sono in grado di gestire completamente la console del sistema operativo.**
+
 Per avviare l'applicazione si hanno due modi:
 * Eseguire il file jar da terminale (java -jar TheKnife.jar, assicurandosi di trovarsi nella cartella corretta) o cliccando due volte sul file (dipende dal sistema operativo)
 * Eseguire il file jar da IntelliJ IDEA, selezionando il file e importando le librerie contenute nella cartella lib

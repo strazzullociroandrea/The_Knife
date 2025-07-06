@@ -12,6 +12,8 @@ o del sistema operativo potrebbe portare a malfunzionamenti dell'applicazione.
 
 Attenzione! l'applicazione necessita di una connessione ad internet per funzionare
 
+Attenzione: durante l’esecuzione dell’applicazione potrebbe comparire il seguente messaggio di errore: "TERM environment variable not set."
+Tuttavia, questo errore non compromette il corretto funzionamento dell’applicazione. Si tratta di un avviso legato agli IDE (come IntelliJ, Eclipse, ecc.), che non sono in grado di gestire completamente la console del sistema operativo.
 
 Avviare l'applicazione:
 Per avviare l'applicazione si hanno due modi:
