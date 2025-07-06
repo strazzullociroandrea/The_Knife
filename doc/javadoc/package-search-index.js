@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"src.theknife.controller"},{"l":"src.theknife.dao"},{"l":"src.theknife.model"},{"l":"src.theknife.model.exception"},{"l":"src.theknife.model.util"},{"l":"src.theknife.view"}];updateSearchResults();
