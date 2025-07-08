@@ -17,7 +17,7 @@ Tuttavia, questo errore non compromette il corretto funzionamento dell’applica
 
 Avviare l'applicazione:
 Per avviare l'applicazione si hanno due modi:
-     * Doppio click sul file TheKnife.jar contenuto nella directory bin o da terminale con il comando:
-       java -jar TheKnife.jar
+     * Doppio click sul file The_Knife.jar contenuto nella directory bin o da terminale con il comando:
+       java -jar The_Knife.jar
      * Da un Ide (Intellij, Eclipse, ...) e avviare il main della classe Main.
        In questo caso è necessario avere importato le librerie esterne (JAR) nella cartella lib, altrimenti l'applicazione non funzionerà.

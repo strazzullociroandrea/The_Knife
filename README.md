@@ -189,5 +189,5 @@ Ogni membro del gruppo ha clonato il repository GitHub, sviluppato la propria pa
 **Tuttavia, questo errore non compromette il corretto funzionamento dell’applicazione. Si tratta di un avviso legato agli IDE (come IntelliJ, Eclipse, ecc.), che non sono in grado di gestire completamente la console del sistema operativo.**
 
 Per avviare l'applicazione si hanno due modi:
-* Eseguire il file jar da terminale (java -jar TheKnife.jar, assicurandosi di trovarsi nella cartella corretta) o cliccando due volte sul file (dipende dal sistema operativo)
+* Eseguire il file jar da terminale (java -jar The_Knife.jar, assicurandosi di trovarsi nella cartella corretta) o cliccando due volte sul file (dipende dal sistema operativo)
 * Eseguire il file jar da IntelliJ IDEA, selezionando il file e importando le librerie contenute nella cartella lib
